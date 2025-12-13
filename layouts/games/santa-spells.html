@@ -1,0 +1,548 @@
+{{ define "styles" }}
+  <style>
+    .game-santa-spells {
+      color: #e2e8f0;
+      background:
+        radial-gradient(920px circle at 18% 12%, rgba(74,222,128,0.28), transparent 55%),
+        radial-gradient(820px circle at 88% 8%, rgba(248,113,113,0.28), transparent 55%),
+        radial-gradient(1100px circle at 50% 110%, rgba(59,130,246,0.2), transparent 60%),
+        linear-gradient(180deg, #0a1726, #0b1220 55%, #0f172a);
+      --card-bg: linear-gradient(150deg, rgba(15,23,42,0.92), rgba(15,23,42,0.78));
+      --card-border: rgba(255,255,255,0.08);
+      --card-shadow: 0 40px 120px rgba(0,0,0,0.4);
+      --status-border: rgba(94,234,212,0.25);
+      --status-bg: rgba(94,234,212,0.12);
+      --status-color: #e2e8f0;
+      --status-ok-bg: rgba(74,222,128,0.16);
+      --status-ok-border: rgba(74,222,128,0.35);
+      --status-ok-color: #bbf7d0;
+      --status-bad-bg: rgba(248,113,113,0.16);
+      --status-bad-border: rgba(248,113,113,0.4);
+      --status-bad-color: #fecdd3;
+      --status-badge-bg: rgba(59,130,246,0.35);
+      --status-badge-color: #0ea5e9;
+      --status-ok-badge-bg: rgba(74,222,128,0.95);
+      --status-ok-badge-color: #052e16;
+      --status-bad-badge-bg: rgba(248,113,113,0.95);
+      --status-bad-badge-color: #fff;
+      --overlay-panel-bg: rgba(15,23,42,0.94);
+      --overlay-panel-color: #e2e8f0;
+      --overlay-action-primary: #22c55e;
+      --letter-gap: clamp(12px, 5vw, 26px);
+      --letter-padding-inline: clamp(16px, 5vw, 30px);
+      --letter-radius: clamp(18px, 4vw, 28px);
+      --letter-size: clamp(52px, min(12vw, 84px), 96px);
+      --letter-height: clamp(68px, min(16vw, 110px), 120px);
+      --letter-border-width: 3px;
+      --letter-border-color: rgba(148,163,184,0.3);
+      --letter-bg: rgba(15,23,42,0.7);
+      --letter-color: rgba(226,232,240,0.65);
+      --letter-filled-border-color: rgba(74,222,128,0.7);
+      --letter-filled-bg: linear-gradient(160deg, rgba(74,222,128,0.32), rgba(16,185,129,0.28));
+      --letter-filled-color: #ecfccb;
+      --letter-current-border-color: rgba(248,250,252,0.9);
+      --letter-current-bg: linear-gradient(145deg, rgba(59,130,246,0.36), rgba(190,242,100,0.32));
+      --letter-current-color: #f8fafc;
+      --letter-current-shadow: 0 22px 60px rgba(59,130,246,0.32);
+      --letter-error-border-color: rgba(248,113,113,0.7);
+      --letter-error-bg: rgba(248,113,113,0.2);
+      --letter-error-color: #fecdd3;
+      --touch-panel-bg: linear-gradient(145deg, rgba(15,118,110,0.96), rgba(22,163,74,0.82));
+      --touch-panel-color: #ecfdf3;
+      --touch-label-color: #bbf7d0;
+      --touch-key-bg: rgba(16,185,129,0.32);
+      --touch-key-border: rgba(74,222,128,0.5);
+      --touch-key-color: #ecfdf3;
+      --touch-key-shadow: 0 18px 36px rgba(16,185,129,0.28);
+      --touch-key-active-bg: rgba(22,163,74,0.95);
+      --touch-key-active-color: #ecfdf3;
+      --touch-key-highlight-bg: rgba(59,130,246,0.96);
+      --touch-key-highlight-border: rgba(191,219,254,0.55);
+    }
+
+    .game-santa-spells .game-card {
+      backdrop-filter: blur(10px);
+    }
+
+    .game-santa-spells .game-card--controls {
+      --card-bg-current: linear-gradient(150deg, rgba(15,23,42,0.94), rgba(30,41,59,0.82));
+      --card-border-current: rgba(148,163,184,0.28);
+      --card-shadow-current: 0 34px 110px rgba(15,23,42,0.5);
+    }
+
+    .game-santa-spells .game-card--play {
+      --card-bg-current: linear-gradient(160deg, rgba(15,23,42,0.9), rgba(15,118,110,0.38));
+      --card-border-current: rgba(74,222,128,0.24);
+      --card-shadow-current: 0 40px 140px rgba(5,150,105,0.35);
+    }
+
+    .game-santa-spells .game-hero {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-santa-spells .game-hero::after {
+      content: '';
+      position: absolute;
+      inset: -20% -10%;
+      background:
+        radial-gradient(500px circle at 20% 30%, rgba(59,130,246,0.18), transparent 50%),
+        radial-gradient(360px circle at 80% 10%, rgba(248,113,113,0.24), transparent 45%);
+      opacity: 0.7;
+      pointer-events: none;
+      filter: blur(10px);
+    }
+
+    .aurora {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(80% 120% at 30% 20%, rgba(59,130,246,0.12), transparent 55%),
+        radial-gradient(70% 90% at 70% 0%, rgba(190,242,100,0.1), transparent 50%);
+      opacity: 0.9;
+      filter: blur(18px);
+    }
+
+    .glow-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.35);
+      background: rgba(15,23,42,0.55);
+      color: #cbd5e1;
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      font-size: 0.72rem;
+    }
+
+    .gift-stack {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+      gap: 10px;
+      align-items: end;
+    }
+
+    .gift {
+      position: relative;
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(59,130,246,0.24), rgba(14,165,233,0.1));
+      border: 2px solid rgba(148,163,184,0.32);
+      height: 72px;
+      box-shadow: inset 0 -8px 18px rgba(15,23,42,0.6), 0 16px 40px rgba(0,0,0,0.25);
+      overflow: hidden;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .gift::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, transparent 48%, rgba(255,255,255,0.35) 50%, transparent 52%),
+        linear-gradient(180deg, transparent 48%, rgba(255,255,255,0.4) 50%, transparent 52%);
+      opacity: 0.6;
+      mix-blend-mode: screen;
+    }
+
+    .gift::after {
+      content: '🎁';
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 1.4rem;
+      opacity: 0.5;
+      filter: drop-shadow(0 4px 10px rgba(255,255,255,0.15));
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .gift.current {
+      border-color: rgba(190,242,100,0.7);
+      background: linear-gradient(150deg, rgba(14,165,233,0.3), rgba(74,222,128,0.35));
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(5,150,105,0.35);
+    }
+
+    .gift.current::after {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    .gift.filled {
+      border-color: rgba(74,222,128,0.8);
+      background: linear-gradient(150deg, rgba(34,197,94,0.32), rgba(52,211,153,0.26));
+      box-shadow: 0 20px 55px rgba(34,197,94,0.32);
+    }
+
+    .stack-card {
+      position: relative;
+      border-radius: 24px;
+      padding: 18px 18px 16px;
+      background: linear-gradient(165deg, rgba(30,41,59,0.85), rgba(30,64,175,0.2));
+      border: 1px solid rgba(148,163,184,0.35);
+      box-shadow: inset 0 0 28px rgba(148,163,184,0.12);
+    }
+
+    .queue-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: rgba(14,165,233,0.12);
+      border: 1px solid rgba(125,211,252,0.4);
+      color: #bae6fd;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      box-shadow: 0 10px 24px rgba(14,165,233,0.18);
+    }
+
+    .queue-chip:last-child {
+      background: rgba(190,242,100,0.14);
+      border-color: rgba(190,242,100,0.5);
+      color: #d9f99d;
+    }
+
+    .hint {
+      color: #cbd5e1;
+      font-weight: 600;
+    }
+
+    .celebration {
+      padding: 26px 22px;
+      border-radius: 32px;
+      border: 3px solid rgba(190,242,100,0.5);
+      background: linear-gradient(150deg, rgba(34,197,94,0.28), rgba(59,130,246,0.24));
+      box-shadow: 0 32px 90px rgba(5,150,105,0.35);
+      text-align: center;
+      display: grid;
+      gap: 10px;
+      animation: bannerPop 0.6s ease;
+    }
+
+    .celebration .sparkles {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+  </style>
+{{ end }}
+
+{{ define "body_class" }}game-page game-santa-spells text-slate-100{{ end }}
+
+{{ define "main" }}
+  <div class="game-shell text-slate-100">
+    <div class="aurora" aria-hidden="true"></div>
+
+    <header class="game-hero">
+      <h1 class="relative z-10 flex items-center justify-center gap-2 text-3xl font-extrabold tracking-tight sm:text-5xl">
+        <span aria-hidden="true">🎅</span>
+        <span>Santa Spells</span>
+      </h1>
+      <p class="relative z-10 mx-auto max-w-2xl text-sm text-slate-200 sm:text-base">
+        Help Santa stack glowing presents by spelling cozy winter words. Six stops to pack the sleigh before takeoff!
+      </p>
+    </header>
+
+    <section class="game-card game-card--controls space-y-6">
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+        <button id="startBtn" class="inline-flex w-full items-center justify-center rounded-2xl bg-emerald-500 px-4 py-3 text-base font-semibold text-white shadow-lg shadow-emerald-700/40 transition hover:bg-emerald-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-300">
+          Start spell run
+        </button>
+        <button id="resetBtn" class="inline-flex w-full items-center justify-center rounded-2xl bg-slate-500 px-4 py-3 text-base font-semibold text-white shadow-lg shadow-slate-900/30 transition hover:bg-slate-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-slate-300" style="display:none;">
+          Reset
+        </button>
+      </div>
+      <div id="status" class="status-banner" aria-live="polite">
+        <span class="status-badge" id="statusBadge">i</span>
+        <span id="statusText">Press Start to light up the first present.</span>
+      </div>
+    </section>
+
+    <section id="gameArea" class="game-card game-card--play space-y-8" style="display:none;" aria-live="polite">
+      <div class="grid gap-4 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
+        <div class="stack-card">
+          <div class="flex items-center justify-between gap-3">
+            <div class="glow-label"><span aria-hidden="true">✨</span><span>Gift stack</span></div>
+            <div id="stopCounter" class="text-sm font-semibold text-emerald-200">Stop 1 of 6</div>
+          </div>
+          <div id="giftStack" class="mt-3 gift-stack" aria-label="Gift progress"></div>
+        </div>
+        <div class="stack-card" style="background: linear-gradient(165deg, rgba(30,41,59,0.85), rgba(15,118,110,0.25));">
+          <div class="glow-label"><span aria-hidden="true">🎄</span><span>Next stops</span></div>
+          <div id="queue" class="mt-4 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-200"></div>
+        </div>
+      </div>
+
+      <div class="space-y-3 text-center">
+        <div class="game-section-title text-sky-200">Current spell</div>
+        <div id="letterRow" class="letter-row"></div>
+        <div id="hint" class="hint text-sm">Press Start to begin the first spell.</div>
+      </div>
+
+      <div id="celebrate" class="celebrate" aria-live="polite"></div>
+    </section>
+  </div>
+
+  <audio id="soundCorrect" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+  <audio id="soundWrong" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+  <audio id="soundWin" src="https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg"></audio>
+
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "game-footer.html" (dict "context" . "tip" .Params.tip "theme" (default "light" .Params.theme)) }}
+{{ end }}
+
+{{ define "scripts" }}
+  <script>
+    const WORD_BANK = [
+      'santa','sleigh','gift','holly','jolly','frost','cocoa','cookie','reindeer','north','bells','candy','snowy','elf','magic','winter'
+    ];
+    const TOTAL_STOPS = 6;
+
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const status = document.getElementById('status');
+    const statusBadge = document.getElementById('statusBadge');
+    const statusText = document.getElementById('statusText');
+    const gameArea = document.getElementById('gameArea');
+    const letterRow = document.getElementById('letterRow');
+    const hint = document.getElementById('hint');
+    const giftStack = document.getElementById('giftStack');
+    const stopCounter = document.getElementById('stopCounter');
+    const queue = document.getElementById('queue');
+    const celebrate = document.getElementById('celebrate');
+
+    const soundCorrect = document.getElementById('soundCorrect');
+    const soundWrong = document.getElementById('soundWrong');
+    const soundWin = document.getElementById('soundWin');
+
+    let active = false;
+    let words = [];
+    let wordIndex = 0;
+    let letterIndex = 0;
+
+    const touchKeyboard = window.GameTouchKeyboard?.attach({
+      id: 'santa-spells',
+      label: 'Tap letters to help Santa spell',
+      onKeyPress: (char) => handleKeyPress(char, { skipHighlight: true }),
+      getViewportTarget: () => letterRow,
+      getPaddingTarget: () => document.querySelector('.game-shell')
+    });
+    const isTouchDevice = touchKeyboard?.isTouchDevice?.() ?? false;
+
+    function setStatus(kind, message){
+      statusText.innerHTML = message;
+      status.classList.remove('ok','bad');
+      statusBadge.textContent = 'i';
+      if(kind === 'ok'){
+        status.classList.add('ok');
+        statusBadge.textContent = '✓';
+      } else if(kind === 'bad'){
+        status.classList.add('bad');
+        statusBadge.textContent = '×';
+      }
+      status.style.display = 'flex';
+    }
+
+    function shuffleWords(){
+      const pool = [...new Set(WORD_BANK)];
+      for(let i = pool.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+      return pool.slice(0, TOTAL_STOPS);
+    }
+
+    function renderStack(){
+      giftStack.innerHTML = '';
+      for(let i = 0; i < TOTAL_STOPS; i++){
+        const box = document.createElement('div');
+        box.className = 'gift';
+        if(i < wordIndex) box.classList.add('filled');
+        if(i === wordIndex && active) box.classList.add('current');
+        giftStack.appendChild(box);
+      }
+    }
+
+    function renderQueue(){
+      const upcoming = words.slice(wordIndex + 1);
+      if(upcoming.length === 0){
+        queue.innerHTML = '<span class="px-3 py-1 text-xs text-slate-200/70">Final stop</span>';
+        return;
+      }
+      queue.innerHTML = upcoming.map((word, idx) => {
+        return `<span class="queue-chip" aria-label="Upcoming word ${word}">${word.toUpperCase()}</span>`;
+      }).join('');
+    }
+
+    function renderWord(){
+      letterRow.innerHTML = '';
+      const word = words[wordIndex] || '';
+      letterRow.style.setProperty('--letters', word.length);
+      for(let i = 0; i < word.length; i++){
+        const box = document.createElement('div');
+        box.className = 'letter-box';
+        box.dataset.index = i;
+        box.textContent = word[i].toUpperCase();
+        if(i < letterIndex) box.classList.add('filled');
+        if(i === letterIndex) box.classList.add('current');
+        letterRow.appendChild(box);
+      }
+      window.GameUI?.fitLettersFor?.(letterRow);
+      if(typeof requestAnimationFrame === 'function'){
+        requestAnimationFrame(() => window.GameUI?.fitLettersFor?.(letterRow));
+      }
+      if(isTouchDevice){
+        touchKeyboard?.ensureVisible(letterRow);
+      }
+    }
+
+    function updateProgress(){
+      stopCounter.textContent = `Stop ${Math.min(wordIndex + 1, TOTAL_STOPS)} of ${TOTAL_STOPS}`;
+      renderQueue();
+      renderStack();
+    }
+
+    function handleCorrect(){
+      const word = words[wordIndex];
+      letterIndex++;
+      if(letterIndex >= word.length){
+        wordIndex++;
+        letterIndex = 0;
+        if(wordIndex >= words.length){
+          finishRun();
+          return;
+        } else {
+          setStatus('ok', `Gift wrapped! Next word: <strong>${words[wordIndex].toUpperCase()}</strong>`);
+        }
+      } else {
+        setStatus('ok', `Nice! Type <strong>${word[letterIndex].toUpperCase()}</strong> next.`);
+      }
+      renderWord();
+      updateProgress();
+      soundCorrect.currentTime = 0;
+      soundCorrect.play();
+    }
+
+    function handleWrong(key){
+      soundWrong.currentTime = 0;
+      soundWrong.play();
+      const expected = words[wordIndex][letterIndex].toUpperCase();
+      const shown = (key || '?').toUpperCase();
+      setStatus('bad', `Oops — need <strong>${expected}</strong> not <strong>${shown}</strong>.`);
+      const box = letterRow.querySelector(`.letter-box[data-index="${letterIndex}"]`);
+      if(box){
+        box.classList.remove('wiggle');
+        void box.offsetWidth;
+        box.classList.add('wiggle');
+      }
+      if(isTouchDevice){
+        touchKeyboard?.ensureVisible(letterRow);
+      }
+    }
+
+    function handleKeyPress(key, opts = {}){
+      if(!active) return;
+      if(!key || key.length !== 1) return;
+      if(!/[a-zA-Z]/.test(key)) return;
+      if(!opts.skipHighlight){
+        touchKeyboard?.flashKey?.(key);
+      }
+      const expected = words[wordIndex]?.[letterIndex];
+      if(!expected) return;
+      if(key.toLowerCase() === expected.toLowerCase()){
+        handleCorrect();
+      } else {
+        handleWrong(key);
+      }
+    }
+
+    function finishRun(){
+      active = false;
+      touchKeyboard?.hide();
+      updateProgress();
+      setStatus('ok', 'All gifts delivered! Santa is ready to roll.');
+      const winMarkup = `
+        <div class="celebration">
+          <div class="sparkles">🎅 ✨ 🎄 🦌</div>
+          <div class="text-lg font-extrabold text-lime-100 uppercase tracking-[0.25em]">Sleigh packed!</div>
+          <div class="text-sm text-slate-100">You spelled ${TOTAL_STOPS} festive words.</div>
+        </div>
+      `;
+      celebrate.innerHTML = winMarkup;
+      soundWin.currentTime = 0;
+      soundWin.play();
+      if(window.GameCelebration){
+        window.GameCelebration.show({
+          content: winMarkup,
+          onPlayAgain: () => {
+            resetGame();
+            startGame();
+          },
+          focusTarget: resetBtn,
+          initialFocus: 'playAgain'
+        });
+      } else {
+        resetBtn.focus();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function startGame(){
+      words = shuffleWords();
+      wordIndex = 0;
+      letterIndex = 0;
+      active = true;
+      celebrate.innerHTML = '';
+      startBtn.style.display = 'none';
+      resetBtn.style.display = 'inline-flex';
+      gameArea.style.display = 'block';
+      renderWord();
+      updateProgress();
+      setStatus('ok', `Go! First word: <strong>${words[0].toUpperCase()}</strong>`);
+      hint.textContent = 'Type each letter to stack the present.';
+      if(isTouchDevice){
+        touchKeyboard?.show();
+        touchKeyboard?.ensureVisible(letterRow);
+      }
+    }
+
+    function resetGame(){
+      active = false;
+      startBtn.style.display = 'inline-flex';
+      resetBtn.style.display = 'none';
+      gameArea.style.display = 'none';
+      celebrate.innerHTML = '';
+      letterRow.innerHTML = '';
+      letterRow.style.removeProperty('--letters');
+      queue.innerHTML = '';
+      giftStack.innerHTML = '';
+      stopCounter.textContent = `Stop 1 of ${TOTAL_STOPS}`;
+      setStatus(null, 'Press Start to help Santa spell the first gift tag.');
+      status.style.display = 'flex';
+      touchKeyboard?.hide();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      hint.textContent = 'Press Start to begin the first spell.';
+    }
+
+    startBtn.addEventListener('click', startGame);
+    resetBtn.addEventListener('click', resetGame);
+
+    document.addEventListener('keydown', (e) => {
+      if(!active) return;
+      const target = e.target;
+      if(target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;
+      handleKeyPress(e.key);
+    });
+
+    setStatus(null, 'Press Start to light up the first present.');
+    status.style.display = 'flex';
+  </script>
+{{ end }}
