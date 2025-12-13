@@ -1,0 +1,430 @@
+{{ define "styles" }}
+  <style>
+    .game-snowman-builder {
+      color: #0f172a;
+      background:
+        radial-gradient(900px circle at 12% 10%, rgba(191, 219, 254, 0.7), transparent 62%),
+        radial-gradient(820px circle at 88% 6%, rgba(167, 243, 208, 0.55), transparent 58%),
+        linear-gradient(180deg, #eff6ff, #eef2ff 55%, #f8fafc);
+      --card-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(239, 246, 255, 0.72));
+      --card-border: rgba(99, 102, 241, 0.16);
+      --card-shadow: 0 32px 95px rgba(59, 130, 246, 0.15);
+      --status-border: rgba(99, 102, 241, 0.22);
+      --status-bg: rgba(99, 102, 241, 0.08);
+      --status-color: #0f172a;
+      --status-ok-bg: rgba(34, 197, 94, 0.16);
+      --status-ok-border: rgba(34, 197, 94, 0.3);
+      --status-ok-color: #065f46;
+      --status-bad-bg: rgba(248, 113, 113, 0.16);
+      --status-bad-border: rgba(248, 113, 113, 0.32);
+      --status-bad-color: #991b1b;
+      --status-badge-bg: rgba(59, 130, 246, 0.2);
+      --status-badge-color: #1d4ed8;
+      --status-ok-badge-bg: rgba(34, 197, 94, 0.9);
+      --status-ok-badge-color: #ffffff;
+      --status-bad-badge-bg: rgba(248, 113, 113, 0.9);
+      --status-bad-badge-color: #ffffff;
+      --overlay-panel-bg: rgba(255, 255, 255, 0.96);
+      --overlay-panel-color: #0f172a;
+      --overlay-action-primary: #3b82f6;
+      --letter-gap: clamp(12px, 5vw, 26px);
+      --letter-size: clamp(52px, min(12vw, 84px), 96px);
+      --letter-min-size: clamp(52px, min(12vw, 84px), 96px);
+      --letter-height: clamp(68px, min(16vw, 110px), 120px);
+      --letter-radius: clamp(18px, 4vw, 26px);
+      --letter-border-width: 3px;
+      --letter-border-color: rgba(99, 102, 241, 0.22);
+      --letter-bg: rgba(255, 255, 255, 0.9);
+      --letter-color: rgba(99, 102, 241, 0.6);
+      --letter-filled-border-color: rgba(34, 197, 94, 0.55);
+      --letter-filled-bg: rgba(187, 247, 208, 0.65);
+      --letter-filled-color: #065f46;
+      --letter-current-border-color: rgba(59, 130, 246, 0.8);
+      --letter-current-bg: rgba(191, 219, 254, 0.8);
+      --letter-current-color: #0f172a;
+      --letter-current-shadow: 0 18px 46px rgba(59, 130, 246, 0.18);
+      --letter-error-border-color: rgba(248, 113, 113, 0.6);
+      --letter-error-bg: rgba(254, 226, 226, 0.92);
+      --letter-error-color: #991b1b;
+      --touch-panel-bg: linear-gradient(145deg, rgba(59, 130, 246, 0.92), rgba(99, 102, 241, 0.78));
+      --touch-panel-color: #eff6ff;
+      --touch-label-color: #c7d2fe;
+      --touch-key-bg: rgba(59, 130, 246, 0.28);
+      --touch-key-border: rgba(147, 197, 253, 0.55);
+      --touch-key-color: #eff6ff;
+      --touch-key-shadow: 0 16px 34px rgba(30, 64, 175, 0.22);
+      --touch-key-active-bg: rgba(37, 99, 235, 0.9);
+      --touch-key-active-color: #eff6ff;
+      --touch-key-highlight-bg: rgba(59, 130, 246, 0.96);
+      --touch-key-highlight-border: rgba(191, 219, 254, 0.55);
+    }
+
+    .hero-scene {
+      border-radius: 30px;
+      overflow: hidden;
+      border: 2px solid rgba(99, 102, 241, 0.14);
+      box-shadow: 0 26px 70px rgba(30, 64, 175, 0.12);
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .hero-scene img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .progress-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      background: rgba(59, 130, 246, 0.08);
+      border-radius: 999px;
+      border: 2px solid rgba(59, 130, 246, 0.22);
+      font-weight: 700;
+      color: #1d4ed8;
+    }
+
+    .progress-chip strong {
+      font-size: 1.1rem;
+      letter-spacing: 0.05em;
+    }
+
+    .celebration {
+      padding: 24px 20px;
+      border-radius: 32px;
+      border: 3px solid rgba(96, 165, 250, 0.35);
+      background: linear-gradient(145deg, rgba(191, 219, 254, 0.9), rgba(167, 243, 208, 0.65));
+      box-shadow: 0 30px 80px rgba(59, 130, 246, 0.18);
+      text-align: center;
+      animation: bannerPop 0.6s ease;
+    }
+  </style>
+{{ end }}
+
+{{ define "body_class" }}game-page game-snowman-builder text-slate-900{{ end }}
+
+{{ define "main" }}
+  <main id="mainContent" class="game-shell text-slate-900">
+    <header class="game-hero">
+      <h1 class="flex items-center justify-center gap-2 text-3xl font-extrabold tracking-tight sm:text-5xl">
+        <span aria-hidden="true">⛄</span>
+        <span>Snowman Builder</span>
+      </h1>
+      <p class="text-sm text-slate-600 sm:text-base">Type cozy winter words to build a friendly snowman step by step. Finish the hats to make the snow sparkle!</p>
+    </header>
+
+    <section class="game-card game-card--controls space-y-6">
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+        <button id="startBtn" class="inline-flex w-full items-center justify-center rounded-2xl bg-sky-500 px-4 py-3 text-base font-semibold text-white shadow-lg shadow-sky-200 transition hover:bg-sky-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sky-200">
+          Start building
+        </button>
+        <button id="resetBtn" class="inline-flex w-full items-center justify-center rounded-2xl bg-indigo-500 px-4 py-3 text-base font-semibold text-white shadow-lg shadow-indigo-200 transition hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-200" style="display:none;">
+          Play again
+        </button>
+      </div>
+      <div id="status" class="status-banner" role="status" aria-live="polite" aria-atomic="true">
+        <span class="status-badge" id="statusBadge">i</span>
+        <span id="statusText">Press Start to roll the first snowball.</span>
+      </div>
+    </section>
+
+    <section id="gameArea" class="game-card game-card--play space-y-8" style="display:none;" aria-live="polite">
+      <div class="grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-start">
+        <div class="hero-scene">
+          <img id="sceneImage" src="" alt="Snowman building scene" decoding="async" />
+        </div>
+        <div class="space-y-4">
+          <div class="flex flex-wrap items-center justify-center gap-3 text-sm text-slate-600 lg:justify-start">
+            <div class="progress-chip" id="progressChip"><span>Piece</span> <strong>1 of 8</strong></div>
+            <div class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-emerald-600">
+              <span aria-hidden="true">✨</span><span>Hint</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-4 text-center">
+        <div class="game-section-title text-indigo-400">Type the word</div>
+        <div id="letterRow" class="letter-row" role="list" aria-label="Current word letters"></div>
+        <div id="hint" class="text-sm font-semibold text-slate-600">Press Start to begin.</div>
+      </div>
+
+      <div id="celebrate" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <audio id="soundCorrect" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+  <audio id="soundWrong" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+  <audio id="soundWin" src="https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg"></audio>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "game-footer.html" (dict "context" . "tip" .Params.tip "theme" (default "light" .Params.theme)) }}
+{{ end }}
+
+{{ define "scripts" }}
+  <script>
+    const WORDS = [
+      { word: 'snow', label: 'Roll the first snowball' },
+      { word: 'roll', label: 'Add the body' },
+      { word: 'head', label: 'Add the head' },
+      { word: 'smile', label: 'Add a smile' },
+      { word: 'nose', label: 'Add a nose' },
+      { word: 'arms', label: 'Add arms' },
+      { word: 'red', label: 'Try a red hat' },
+      { word: 'green', label: 'Try a green hat' },
+      { word: 'sparkles', label: 'Add sparkles' }
+    ];
+
+    const STATES = [
+      { image: '/images/snowman/snowman_base.jpeg', label: 'Ready to build' },
+      { image: '/images/snowman/snowman_first_ball.jpeg', label: 'First snowball rolled' },
+      { image: '/images/snowman/snowman_body.jpeg', label: 'Body added' },
+      { image: '/images/snowman/snowman_head.jpeg', label: 'Head added' },
+      { image: '/images/snowman/snowman_face.jpeg', label: 'Smile added' },
+      { image: '/images/snowman/snowman_nose.jpeg', label: 'Nose added' },
+      { image: '/images/snowman/snowman_arms.jpeg', label: 'Arms added' },
+      { image: '/images/snowman/snowman_red_hat.jpeg', label: 'Red hat added' },
+      { image: '/images/snowman/snowman_greenhat.jpeg', label: 'Green hat added' }
+    ];
+    const WIN_IMAGE = '/images/snowman/snowman_green_hat_sparkles.jpeg';
+
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const status = document.getElementById('status');
+    const statusBadge = document.getElementById('statusBadge');
+    const statusText = document.getElementById('statusText');
+    const gameArea = document.getElementById('gameArea');
+    const letterRow = document.getElementById('letterRow');
+    const hint = document.getElementById('hint');
+    const celebrate = document.getElementById('celebrate');
+    const sceneImage = document.getElementById('sceneImage');
+    const progressChip = document.getElementById('progressChip');
+
+    const soundCorrect = document.getElementById('soundCorrect');
+    const soundWrong = document.getElementById('soundWrong');
+    const soundWin = document.getElementById('soundWin');
+
+    let active = false;
+    let wordIndex = 0;
+    let letterIndex = 0;
+
+    const touchKeyboard = window.GameTouchKeyboard?.attach({
+      id: 'snowman-builder',
+      label: 'Tap letters to build the snowman',
+      onKeyPress: (char) => handleKeyPress(char, { skipHighlight: true }),
+      getViewportTarget: () => letterRow,
+      getPaddingTarget: () => document.querySelector('.game-shell')
+    });
+    const isTouchDevice = touchKeyboard?.isTouchDevice?.() ?? false;
+
+    function setStatus(kind, message){
+      statusText.innerHTML = message;
+      status.classList.remove('ok','bad');
+      statusBadge.textContent = 'i';
+      if(kind === 'ok'){
+        status.classList.add('ok');
+        statusBadge.textContent = '✓';
+      } else if(kind === 'bad'){
+        status.classList.add('bad');
+        statusBadge.textContent = '×';
+      }
+      status.style.display = 'flex';
+    }
+
+    function currentStep(){
+      return WORDS[wordIndex];
+    }
+
+    function updateScene(){
+      const state = STATES[wordIndex];
+      if(!state) return;
+      sceneImage.src = state.image;
+      sceneImage.alt = `Snowman builder scene: ${state.label}`;
+    }
+
+    function updateProgress(){
+      const total = WORDS.length;
+      const current = Math.min(wordIndex + 1, total);
+      progressChip.innerHTML = `<span>Piece</span> <strong>${current} of ${total}</strong>`;
+    }
+
+    function renderWord(){
+      letterRow.innerHTML = '';
+      const step = currentStep();
+      const word = step?.word || '';
+      letterRow.style.setProperty('--letters', word.length);
+      for(let i = 0; i < word.length; i++){
+        const box = document.createElement('div');
+        box.className = 'letter-box';
+        box.dataset.index = i;
+        const letter = word[i].toUpperCase();
+        box.textContent = letter;
+        box.setAttribute('role', 'listitem');
+        if(i < letterIndex){
+          box.classList.add('filled');
+          box.setAttribute('aria-label', `Letter ${letter}, correct`);
+        } else if(i === letterIndex){
+          box.classList.add('current');
+          box.setAttribute('aria-label', `Letter ${letter}, current`);
+          box.setAttribute('aria-current', 'step');
+        } else {
+          box.setAttribute('aria-label', `Letter ${letter}`);
+        }
+        letterRow.appendChild(box);
+      }
+      window.GameUI?.fitLettersFor?.(letterRow);
+      if(typeof requestAnimationFrame === 'function'){
+        requestAnimationFrame(()=>window.GameUI?.fitLettersFor?.(letterRow));
+      }
+      if(isTouchDevice){
+        touchKeyboard?.ensureVisible(letterRow);
+      }
+    }
+
+    function startGame(){
+      active = true;
+      wordIndex = 0;
+      letterIndex = 0;
+      celebrate.innerHTML = '';
+      startBtn.style.display = 'none';
+      resetBtn.style.display = 'inline-flex';
+      gameArea.style.display = 'block';
+      updateScene();
+      updateProgress();
+      renderWord();
+      hint.textContent = 'Type the letters to add the next snowman piece!';
+      setStatus('ok', `First word: <strong>${currentStep().word.toUpperCase()}</strong>`);
+      if(isTouchDevice){
+        touchKeyboard?.show();
+        touchKeyboard?.ensureVisible(letterRow);
+      }
+    }
+
+    function resetGame(){
+      active = false;
+      wordIndex = 0;
+      letterIndex = 0;
+      startBtn.style.display = 'inline-flex';
+      resetBtn.style.display = 'none';
+      gameArea.style.display = 'none';
+      celebrate.innerHTML = '';
+      letterRow.innerHTML = '';
+      letterRow.style.removeProperty('--letters');
+      sceneImage.src = '';
+      hint.textContent = 'Press Start to begin.';
+      setStatus(null, 'Press Start to roll the first snowball.');
+      status.style.display = 'flex';
+      touchKeyboard?.hide();
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
+    }
+
+    function nextStep(){
+      wordIndex += 1;
+      letterIndex = 0;
+      if(wordIndex >= WORDS.length){
+        finishGame();
+        return;
+      }
+      updateScene();
+      updateProgress();
+      renderWord();
+      setStatus('ok', `Nice! Next word: <strong>${currentStep().word.toUpperCase()}</strong>`);
+    }
+
+    function finishGame(){
+      active = false;
+      touchKeyboard?.hide();
+      sceneImage.src = WIN_IMAGE;
+      sceneImage.alt = 'Snowman builder scene: sparkling winter win';
+      updateProgress();
+      setStatus('ok', 'Sparkle time! You finished the snowman.');
+      const winMarkup = `
+        <div class="celebration">
+          <div class="text-2xl font-extrabold uppercase tracking-[0.25em] text-indigo-700">Snowman complete!</div>
+          <div class="text-sm font-semibold text-slate-700">You typed every cozy word.</div>
+          <div class="text-3xl">⛄ ✨ 🎉</div>
+        </div>
+      `;
+      celebrate.innerHTML = winMarkup;
+      soundWin.currentTime = 0;
+      window.GameSound.play(soundWin);
+      if(window.GameCelebration){
+        window.GameCelebration.show({
+          content: winMarkup,
+          onPlayAgain: ()=>{
+            resetGame();
+            startGame();
+          },
+          focusTarget: resetBtn,
+          initialFocus: 'playAgain'
+        });
+      } else {
+        resetBtn.focus();
+      }
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
+    }
+
+    function handleWrong(key){
+      soundWrong.currentTime = 0;
+      window.GameSound.play(soundWrong);
+      const step = currentStep();
+      const expected = step.word[letterIndex].toUpperCase();
+      const shown = (key || '?').toUpperCase();
+      setStatus('bad', `Almost! Need <strong>${expected}</strong> — you pressed <strong>${shown}</strong>.`);
+      const box = letterRow.querySelector(`.letter-box[data-index="${letterIndex}"]`);
+      if(box){
+        box.classList.remove('wiggle');
+        void box.offsetWidth;
+        box.classList.add('wiggle');
+      }
+      if(isTouchDevice){
+        touchKeyboard?.ensureVisible(letterRow);
+      }
+    }
+
+    function handleCorrect(){
+      soundCorrect.currentTime = 0;
+      window.GameSound.play(soundCorrect);
+      const step = currentStep();
+      letterIndex += 1;
+      if(letterIndex >= step.word.length){
+        nextStep();
+        return;
+      }
+      renderWord();
+      setStatus('ok', `Great! Next letter: <strong>${step.word[letterIndex].toUpperCase()}</strong>`);
+    }
+
+    function handleKeyPress(key, opts = {}){
+      if(!active) return;
+      if(!key || key.length !== 1) return;
+      if(!/[a-zA-Z]/.test(key)) return;
+      if(!opts.skipHighlight){
+        touchKeyboard?.flashKey?.(key);
+      }
+      const step = currentStep();
+      const expected = step?.word?.[letterIndex];
+      if(!expected) return;
+      if(key.toLowerCase() === expected.toLowerCase()){
+        handleCorrect();
+      } else {
+        handleWrong(key);
+      }
+    }
+
+    startBtn.addEventListener('click', startGame);
+    resetBtn.addEventListener('click', resetGame);
+
+    document.addEventListener('keydown', (e)=>{
+      if(!active) return;
+      const target = e.target;
+      if(target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;
+      handleKeyPress(e.key);
+    });
+
+    setStatus(null, 'Press Start to roll the first snowball.');
+    status.style.display = 'flex';
+  </script>
+{{ end }}

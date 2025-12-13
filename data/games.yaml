@@ -46,6 +46,12 @@
   badge_label: "Holidays"
   badge_emoji: "🎄"
   description: "Spell cozy winter words to stack glowing presents for Santa. Clear six stops to hear the sleigh bells ring."
+- slug: snowman-builder
+  title: "Snowman Builder"
+  emoji: "⛄"
+  badge_label: "Winter"
+  badge_emoji: "⛄"
+  description: "Build a friendly snowman by typing cozy winter words. Add the body, head, face, and hats until the snow sparkles."
 - slug: speed-racer
   title: "Speed Racer"
   emoji: "🏎️"
