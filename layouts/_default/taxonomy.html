@@ -1,7 +1,7 @@
 {{ define "body_class" }}bg-slate-50 text-slate-900{{ end }}
 
 {{ define "main" }}
-  <main class="max-w-5xl mx-auto px-5 py-10 space-y-6 sm:px-6 sm:py-12">
+  <main id="mainContent" class="max-w-5xl mx-auto px-5 py-10 space-y-6 sm:px-6 sm:py-12">
     <header class="space-y-2">
       <p class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">{{ .Data.Singular | default "Tag" }}</p>
       <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">{{ .Title }}</h1>

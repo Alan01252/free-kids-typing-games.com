@@ -38,15 +38,44 @@
       background: rgba(99,102,241,0.1);
       color: #4338ca;
     }
+
+    .hero-banner {
+      aspect-ratio: 21 / 9;
+    }
+
+    @media (max-width: 640px) {
+      .hero-banner {
+        aspect-ratio: 16 / 9;
+      }
+    }
+
+    .hero-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
   </style>
 {{ end }}
 
 {{ define "main" }}
-  <div class="max-w-4xl mx-auto px-5 py-8 space-y-10 sm:px-6 sm:py-12">
-    <header class="text-center space-y-4">
-      <span class="inline-flex items-center gap-2 rounded-full bg-indigo-100 px-4 py-1.5 text-sm font-semibold text-indigo-600">🎹 Playful typing practice</span>
-      <h1 class="text-4xl font-extrabold tracking-tight text-slate-800 sm:text-5xl">{{ .Site.Title }}</h1>
-      <p class="mx-auto max-w-2xl text-base text-slate-600 sm:text-lg">Free, mobile-friendly typing games for kids ages 2–6. Pick a short keyboard activity to practise letters and simple words with gentle, confidence-building feedback.</p>
+  <main id="mainContent" class="max-w-4xl mx-auto px-5 py-8 space-y-10 sm:px-6 sm:py-12">
+    <header class="space-y-6">
+      <span class="sr-only">🎹 Playful typing practice</span>
+      <h1 class="sr-only">{{ .Site.Title }}</h1>
+      <p class="sr-only">Free, mobile-friendly typing games for kids ages 2–6. Pick a short keyboard activity to practise letters and simple words with gentle, confidence-building feedback.</p>
+
+      <div class="hero-banner -mx-5 w-[calc(100%+2.5rem)] overflow-hidden rounded-3xl border border-indigo-100 bg-white/80 shadow-xl shadow-indigo-900/5 sm:-mx-6 sm:w-[calc(100%+3rem)]">
+        <img
+          src="/images/og.png"
+          width="1200"
+          height="630"
+          alt="Playful banner artwork showing keyboard letters and game badges."
+          loading="eager"
+          decoding="async"
+        />
+      </div>
     </header>
 
     <section class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
@@ -83,7 +112,7 @@
         </a>
       </div>
     </section>
-  </div>
+  </main>
 {{ end }}
 
 {{ define "footer" }}

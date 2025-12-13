@@ -175,7 +175,7 @@
 {{ define "body_class" }}game-page game-ghostly text-slate-100{{ end }}
 
 {{ define "main" }}
-  <div class="game-shell text-slate-100">
+  <main id="mainContent" class="game-shell text-slate-100">
     <header class="game-hero">
       <h1 class="flex items-center justify-center gap-2 text-3xl font-extrabold tracking-tight text-slate-100 sm:text-5xl">
         <span aria-hidden="true">🕯️</span>
@@ -189,7 +189,7 @@
         <button id="startBtn" class="inline-flex w-full items-center justify-center rounded-2xl bg-indigo-500 px-4 py-3 text-base font-semibold text-white shadow-lg shadow-indigo-900/50 transition hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-300">Enter the house</button>
         <button id="resetBtn" class="inline-flex w-full items-center justify-center rounded-2xl bg-purple-500 px-4 py-3 text-base font-semibold text-white shadow-lg shadow-purple-900/40 transition hover:bg-purple-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-300" style="display:none;">Play again</button>
       </div>
-      <div id="status" class="status-banner" aria-live="polite">
+      <div id="status" class="status-banner" role="status" aria-live="polite" aria-atomic="true">
         <span class="status-badge" id="statusBadge">i</span>
         <span id="statusText">Press “Enter the house” to meet the first room.</span>
       </div>
@@ -212,13 +212,13 @@
           <span>👻</span>
           <span id="roomLabel">Haunted Foyer</span>
         </div>
-        <div id="candleRow" class="candle-grid letter-row"></div>
+        <div id="candleRow" class="candle-grid letter-row" role="list" aria-label="Current word letters"></div>
       </div>
 
       <div id="celebrate" aria-live="polite"></div>
     </section>
 
-  </div>
+  </main>
 
   <audio id="soundCorrect" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
   <audio id="soundWrong" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
@@ -354,7 +354,7 @@
             setStatus('ok', `Room cleared! Next up: <strong>${currentRoom().name}</strong>.`);
             updateRoomUI();
             soundCorrect.currentTime = 0;
-            soundCorrect.play();
+            window.GameSound.play(soundCorrect);
             return;
           }
         } else {
@@ -367,12 +367,12 @@
       renderCandles();
       renderQueue();
       soundCorrect.currentTime = 0;
-      soundCorrect.play();
+      window.GameSound.play(soundCorrect);
     }
 
     function handleWrong(key){
       soundWrong.currentTime = 0;
-      soundWrong.play();
+      window.GameSound.play(soundWrong);
       const expected = currentRoom().words[wordIndex][letterIndex].toUpperCase();
       const shown = (key || '?').toUpperCase();
       setStatus('bad', `Oops! The ghost wanted <strong>${expected}</strong> — you pressed <strong>${shown}</strong>.`);
@@ -417,7 +417,7 @@
       `;
       celebrate.innerHTML = winMarkup;
       soundWin.currentTime = 0;
-      soundWin.play();
+      window.GameSound.play(soundWin);
       if(window.GameCelebration){
         window.GameCelebration.show({
           content: winMarkup,
@@ -431,7 +431,7 @@
       } else {
         resetBtn.focus();
       }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
     }
 
     function startHunt(){
@@ -466,7 +466,7 @@
       setStatus(null, 'Press “Enter the house” to meet the first room.');
       status.style.display = 'flex';
       touchKeyboard?.hide();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
     }
 
     startBtn.addEventListener('click', startHunt);

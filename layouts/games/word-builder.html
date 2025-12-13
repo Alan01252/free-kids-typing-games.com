@@ -204,7 +204,7 @@
 {{ define "body_class" }}game-page game-word-builder text-slate-800{{ end }}
 
 {{ define "main" }}
-  <div class="game-shell text-slate-800">
+  <main id="mainContent" class="game-shell text-slate-800">
     <header class="game-hero">
       <h1 class="flex items-center justify-center gap-2 text-3xl font-extrabold tracking-tight sm:text-5xl">
         <span aria-hidden="true">🧩</span>
@@ -248,7 +248,7 @@
         </button>
       </div>
       <div>
-        <div id="status" class="hint" style="display:none;" aria-live="polite">
+        <div id="status" class="hint" style="display:none;" role="status" aria-live="polite" aria-atomic="true">
           <span class="badge" id="statusIcon">i</span>
           <span id="hintText">Type the letters on your keyboard.</span>
         </div>
@@ -276,7 +276,7 @@
       <div id="celebrate" class="celebrate min-h-[52px]" aria-live="polite"></div>
       </div>
     </section>
-  </div>
+  </main>
 
   <audio id="soundCorrect" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
   <audio id="soundWrong" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
@@ -443,7 +443,7 @@
       upBox.classList.add('filled');
       loBox.classList.add('filled');
       soundCorrect.currentTime = 0;
-      soundCorrect.play();
+      window.GameSound.play(soundCorrect);
     }
 
     function wiggle(pos, wrongKey){
@@ -456,7 +456,7 @@
       });
       const shown = (wrongKey || '?').toUpperCase();
       setHint('bad', `Oops! We need <strong>${target[pos].toUpperCase()}</strong> — you pressed <strong>${shown}</strong>. Try again!`);
-      soundWrong.currentTime = 0; soundWrong.play();
+      soundWrong.currentTime = 0; window.GameSound.play(soundWrong);
     }
 
     function win(){
@@ -484,7 +484,7 @@
         </div>
       `;
       celebrate.innerHTML = winMarkup;
-      soundWin.currentTime = 0; soundWin.play();
+      soundWin.currentTime = 0; window.GameSound.play(soundWin);
       actionBtn.textContent = 'Play again';
       if(window.GameCelebration){
         window.GameCelebration.show({
@@ -500,7 +500,7 @@
       }
       if(isTouchDevice){
         wordInput.blur();
-        const jumpToTop = ()=>window.scrollTo({ top: 0, behavior: 'smooth' });
+        const jumpToTop = ()=>window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
         jumpToTop();
         setTimeout(jumpToTop, 120);
       }

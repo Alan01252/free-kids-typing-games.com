@@ -236,7 +236,7 @@
 {{ define "body_class" }}game-page game-santa-spells text-slate-100{{ end }}
 
 {{ define "main" }}
-  <div class="game-shell text-slate-100">
+  <main id="mainContent" class="game-shell text-slate-100">
     <div class="aurora" aria-hidden="true"></div>
 
     <header class="game-hero">
@@ -258,7 +258,7 @@
           Reset
         </button>
       </div>
-      <div id="status" class="status-banner" aria-live="polite">
+      <div id="status" class="status-banner" role="status" aria-live="polite" aria-atomic="true">
         <span class="status-badge" id="statusBadge">i</span>
         <span id="statusText">Press Start to light up the first present.</span>
       </div>
@@ -281,13 +281,13 @@
 
       <div class="space-y-3 text-center">
         <div class="game-section-title text-sky-200">Current spell</div>
-        <div id="letterRow" class="letter-row"></div>
+        <div id="letterRow" class="letter-row" role="list" aria-label="Current word letters"></div>
         <div id="hint" class="hint text-sm">Press Start to begin the first spell.</div>
       </div>
 
       <div id="celebrate" class="celebrate" aria-live="polite"></div>
     </section>
-  </div>
+  </main>
 
   <audio id="soundCorrect" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
   <audio id="soundWrong" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
@@ -390,9 +390,19 @@
         const box = document.createElement('div');
         box.className = 'letter-box';
         box.dataset.index = i;
-        box.textContent = word[i].toUpperCase();
-        if(i < letterIndex) box.classList.add('filled');
-        if(i === letterIndex) box.classList.add('current');
+        const letter = word[i].toUpperCase();
+        box.textContent = letter;
+        box.setAttribute('role', 'listitem');
+        if(i < letterIndex){
+          box.classList.add('filled');
+          box.setAttribute('aria-label', `Letter ${letter}, correct`);
+        } else if(i === letterIndex){
+          box.classList.add('current');
+          box.setAttribute('aria-label', `Letter ${letter}, current`);
+          box.setAttribute('aria-current', 'step');
+        } else {
+          box.setAttribute('aria-label', `Letter ${letter}`);
+        }
         letterRow.appendChild(box);
       }
       window.GameUI?.fitLettersFor?.(letterRow);
@@ -428,12 +438,12 @@
       renderWord();
       updateProgress();
       soundCorrect.currentTime = 0;
-      soundCorrect.play();
+      window.GameSound.play(soundCorrect);
     }
 
     function handleWrong(key){
       soundWrong.currentTime = 0;
-      soundWrong.play();
+      window.GameSound.play(soundWrong);
       const expected = words[wordIndex][letterIndex].toUpperCase();
       const shown = (key || '?').toUpperCase();
       setStatus('bad', `Oops — need <strong>${expected}</strong> not <strong>${shown}</strong>.`);
@@ -478,7 +488,7 @@
       `;
       celebrate.innerHTML = winMarkup;
       soundWin.currentTime = 0;
-      soundWin.play();
+      window.GameSound.play(soundWin);
       if(window.GameCelebration){
         window.GameCelebration.show({
           content: winMarkup,
@@ -492,7 +502,7 @@
       } else {
         resetBtn.focus();
       }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
     }
 
     function startGame(){
@@ -528,7 +538,7 @@
       setStatus(null, 'Press Start to help Santa spell the first gift tag.');
       status.style.display = 'flex';
       touchKeyboard?.hide();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
       hint.textContent = 'Press Start to begin the first spell.';
     }
 

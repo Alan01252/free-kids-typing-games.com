@@ -335,7 +335,7 @@
 {{ define "body_class" }}game-page game-emotion-journey text-slate-900{{ end }}
 
 {{ define "main" }}
-  <div class="game-shell text-slate-900">
+  <main id="mainContent" class="game-shell text-slate-900">
     <header class="game-hero">
       <h1 class="flex items-center justify-center gap-2 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
         <span aria-hidden="true">🙂</span>
@@ -349,7 +349,7 @@
         <button id="startBtn" class="inline-flex w-full items-center justify-center rounded-2xl bg-blue-500 px-4 py-3 text-base font-semibold text-white shadow-lg shadow-blue-500/50 transition hover:bg-blue-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-300">Start your feelings journey</button>
         <button id="resetBtn" class="inline-flex w-full items-center justify-center rounded-2xl bg-sky-500 px-4 py-3 text-base font-semibold text-white shadow-lg shadow-sky-500/40 transition hover:bg-sky-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sky-200" style="display:none;">Play again</button>
       </div>
-      <div id="status" class="status-banner" aria-live="polite">
+      <div id="status" class="status-banner" role="status" aria-live="polite" aria-atomic="true">
         <span class="status-badge" id="statusBadge">i</span>
         <span id="statusText">Press “Start your feelings journey” to meet the first feeling word.</span>
       </div>
@@ -380,7 +380,7 @@
 
       <div class="space-y-4">
         <div class="text-center text-sm font-semibold uppercase tracking-[0.3em] text-slate-500">Type the letters below</div>
-        <div id="letterRow" class="letter-row"></div>
+        <div id="letterRow" class="letter-row" role="list" aria-label="Current word letters"></div>
       </div>
 
       <div class="space-y-3">
@@ -390,7 +390,7 @@
 
       <div id="celebrate" aria-live="polite"></div>
     </section>
-  </div>
+  </main>
 
   <audio id="soundCorrect" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
   <audio id="soundWrong" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
@@ -555,9 +555,19 @@
         const box = document.createElement('div');
         box.className = 'letter-box';
         box.dataset.index = i;
-        box.textContent = word[i].toUpperCase();
-        if (i < letterIndex) box.classList.add('filled');
-        if (i === letterIndex) box.classList.add('current');
+        const letter = word[i].toUpperCase();
+        box.textContent = letter;
+        box.setAttribute('role', 'listitem');
+        if (i < letterIndex) {
+          box.classList.add('filled');
+          box.setAttribute('aria-label', `Letter ${letter}, correct`);
+        } else if (i === letterIndex) {
+          box.classList.add('current');
+          box.setAttribute('aria-label', `Letter ${letter}, current`);
+          box.setAttribute('aria-current', 'step');
+        } else {
+          box.setAttribute('aria-label', `Letter ${letter}`);
+        }
         letterRow.appendChild(box);
       }
       window.GameUI?.fitLettersFor?.(letterRow);
@@ -599,7 +609,7 @@
         updateQueue();
         if (typingIndex >= EMOTIONS.length) {
           soundCorrect.currentTime = 0;
-          soundCorrect.play();
+          window.GameSound.play(soundCorrect);
           finishJourney();
           return;
         }
@@ -618,12 +628,12 @@
         touchKeyboard?.ensureVisible(letterRow);
       }
       soundCorrect.currentTime = 0;
-      soundCorrect.play();
+      window.GameSound.play(soundCorrect);
     }
 
     function handleWrong(key) {
       soundWrong.currentTime = 0;
-      soundWrong.play();
+      window.GameSound.play(soundWrong);
       const emotion = EMOTIONS[typingIndex];
       if (!emotion || !emotion.word) return;
       const expected = emotion.word[letterIndex]?.toUpperCase() || '';
@@ -674,7 +684,7 @@
       `;
       celebrate.innerHTML = winMarkup;
       soundWin.currentTime = 0;
-      soundWin.play();
+      window.GameSound.play(soundWin);
       if (window.GameCelebration) {
         window.GameCelebration.show({
           content: winMarkup,
@@ -688,7 +698,7 @@
       } else {
         resetBtn.focus();
       }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
     }
 
     function startJourney() {
@@ -739,7 +749,7 @@
       setStatus(null, 'Press “Start your feelings journey” to meet the first feeling word.');
       status.style.display = 'flex';
       touchKeyboard?.hide();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
     }
 
     startBtn.addEventListener('click', startJourney);

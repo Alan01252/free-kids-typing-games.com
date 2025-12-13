@@ -13,10 +13,13 @@
   {{ block "styles" . }}{{ end }}
 </head>
 <body class="min-h-screen {{ block "body_class" . }}{{ end }}">
+  <a class="skip-link" href="#mainContent">Skip to content</a>
+  {{ partial "site-utility.html" . }}
   {{ block "main" . }}{{ end }}
   {{ block "footer" . }}{{ end }}
   {{ partial "game-win-overlay.html" . }}
   {{ partial "game-touch-controls.html" . }}
+  <script src="{{ "js/game/ui/sound.js" | relURL }}"></script>
   <script src="{{ "js/game/ui/fitLetters.js" | relURL }}"></script>
   {{ block "scripts" . }}{{ end }}
 </body>

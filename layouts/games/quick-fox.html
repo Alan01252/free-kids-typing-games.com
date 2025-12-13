@@ -181,7 +181,7 @@
 {{ define "body_class" }}game-page game-quick-fox text-slate-800{{ end }}
 
 {{ define "main" }}
-  <div class="game-shell text-slate-800">
+  <main id="mainContent" class="game-shell text-slate-800">
     <header class="game-hero">
       <h1 class="flex items-center justify-center gap-2 text-3xl font-extrabold tracking-tight sm:text-5xl">
         <span aria-hidden="true">🦊</span>
@@ -201,7 +201,7 @@
           Play again
         </button>
       </div>
-      <div id="status" class="status-banner" aria-live="polite">
+      <div id="status" class="status-banner" role="status" aria-live="polite" aria-atomic="true">
         <span class="status-badge" id="statusBadge">i</span>
         <span id="statusText">Press Start to begin the fox’s run.</span>
       </div>
@@ -220,7 +220,7 @@
 
       <div id="celebrate" class="celebrate text-slate-600" aria-live="polite"></div>
     </section>
-  </div>
+  </main>
 
   <audio id="soundCorrect" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
   <audio id="soundWrong" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
@@ -338,7 +338,7 @@
       if(rect.top - offsetTop < topSafe || rect.bottom - offsetTop > viewportHeight - 140){
         const currentScroll = window.scrollY || window.pageYOffset || 0;
         const targetTop = rect.top + currentScroll - offsetTop - 140;
-        window.scrollTo({ top: targetTop, behavior: 'smooth' });
+        window.scrollTo({ top: targetTop, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
       }
     }
 
@@ -382,7 +382,7 @@
       index = 0;
       updateProgress();
       touchKeyboard?.hide();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
     }
 
     function finishGame(){
@@ -402,7 +402,7 @@
       `;
       celebrate.innerHTML = winMarkup;
       soundWin.currentTime = 0;
-      soundWin.play();
+      window.GameSound.play(soundWin);
       if(window.GameCelebration){
         window.GameCelebration.show({
           content: winMarkup,
@@ -417,14 +417,14 @@
         resetBtn.focus();
       }
       if(isTouchDevice){
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        setTimeout(()=>window.scrollTo({ top: 0, behavior: 'smooth' }), 120);
+        window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
+        setTimeout(()=>window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') }), 120);
       }
     }
 
     function wrongLetter(expected, pressed){
       soundWrong.currentTime = 0;
-      soundWrong.play();
+      window.GameSound.play(soundWrong);
       const humanPressed = pressed === ' ' ? 'Space' : pressed.toUpperCase();
       const friendlyExpected = expected === ' ' ? 'Space' : expected.toUpperCase();
       setStatus('bad', `Almost! We need <strong>${friendlyExpected}</strong> — you pressed <strong>${humanPressed}</strong>.`);
@@ -452,7 +452,7 @@
 
       if(isMatch){
         soundCorrect.currentTime = 0;
-        soundCorrect.play();
+        window.GameSound.play(soundCorrect);
         index++;
         updateTokens();
         updateProgress();

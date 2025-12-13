@@ -209,7 +209,7 @@
 {{ define "body_class" }}game-page game-rocket-run text-slate-100{{ end }}
 
 {{ define "main" }}
-  <div class="game-shell text-slate-100">
+  <main id="mainContent" class="game-shell text-slate-100">
     <header class="game-hero">
       <h1 class="flex items-center justify-center gap-2 text-3xl font-extrabold tracking-tight text-slate-100 sm:text-5xl">
         <span aria-hidden="true">🚀</span>
@@ -223,7 +223,7 @@
         <button id="startBtn" class="inline-flex w-full items-center justify-center rounded-2xl bg-blue-500 px-4 py-3 text-base font-semibold text-white shadow-lg shadow-blue-900/40 transition hover:bg-blue-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-300">Light the fuse</button>
         <button id="resetBtn" class="inline-flex w-full items-center justify-center rounded-2xl bg-amber-500 px-4 py-3 text-base font-semibold text-white shadow-lg shadow-amber-900/40 transition hover:bg-amber-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-300" style="display:none;">Race again</button>
       </div>
-      <div id="status" class="status-banner" aria-live="polite">
+      <div id="status" class="status-banner" role="status" aria-live="polite" aria-atomic="true">
         <span class="status-badge" id="statusBadge">i</span>
         <span id="statusText">Press “Light the fuse” to start launching rockets.</span>
       </div>
@@ -297,13 +297,13 @@
 
       <div class="space-y-4 text-center">
         <div class="text-xs font-semibold uppercase tracking-[0.35em] text-blue-200">Current word</div>
-        <div id="letterRow" class="letter-row"></div>
+        <div id="letterRow" class="letter-row" role="list" aria-label="Current word letters"></div>
       </div>
 
       <div id="celebrate" aria-live="polite"></div>
     </section>
 
-  </div>
+  </main>
 
   <audio id="soundCorrect" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
   <audio id="soundWrong" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
@@ -390,9 +390,19 @@
         const box = document.createElement('div');
         box.className = 'letter-box';
         box.dataset.index = i;
-        box.textContent = word[i].toUpperCase();
-        if(i < letterIndex) box.classList.add('filled');
-        if(i === letterIndex) box.classList.add('current');
+        const letter = word[i].toUpperCase();
+        box.textContent = letter;
+        box.setAttribute('role', 'listitem');
+        if(i < letterIndex){
+          box.classList.add('filled');
+          box.setAttribute('aria-label', `Letter ${letter}, correct`);
+        } else if(i === letterIndex){
+          box.classList.add('current');
+          box.setAttribute('aria-label', `Letter ${letter}, current`);
+          box.setAttribute('aria-current', 'step');
+        } else {
+          box.setAttribute('aria-label', `Letter ${letter}`);
+        }
         letterRow.appendChild(box);
       }
       window.GameUI?.fitLettersFor?.(letterRow);
@@ -462,12 +472,12 @@
       updateFuse();
       setCurrentRocket();
       soundCorrect.currentTime = 0;
-      soundCorrect.play();
+      window.GameSound.play(soundCorrect);
     }
 
     function handleWrong(key){
       soundWrong.currentTime = 0;
-      soundWrong.play();
+      window.GameSound.play(soundWrong);
       const expected = words[rocketIndex][letterIndex].toUpperCase();
       const shown = (key || '?').toUpperCase();
       setStatus('bad', `Almost! Rocket wants <strong>${expected}</strong> — you pressed <strong>${shown}</strong>.`);
@@ -519,7 +529,7 @@
       `;
       celebrate.innerHTML = winMarkup;
       soundWin.currentTime = 0;
-      soundWin.play();
+      window.GameSound.play(soundWin);
       if(window.GameCelebration){
         window.GameCelebration.show({
           content: winMarkup,
@@ -534,7 +544,7 @@
         resetBtn.focus();
       }
       touchKeyboard?.hide();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
     }
 
     function startShow(){
@@ -572,7 +582,7 @@
       status.style.display = 'flex';
       resetRocketsState();
       touchKeyboard?.hide();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
     }
 
     startBtn.addEventListener('click', startShow);

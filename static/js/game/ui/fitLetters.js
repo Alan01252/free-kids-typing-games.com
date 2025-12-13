@@ -3,6 +3,15 @@
   if (window.__fitLettersAttached__) return;
   window.__fitLettersAttached__ = true;
 
+  function prefersReducedMotion() {
+    if (typeof window.matchMedia !== 'function') return false;
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  function scrollBehavior() {
+    return prefersReducedMotion() ? 'auto' : 'smooth';
+  }
+
   function measureAndScale(el) {
     if (!el) return;
     el.style.transform = 'none';
@@ -46,6 +55,18 @@
   window.GameUI = window.GameUI || {};
   window.GameUI.fitLettersFor = fitLettersFor;
   window.GameUI.fitAllLetterRows = fitAllLetterRows;
+  window.GameUI.prefersReducedMotion = prefersReducedMotion;
+  window.GameUI.scrollBehavior = scrollBehavior;
+  window.GameUI.scrollToTop = () => window.scrollTo({ top: 0, behavior: scrollBehavior() });
+  window.GameUI.safeScrollTo = (opts = {}) => {
+    const next = Object.assign({}, opts);
+    if ('behavior' in next) {
+      next.behavior = scrollBehavior();
+    } else {
+      next.behavior = scrollBehavior();
+    }
+    window.scrollTo(next);
+  };
 
   let rafId = null;
   function scheduleReflow() {

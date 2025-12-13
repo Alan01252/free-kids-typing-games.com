@@ -188,7 +188,7 @@
 {{ define "body_class" }}game-page game-vampire-vowels text-slate-100{{ end }}
 
 {{ define "main" }}
-  <div class="game-shell text-slate-100">
+  <main id="mainContent" class="game-shell text-slate-100">
     <header class="game-hero">
       <h1 class="flex items-center justify-center gap-2 text-3xl font-extrabold tracking-tight text-slate-100 sm:text-5xl">
         <span aria-hidden="true">🧛</span>
@@ -202,7 +202,7 @@
         <button id="startBtn" class="inline-flex w-full items-center justify-center rounded-2xl bg-rose-500 px-4 py-3 text-base font-semibold text-white shadow-lg shadow-rose-900/50 transition hover:bg-rose-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-rose-300">Start the tasting</button>
         <button id="resetBtn" class="inline-flex w-full items-center justify-center rounded-2xl bg-amber-500 px-4 py-3 text-base font-semibold text-white shadow-lg shadow-amber-900/50 transition hover:bg-amber-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-300" style="display:none;">Start over</button>
       </div>
-      <div id="status" class="status-banner" aria-live="polite">
+      <div id="status" class="status-banner" role="status" aria-live="polite" aria-atomic="true">
         <span class="status-badge" id="statusBadge">i</span>
         <span id="statusText">Press “Start the tasting” to pour the first round of vowels.</span>
       </div>
@@ -230,12 +230,12 @@
 
       <div class="space-y-4 text-center">
         <span class="round-hint">Type the glowing vowels</span>
-        <div id="letterRow" class="letter-row"></div>
+        <div id="letterRow" class="letter-row" role="list" aria-label="Current vowel letters"></div>
       </div>
 
       <div id="celebrate" aria-live="polite"></div>
     </section>
-  </div>
+  </main>
 
   <audio id="soundCorrect" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
   <audio id="soundWrong" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
@@ -328,9 +328,19 @@
         const box = document.createElement('div');
         box.className = 'letter-box';
         box.dataset.index = index;
-        box.textContent = letter.toUpperCase();
-        if (index < letterIndex) box.classList.add('filled');
-        if (index === letterIndex) box.classList.add('current');
+        const upper = letter.toUpperCase();
+        box.textContent = upper;
+        box.setAttribute('role', 'listitem');
+        if (index < letterIndex) {
+          box.classList.add('filled');
+          box.setAttribute('aria-label', `Letter ${upper}, correct`);
+        } else if (index === letterIndex) {
+          box.classList.add('current');
+          box.setAttribute('aria-label', `Letter ${upper}, current`);
+          box.setAttribute('aria-current', 'step');
+        } else {
+          box.setAttribute('aria-label', `Letter ${upper}`);
+        }
         letterRow.appendChild(box);
       });
       window.GameUI?.fitLettersFor?.(letterRow);
@@ -372,7 +382,7 @@
       const letters = round.letters;
       letterIndex += 1;
       soundCorrect.currentTime = 0;
-      soundCorrect.play();
+      window.GameSound.play(soundCorrect);
       if (letterIndex >= letters.length) {
         // round complete
         currentRound += 1;
@@ -396,7 +406,7 @@
 
     function handleWrong(key) {
       soundWrong.currentTime = 0;
-      soundWrong.play();
+      window.GameSound.play(soundWrong);
       const expected = rounds[currentRound]?.letters[letterIndex]?.toUpperCase() ?? '';
       const shown = (key || '?').toUpperCase();
       setStatus('bad', `Not that letter yet! We need <strong>${expected}</strong>, not <strong>${shown}</strong>.`);
@@ -442,7 +452,7 @@
         </div>
       `;
       soundWin.currentTime = 0;
-      soundWin.play();
+      window.GameSound.play(soundWin);
       resetBtn.style.display = 'inline-flex';
       startBtn.style.display = 'none';
       if (window.GameCelebration) {

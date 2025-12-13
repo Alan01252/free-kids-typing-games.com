@@ -283,7 +283,7 @@
 {{ define "body_class" }}game-page game-phoneme-sound-lab text-slate-800{{ end }}
 
 {{ define "main" }}
-  <div class="game-shell">
+  <main id="mainContent" class="game-shell">
     <header class="game-hero text-center space-y-3">
       <span class="inline-flex items-center gap-2 rounded-full bg-indigo-100 px-4 py-1.5 text-sm font-semibold text-indigo-600">🔊 Spot the sounds</span>
       <h1 class="text-4xl font-extrabold tracking-tight text-slate-800 sm:text-5xl">
@@ -303,7 +303,7 @@
           Try again
         </button>
       </div>
-      <div id="status" class="status-banner" aria-live="polite">
+      <div id="status" class="status-banner" role="status" aria-live="polite" aria-atomic="true">
         <span class="status-badge" id="statusBadge">i</span>
         <span id="statusText">Press Start to explore phoneme chunks.</span>
       </div>
@@ -334,7 +334,7 @@
 
       <div id="celebrate" class="phoneme-celebration" aria-live="polite"></div>
     </section>
-  </div>
+  </main>
 
   <audio id="soundWrong" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
   <audio id="soundWin" src="https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg"></audio>
@@ -703,7 +703,7 @@
 
     function handleWrongLetter(input){
       soundWrong.currentTime = 0;
-      soundWrong.play().catch(() => {});
+      window.GameSound.play(soundWrong);
       const ref = segmentRefs[segmentIndex];
       if(!ref) return;
       const expected = ref.segment.letters[letterIndex]?.toUpperCase() ?? '?';
@@ -750,7 +750,7 @@
         </div>
       `;
       soundWin.currentTime = 0;
-      soundWin.play().catch(() => {});
+      window.GameSound.play(soundWin);
 
       if(wordIndex >= words.length - 1){
         finishGame();
@@ -825,7 +825,7 @@
       setStatus(null, 'Press Start to explore phoneme chunks.');
       setHint(null, 'Focus on each chunk as you type to reveal its sound.');
       touchKeyboard?.hide();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
     }
 
     function startGame(){

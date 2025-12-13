@@ -6,6 +6,8 @@
 {{ $navClass := cond $isDark "flex flex-wrap items-center justify-center gap-3 text-slate-100" "flex flex-wrap items-center justify-center gap-3 text-indigo-500" }}
 {{ $labelClass := cond $isDark "text-xs uppercase tracking-[0.3em] text-slate-200/70" "text-xs uppercase tracking-[0.3em] text-slate-400" }}
 {{ $linkClass := cond $isDark "inline-flex items-center gap-1 rounded-full bg-white/10 px-3 py-1.5 text-sm font-semibold text-white shadow-sm transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/30" "inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3 py-1.5 text-sm font-semibold text-indigo-600 shadow-sm transition hover:bg-indigo-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-200" }}
+{{ $metaClass := cond $isDark "flex flex-wrap items-center justify-center gap-2 text-xs text-slate-200/70" "flex flex-wrap items-center justify-center gap-2 text-xs text-slate-400" }}
+{{ $metaLinkClass := cond $isDark "underline underline-offset-4 text-slate-100/90 hover:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/30 rounded" "underline underline-offset-4 text-slate-500 hover:text-slate-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-200 rounded" }}
 {{ $games := site.Data.games }}
 {{ $current := $ctx.RelPermalink }}
 <footer class="{{ $wrapperClass }}">
@@ -20,9 +22,6 @@
     <a href="/games/" class="{{ $linkClass }}"{{ if eq $current "/games/" }} aria-current="page"{{ end }}>
       <span>🎮</span> <span>All games</span>
     </a>
-    <a href="/about/" class="{{ $linkClass }}"{{ if eq $current "/about/" }} aria-current="page"{{ end }}>
-      <span>ℹ️</span> <span>About</span>
-    </a>
     {{ range $games }}
       {{ $permalink := printf "/games/%s/" .slug }}
       <a href="{{ $permalink }}" class="{{ $linkClass }}"{{ if eq $current $permalink }} aria-current="page"{{ end }}>
@@ -30,4 +29,10 @@
       </a>
     {{ end }}
   </nav>
+
+  <div class="{{ $metaClass }}">
+    <span>© {{ now.Year }} {{ site.Title }}</span>
+    <span aria-hidden="true">·</span>
+    <a href="/about/" class="{{ $metaLinkClass }}"{{ if eq $current "/about/" }} aria-current="page"{{ end }}>About</a>
+  </div>
 </footer>
