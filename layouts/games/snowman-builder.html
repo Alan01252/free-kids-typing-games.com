@@ -90,6 +90,21 @@
       letter-spacing: 0.05em;
     }
 
+    .queue-list span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: rgba(99, 102, 241, 0.08);
+      border: 1px solid rgba(99, 102, 241, 0.18);
+      color: rgba(79, 70, 229, 0.85);
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+    }
+
     .celebration {
       padding: 24px 20px;
       border-radius: 32px;
@@ -140,6 +155,9 @@
             <div class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-emerald-600">
               <span aria-hidden="true">✨</span><span>Hint</span>
             </div>
+          </div>
+          <div class="rounded-3xl border border-indigo-100/80 bg-white/70 p-4 shadow-inner">
+            <div id="queue" class="queue-list flex flex-wrap justify-center gap-2 lg:justify-start" aria-label="Next words"></div>
           </div>
         </div>
       </div>
@@ -198,6 +216,7 @@
     const gameArea = document.getElementById('gameArea');
     const letterRow = document.getElementById('letterRow');
     const hint = document.getElementById('hint');
+    const queue = document.getElementById('queue');
     const celebrate = document.getElementById('celebrate');
     const sceneImage = document.getElementById('sceneImage');
     const progressChip = document.getElementById('progressChip');
@@ -244,10 +263,21 @@
       sceneImage.alt = `Snowman builder scene: ${state.label}`;
     }
 
+    function renderQueue(){
+      const upcoming = WORDS.slice(wordIndex + 1, wordIndex + 5);
+      if(!queue) return;
+      if(upcoming.length === 0){
+        queue.innerHTML = '';
+        return;
+      }
+      queue.innerHTML = upcoming.map(step => `<span>${step.word.toUpperCase()}</span>`).join('');
+    }
+
     function updateProgress(){
       const total = WORDS.length;
       const current = Math.min(wordIndex + 1, total);
       progressChip.innerHTML = `<span>Piece</span> <strong>${current} of ${total}</strong>`;
+      renderQueue();
     }
 
     function renderWord(){
@@ -312,6 +342,7 @@
       celebrate.innerHTML = '';
       letterRow.innerHTML = '';
       letterRow.style.removeProperty('--letters');
+      if(queue) queue.innerHTML = '';
       sceneImage.src = '';
       hint.textContent = 'Press Start to begin.';
       setStatus(null, 'Press Start to roll the first snowball.');
