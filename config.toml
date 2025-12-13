@@ -1,6 +1,13 @@
 baseURL = "https://free-kids-typing-games.com/"
 languageCode = "en-gb"
 title = "Kids Typing Games"
+enableRobotsTXT = true
+
+[params]
+  description = "Free, mobile-friendly typing games for kids ages 2–6. Short, positive keyboard activities that help little hands learn letters, sounds, and simple words."
+  author = "Kids Free Typing Games"
+  defaultImage = "images/og.png"
+  twitterCard = "summary_large_image"
 
 [markup]
   [markup.goldmark.renderer]

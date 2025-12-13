@@ -46,7 +46,7 @@
     <header class="text-center space-y-4">
       <span class="inline-flex items-center gap-2 rounded-full bg-indigo-100 px-4 py-1.5 text-sm font-semibold text-indigo-600">🎹 Playful typing practice</span>
       <h1 class="text-4xl font-extrabold tracking-tight text-slate-800 sm:text-5xl">{{ .Site.Title }}</h1>
-      <p class="mx-auto max-w-2xl text-base text-slate-600 sm:text-lg">Pick a friendly keyboard activity to help little hands learn letters. Each game is mobile-ready, fun, and packed with positive feedback.</p>
+      <p class="mx-auto max-w-2xl text-base text-slate-600 sm:text-lg">Free, mobile-friendly typing games for kids ages 2–6. Pick a short keyboard activity to practise letters and simple words with gentle, confidence-building feedback.</p>
     </header>
 
     <section class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
@@ -67,6 +67,21 @@
           </span>
         </a>
       {{ end }}
+    </section>
+
+    <section class="rounded-3xl border border-indigo-100 bg-white/85 p-6 text-center shadow-xl shadow-indigo-900/5">
+      <h2 class="text-2xl font-extrabold tracking-tight text-slate-800">Made for little learners</h2>
+      <p class="mx-auto mt-2 max-w-2xl text-sm text-slate-600 sm:text-base">
+        These are short, encouraging typing activities (no pressure, no timers by default) designed to help kids build early keyboard confidence at home or in the classroom.
+      </p>
+      <div class="mt-4 flex flex-wrap justify-center gap-2">
+        <a href="/games/" class="inline-flex items-center gap-2 rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-200">
+          Browse all games <span aria-hidden="true">→</span>
+        </a>
+        <a href="/about/" class="inline-flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-700 shadow-sm transition hover:bg-indigo-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-200">
+          About this site
+        </a>
+      </div>
     </section>
   </div>
 {{ end }}

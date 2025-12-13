@@ -17,6 +17,12 @@
     <a href="/" class="{{ $linkClass }}"{{ if $ctx.IsHome }} aria-current="page"{{ end }}>
       <span>🏠</span> <span>Menu</span>
     </a>
+    <a href="/games/" class="{{ $linkClass }}"{{ if eq $current "/games/" }} aria-current="page"{{ end }}>
+      <span>🎮</span> <span>All games</span>
+    </a>
+    <a href="/about/" class="{{ $linkClass }}"{{ if eq $current "/about/" }} aria-current="page"{{ end }}>
+      <span>ℹ️</span> <span>About</span>
+    </a>
     {{ range $games }}
       {{ $permalink := printf "/games/%s/" .slug }}
       <a href="{{ $permalink }}" class="{{ $linkClass }}"{{ if eq $current $permalink }} aria-current="page"{{ end }}>

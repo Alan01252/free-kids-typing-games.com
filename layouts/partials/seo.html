@@ -1,0 +1,88 @@
+{{- $title := "" -}}
+{{- if .IsHome -}}
+  {{- $title = .Site.Title -}}
+{{- else -}}
+  {{- $title = printf "%s · %s" (.Title | default .Site.Title) .Site.Title -}}
+{{- end -}}
+
+{{- $description := "" -}}
+{{- with .Description -}}
+  {{- $description = . -}}
+{{- else -}}
+  {{- with .Params.description -}}
+    {{- $description = . -}}
+  {{- else -}}
+    {{- if eq .Section "games" -}}
+      {{- $slug := "" -}}
+      {{- with .File -}}
+        {{- $slug = .BaseFileName -}}
+      {{- end -}}
+      {{- if $slug -}}
+        {{- range site.Data.games -}}
+          {{- if eq .slug $slug -}}
+            {{- $description = .description -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if not $description -}}
+  {{- $description = .Site.Params.description | default .Site.Title -}}
+{{- end -}}
+{{- $description = $description | plainify -}}
+
+{{- $canonical := .Permalink -}}
+{{- $defaultImage := .Site.Params.defaultImage | default "images/og.png" -}}
+{{- $image := $defaultImage -}}
+{{- with .Params.images -}}
+  {{- if ge (len .) 1 -}}
+    {{- $image = index . 0 -}}
+  {{- end -}}
+{{- end -}}
+{{- $imageAbs := ($image | absURL) -}}
+
+<link rel="canonical" href="{{ $canonical }}" />
+<meta name="description" content="{{ $description }}" />
+<meta name="robots" content="index,follow" />
+
+<meta property="og:site_name" content="{{ .Site.Title }}" />
+<meta property="og:title" content="{{ $title }}" />
+<meta property="og:description" content="{{ $description }}" />
+<meta property="og:type" content="{{ if .IsHome }}website{{ else }}article{{ end }}" />
+<meta property="og:url" content="{{ $canonical }}" />
+<meta property="og:image" content="{{ $imageAbs }}" />
+
+<meta name="twitter:card" content="{{ .Site.Params.twitterCard | default "summary_large_image" }}" />
+<meta name="twitter:title" content="{{ $title }}" />
+<meta name="twitter:description" content="{{ $description }}" />
+<meta name="twitter:image" content="{{ $imageAbs }}" />
+
+{{- $orgName := .Site.Title -}}
+{{- $author := .Site.Params.author | default $orgName -}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": {{ $orgName | jsonify }},
+  "url": {{ .Site.BaseURL | jsonify }},
+  "description": {{ (.Site.Params.description | default "") | plainify | jsonify }},
+  "inLanguage": {{ .Site.LanguageCode | default "en" | jsonify }}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": {{ $title | jsonify }},
+  "url": {{ $canonical | jsonify }},
+  "description": {{ $description | jsonify }},
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": {{ $orgName | jsonify }},
+    "url": {{ .Site.BaseURL | jsonify }}
+  },
+  "author": { "@type": "Organization", "name": {{ $author | jsonify }} }
+}
+</script>
+
