@@ -26,11 +26,15 @@
       const app = window.Capacitor?.Plugins?.App;
       if (!app) return;
       app.addListener('backButton', ({ canGoBack }) => {
-        if (canGoBack) {
+        if (canGoBack || window.history.length > 1) {
           window.history.back();
-        } else {
-          app.exitApp();
+          return;
         }
+        if (window.location.pathname.startsWith('/games/')) {
+          window.location.href = '/';
+          return;
+        }
+        app.exitApp();
       });
     });
   </script>
