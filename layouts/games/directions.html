@@ -1,0 +1,594 @@
+{{ define "styles" }}
+  <style>
+    .game-directions {
+      color: #0f172a;
+      background:
+        radial-gradient(900px circle at 75% -260px, rgba(34,197,94,0.32), transparent 60%),
+        radial-gradient(900px circle at 20% 120%, rgba(251,191,36,0.28), transparent 60%),
+        linear-gradient(180deg, #ecfccb, #fef9c3 60%, #f8fafc);
+      --card-bg: linear-gradient(145deg, rgba(255,255,255,0.92), rgba(236,253,245,0.7));
+      --card-border: rgba(21,128,61,0.18);
+      --card-shadow: 0 32px 95px rgba(21,128,61,0.18);
+      --status-border: rgba(21,128,61,0.2);
+      --status-bg: rgba(21,128,61,0.08);
+      --status-color: #0f172a;
+      --status-ok-bg: rgba(34,197,94,0.16);
+      --status-ok-border: rgba(34,197,94,0.35);
+      --status-ok-color: #065f46;
+      --status-bad-bg: rgba(248,113,113,0.16);
+      --status-bad-border: rgba(248,113,113,0.35);
+      --status-bad-color: #991b1b;
+      --status-badge-bg: rgba(34,197,94,0.2);
+      --status-badge-color: #0f172a;
+      --status-ok-badge-bg: rgba(34,197,94,0.9);
+      --status-ok-badge-color: #fff;
+      --status-bad-badge-bg: rgba(248,113,113,0.9);
+      --status-bad-badge-color: #fff;
+      --overlay-panel-bg: rgba(255,255,255,0.95);
+      --overlay-panel-color: #0f172a;
+      --overlay-action-primary: #16a34a;
+      --letter-radius: 18px;
+      --letter-gap: clamp(10px, 3.2vw, 20px);
+      --letter-border-width: 2px;
+      --letter-border-style: solid;
+      --letter-border-color: rgba(21,128,61,0.28);
+      --letter-color: rgba(21,128,61,0.8);
+      --letter-filled-border-color: rgba(21,128,61,0.45);
+      --letter-filled-bg: rgba(255,255,255,0.85);
+      --letter-filled-color: #0f172a;
+      --touch-panel-bg: linear-gradient(145deg, rgba(21,128,61,0.92), rgba(22,163,74,0.7));
+      --touch-panel-color: #ecfccb;
+      --touch-label-color: rgba(217,249,157,0.95);
+      --touch-key-bg: rgba(34,197,94,0.28);
+      --touch-key-border: rgba(134,239,172,0.55);
+      --touch-key-color: #ecfccb;
+      --touch-key-shadow: 0 16px 34px rgba(21,128,61,0.25);
+      --touch-key-active-bg: rgba(34,197,94,0.95);
+      --touch-key-active-color: #052e16;
+      --touch-key-highlight-bg: rgba(251,191,36,0.95);
+      --touch-key-highlight-border: rgba(251,191,36,0.5);
+    }
+    .game-directions.win-mode {
+      background:
+        radial-gradient(900px circle at 60% -200px, rgba(250,204,21,0.7), transparent 60%),
+        radial-gradient(900px circle at 15% 120%, rgba(134,239,172,0.7), transparent 60%),
+        linear-gradient(180deg, rgba(254,249,195,1), rgba(220,252,231,0.95));
+    }
+    .maze-board {
+      display: grid;
+      grid-template-columns: repeat(var(--maze-cols, 7), minmax(0, 1fr));
+      gap: 6px;
+      padding: 16px;
+      width: min(100%, 420px);
+      margin: 0 auto;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.7);
+      border: 2px solid rgba(21,128,61,0.2);
+      box-shadow: inset 0 2px 0 rgba(255,255,255,0.8);
+    }
+    .maze-cell {
+      aspect-ratio: 1 / 1;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: clamp(14px, 3.6vw, 20px);
+      font-weight: 800;
+      color: #0f172a;
+      background: rgba(226,232,240,0.7);
+      border: 2px solid rgba(148,163,184,0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .maze-cell.wall {
+      background: linear-gradient(145deg, rgba(15,23,42,0.85), rgba(30,41,59,0.95));
+      border-color: rgba(15,23,42,0.6);
+      box-shadow: inset 0 2px 4px rgba(15,23,42,0.6);
+    }
+    .maze-cell.path {
+      background: rgba(226,232,240,0.9);
+    }
+    .maze-cell.goal {
+      background: linear-gradient(145deg, rgba(250,204,21,0.35), rgba(253,224,71,0.9));
+      border-color: rgba(202,138,4,0.4);
+      color: #854d0e;
+    }
+    .maze-cell.player {
+      background: linear-gradient(145deg, rgba(34,197,94,0.25), rgba(34,197,94,0.6));
+      border-color: rgba(21,128,61,0.6);
+      color: #f8fafc;
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 12px 25px rgba(21,128,61,0.25);
+    }
+    .direction-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .direction-chip {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 2px solid rgba(21,128,61,0.25);
+      background: rgba(255,255,255,0.85);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.75rem;
+      color: #14532d;
+    }
+    .game-directions .letter-row {
+      justify-content: center;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+    .game-directions .letter-box {
+      font-size: 1.2rem;
+      font-weight: 800;
+      background: rgba(255,255,255,0.85);
+      color: #14532d;
+    }
+    .game-directions .letter-box.wiggle {
+      animation: directionsWiggle 0.35s ease;
+    }
+    @keyframes directionsWiggle {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-6px); }
+      40% { transform: translateX(6px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+    .celebration {
+      padding: 24px 20px;
+      border-radius: 32px;
+      border: 3px solid rgba(21,128,61,0.28);
+      background: linear-gradient(145deg, rgba(250,204,21,0.92), rgba(220,252,231,0.9));
+      box-shadow: 0 30px 70px rgba(21,128,61,0.22);
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+      animation: bannerPop 0.6s ease;
+      text-align: center;
+    }
+  </style>
+{{ end }}
+
+{{ define "body_class" }}game-page game-directions text-slate-900{{ end }}
+
+{{ define "main" }}
+  <main id="mainContent" class="game-shell text-slate-900">
+    <header class="game-hero">
+      <h1 class="flex items-center justify-center gap-2 text-3xl font-extrabold tracking-tight sm:text-5xl">
+        <span aria-hidden="true">🧭</span>
+        <span>Directions</span>
+      </h1>
+      <p class="mx-auto max-w-2xl text-sm text-slate-600 sm:text-base">
+        Type direction words to guide the explorer through a tiny maze.
+      </p>
+    </header>
+
+    <section class="game-card space-y-6" style="--card-shadow-current: 0 32px 110px rgba(21,128,61,0.16); --card-border-current: rgba(21,128,61,0.22);">
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+        <div class="space-y-3">
+          <div class="text-sm font-semibold text-slate-700">Type one word per move</div>
+          <div class="direction-chips" aria-label="Direction words">
+            <span class="direction-chip">UP</span>
+            <span class="direction-chip">DOWN</span>
+            <span class="direction-chip">LEFT</span>
+            <span class="direction-chip">RIGHT</span>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3 md:grid-cols-[auto_auto]">
+          <button id="startBtn" class="inline-flex min-w-[9.5rem] w-full items-center justify-center rounded-2xl bg-lime-400 px-4 py-3 text-base font-extrabold text-slate-900 shadow-xl shadow-lime-900/15 ring-2 ring-lime-300/70 transition hover:bg-lime-500 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-lime-200">Start</button>
+          <button id="resetBtn" class="inline-flex min-w-[9.5rem] w-full items-center justify-center rounded-2xl border-2 border-lime-200 bg-white/90 px-4 py-3 text-base font-extrabold text-slate-900 shadow-xl shadow-lime-900/10 transition hover:bg-lime-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-lime-200" style="display:none;">Play again</button>
+        </div>
+      </div>
+      <div id="status" class="status-banner" role="status" aria-live="polite" aria-atomic="true">
+        <span class="status-badge" id="statusBadge">i</span>
+        <span id="statusText">Press Start, then type a direction word to move.</span>
+      </div>
+    </section>
+
+    <section id="gameArea" class="game-card space-y-8" style="display:none; --card-shadow-current: 0 36px 120px rgba(250,204,21,0.2); --card-border-current: rgba(250,204,21,0.3);" aria-live="polite">
+      <div class="maze-board" id="mazeBoard" aria-label="Maze board"></div>
+      <div class="space-y-3">
+        <div class="text-sm font-semibold text-slate-700 text-center">Your word</div>
+        <div id="letterRow" class="letter-row" role="list" aria-label="Typed direction"></div>
+      </div>
+    </section>
+
+    <div id="celebrate" aria-live="polite"></div>
+
+    <audio id="soundMove" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg" preload="auto"></audio>
+    <audio id="soundWrong" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg" preload="auto"></audio>
+    <audio id="soundWin" src="https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg" preload="auto"></audio>
+  </main>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "game-footer.html" (dict "context" . "tip" .Params.tip "theme" (default "light" .Params.theme)) }}
+{{ end }}
+
+{{ define "scripts" }}
+  <script>
+    (() => {
+      const MAZES = [
+        [
+          '#######',
+          '#S..#.#',
+          '#..#..#',
+          '#..#..#',
+          '##....#',
+          '##...G#',
+          '#######'
+        ],
+        [
+          '#######',
+          '#S.##.#',
+          '#.#...#',
+          '#.....#',
+          '#....##',
+          '###..G#',
+          '#######'
+        ],
+        [
+          '#######',
+          '#S....#',
+          '#.....#',
+          '##....#',
+          '#.....#',
+          '#..#.G#',
+          '#######'
+        ],
+        [
+          '#######',
+          '#S.#.##',
+          '##.#.##',
+          '##.#..#',
+          '#..#..#',
+          '#....G#',
+          '#######'
+        ],
+        [
+          '#######',
+          '#S.#..#',
+          '#.....#',
+          '#.#####',
+          '#.....#',
+          '#....G#',
+          '#######'
+        ]
+      ];
+
+      const DIRECTIONS = {
+        up: { word: 'up', delta: { row: -1, col: 0 } },
+        down: { word: 'down', delta: { row: 1, col: 0 } },
+        left: { word: 'left', delta: { row: 0, col: -1 } },
+        right: { word: 'right', delta: { row: 0, col: 1 } }
+      };
+
+      const WORDS = Object.keys(DIRECTIONS);
+      const MAX_WORD_LENGTH = 5;
+
+      const startBtn = document.getElementById('startBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      const status = document.getElementById('status');
+      const statusBadge = document.getElementById('statusBadge');
+      const statusText = document.getElementById('statusText');
+      const gameArea = document.getElementById('gameArea');
+      const mazeBoard = document.getElementById('mazeBoard');
+      const letterRow = document.getElementById('letterRow');
+      const celebrate = document.getElementById('celebrate');
+
+      const soundMove = document.getElementById('soundMove');
+      const soundWrong = document.getElementById('soundWrong');
+      const soundWin = document.getElementById('soundWin');
+
+      let active = false;
+      let moves = 0;
+      let mazeMap = MAZES[0];
+      let start = { row: 0, col: 0 };
+      let goal = { row: 0, col: 0 };
+      let player = { row: 0, col: 0 };
+      let inputBuffer = '';
+
+      const touchKeyboard = window.GameTouchKeyboard?.attach({
+        id: 'directions',
+        label: 'Tap letters to type directions',
+        onKeyPress: (char) => handleKeyPress(char, { skipHighlight: true }),
+        getViewportTarget: () => letterRow,
+        getPaddingTarget: () => document.querySelector('.game-shell')
+      });
+      const isTouchDevice = touchKeyboard?.isTouchDevice?.() ?? false;
+
+      function pickMaze(){
+        mazeMap = MAZES[Math.floor(Math.random() * MAZES.length)];
+      }
+
+      function findPoints(){
+        mazeMap.forEach((row, rowIndex) => {
+          const startIndex = row.indexOf('S');
+          const goalIndex = row.indexOf('G');
+          if(startIndex >= 0){
+            start = { row: rowIndex, col: startIndex };
+          }
+          if(goalIndex >= 0){
+            goal = { row: rowIndex, col: goalIndex };
+          }
+        });
+      }
+
+      function setStatus(kind, message){
+        statusText.innerHTML = message;
+        status.classList.remove('ok', 'bad');
+        statusBadge.textContent = 'i';
+        if(kind === 'ok'){
+          status.classList.add('ok');
+          statusBadge.textContent = '✓';
+        } else if(kind === 'bad'){
+          status.classList.add('bad');
+          statusBadge.textContent = '×';
+        }
+        status.style.display = 'flex';
+      }
+
+      function renderMaze(){
+        mazeBoard.innerHTML = '';
+        const rows = mazeMap.length;
+        const cols = mazeMap[0].length;
+        mazeBoard.style.setProperty('--maze-cols', cols);
+        for(let r = 0; r < rows; r++){
+          for(let c = 0; c < cols; c++){
+            const cell = document.createElement('div');
+            const tile = mazeMap[r][c];
+            cell.className = 'maze-cell';
+            if(tile === '#'){
+              cell.classList.add('wall');
+            } else {
+              cell.classList.add('path');
+            }
+            if(r === goal.row && c === goal.col){
+              cell.classList.add('goal');
+              cell.textContent = '🏁';
+            }
+            if(r === player.row && c === player.col){
+              cell.classList.add('player');
+              cell.textContent = '🧭';
+            }
+            mazeBoard.appendChild(cell);
+          }
+        }
+      }
+
+      function renderInput(){
+        letterRow.innerHTML = '';
+        letterRow.style.setProperty('--letters', MAX_WORD_LENGTH);
+        for(let i = 0; i < MAX_WORD_LENGTH; i++){
+          const box = document.createElement('div');
+          box.className = 'letter-box';
+          box.dataset.index = String(i);
+          const letter = inputBuffer[i];
+          if(letter){
+            box.textContent = letter.toUpperCase();
+            box.classList.add('filled');
+            box.setAttribute('aria-label', `Letter ${letter.toUpperCase()}, typed`);
+          } else if(i === inputBuffer.length){
+            box.classList.add('current');
+            box.setAttribute('aria-label', 'Next letter');
+            box.setAttribute('aria-current', 'step');
+          } else {
+            box.setAttribute('aria-label', 'Empty');
+          }
+          letterRow.appendChild(box);
+        }
+        window.GameUI?.fitLettersFor?.(letterRow);
+        if(typeof requestAnimationFrame === 'function'){
+          requestAnimationFrame(() => window.GameUI?.fitLettersFor?.(letterRow));
+        }
+        if(isTouchDevice){
+          touchKeyboard?.ensureVisible(letterRow);
+        }
+      }
+
+      function resetInput(){
+        inputBuffer = '';
+        renderInput();
+      }
+
+      function isPrefix(value){
+        if(!value) return true;
+        return WORDS.some(word => word.startsWith(value));
+      }
+
+      function wiggleCurrentBox(){
+        const box = letterRow.querySelector(`.letter-box[data-index="${Math.max(0, inputBuffer.length - 1)}"]`);
+        if(!box) return;
+        box.classList.remove('wiggle');
+        void box.offsetWidth;
+        box.classList.add('wiggle');
+      }
+
+      function isWalkable(row, col){
+        if(row < 0 || col < 0) return false;
+        if(row >= mazeMap.length || col >= mazeMap[0].length) return false;
+        return mazeMap[row][col] !== '#';
+      }
+
+      function handleMove(directionKey){
+        const direction = DIRECTIONS[directionKey];
+        if(!direction) return;
+        const nextRow = player.row + direction.delta.row;
+        const nextCol = player.col + direction.delta.col;
+
+        if(!isWalkable(nextRow, nextCol)){
+          soundWrong.currentTime = 0;
+          window.GameSound.play(soundWrong);
+          setStatus('bad', 'Bonk! That is a wall. Try another direction.');
+          return;
+        }
+
+        player = { row: nextRow, col: nextCol };
+        moves += 1;
+        soundMove.currentTime = 0;
+        window.GameSound.play(soundMove);
+        renderMaze();
+        setStatus('ok', `Moved <strong>${direction.word.toUpperCase()}</strong>.`);
+
+        if(player.row === goal.row && player.col === goal.col){
+          finishGame();
+        }
+      }
+
+      function handleInvalidWord(){
+        soundWrong.currentTime = 0;
+        window.GameSound.play(soundWrong);
+        setStatus('bad', 'That is not a direction word. Try UP, DOWN, LEFT, or RIGHT.');
+        wiggleCurrentBox();
+        resetInput();
+      }
+
+      function trySubmitWord(){
+        if(!inputBuffer){
+          return;
+        }
+        const word = inputBuffer.toLowerCase();
+        if(WORDS.includes(word)){
+          handleMove(word);
+          resetInput();
+        } else {
+          handleInvalidWord();
+        }
+      }
+
+      function handleKeyPress(key, opts = {}){
+        if(!active){
+          setStatus('bad', 'Press Start to begin.');
+          return;
+        }
+        if(!key) return;
+
+        if(key === 'Backspace'){
+          if(inputBuffer.length > 0){
+            inputBuffer = inputBuffer.slice(0, -1);
+            renderInput();
+          }
+          return;
+        }
+
+        if(key === 'Enter' || key === ' '){
+          trySubmitWord();
+          return;
+        }
+
+        if(key.length !== 1) return;
+        if(!/[a-zA-Z]/.test(key)) return;
+
+        if(!opts.skipHighlight){
+          touchKeyboard?.flashKey(key);
+        }
+
+        inputBuffer += key.toLowerCase();
+        if(inputBuffer.length > MAX_WORD_LENGTH || !isPrefix(inputBuffer)){
+          handleInvalidWord();
+          return;
+        }
+
+        renderInput();
+
+        if(WORDS.includes(inputBuffer)){
+          handleMove(inputBuffer);
+          resetInput();
+        } else {
+          setStatus('ok', 'Keep typing...');
+        }
+      }
+
+      function finishGame(){
+        active = false;
+        touchKeyboard?.hide();
+        document.body.classList.add('win-mode');
+        setStatus('ok', `You escaped in <strong>${moves}</strong> moves!`);
+        const winMarkup = `
+          <div class="celebration">
+            <div class="text-2xl font-extrabold uppercase tracking-[0.2em] text-emerald-700">Maze Complete</div>
+            <div class="text-lg font-semibold text-slate-700">Great directions! You found the flag.</div>
+            <div class="text-4xl leading-none">🏁✨🧭</div>
+          </div>
+        `;
+        celebrate.innerHTML = winMarkup;
+        soundWin.currentTime = 0;
+        window.GameSound.play(soundWin);
+        if(window.GameCelebration){
+          window.GameCelebration.show({
+            content: winMarkup,
+            onPlayAgain: () => {
+              resetGame();
+              startGame();
+            },
+            focusTarget: resetBtn,
+            initialFocus: 'playAgain'
+          });
+        } else {
+          resetBtn.focus();
+        }
+        window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
+      }
+
+      function startGame(){
+        active = true;
+        moves = 0;
+        pickMaze();
+        findPoints();
+        player = { ...start };
+        inputBuffer = '';
+        celebrate.innerHTML = '';
+        document.body.classList.remove('win-mode');
+        startBtn.style.display = 'none';
+        resetBtn.style.display = 'inline-flex';
+        gameArea.style.display = 'block';
+        renderMaze();
+        renderInput();
+        setStatus('ok', 'Type a direction word to move.');
+        if(isTouchDevice){
+          touchKeyboard?.show();
+          touchKeyboard?.ensureVisible(letterRow);
+        }
+      }
+
+      function resetGame(){
+        active = false;
+        moves = 0;
+        inputBuffer = '';
+        celebrate.innerHTML = '';
+        document.body.classList.remove('win-mode');
+        startBtn.style.display = 'inline-flex';
+        resetBtn.style.display = 'none';
+        gameArea.style.display = 'none';
+        resetInput();
+        setStatus('ok', 'Press Start, then type a direction word to move.');
+        touchKeyboard?.hide();
+      }
+
+      function handleKeydown(event){
+        if(event.key === 'Tab') return;
+        handleKeyPress(event.key);
+      }
+
+      pickMaze();
+      findPoints();
+      renderMaze();
+      resetInput();
+      resetGame();
+
+      startBtn.addEventListener('click', () => {
+        if(active) return;
+        startGame();
+      });
+
+      resetBtn.addEventListener('click', () => {
+        resetGame();
+        startGame();
+      });
+
+      window.addEventListener('keydown', handleKeydown);
+    })();
+  </script>
+{{ end }}

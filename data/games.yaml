@@ -4,6 +4,12 @@
   badge_label: "Alphabet"
   badge_emoji: "🔤"
   description: "Type the alphabet in order from A to Z. A simple warm-up for learning letter keys."
+- slug: directions
+  title: "Directions"
+  emoji: "🧭"
+  badge_label: "Directions"
+  badge_emoji: "🧭"
+  description: "Type direction words to guide the explorer through a tiny maze."
 - slug: emotion-journey
   title: "Emotion Journey"
   emoji: "🙂"
