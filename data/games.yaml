@@ -16,6 +16,12 @@
   badge_label: "Feelings"
   badge_emoji: "🙂"
   description: "Type emotion words to practise spelling and keyboarding while exploring different feelings."
+- slug: farm-animals
+  title: "Farm Animals"
+  emoji: "🐮"
+  badge_label: "Farm"
+  badge_emoji: "🐷"
+  description: "Type farm animal names to match the emoji and practise spelling."
 - slug: ghostly-word-hunt
   title: "Ghostly Word Hunt"
   emoji: "👻"
