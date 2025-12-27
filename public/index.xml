@@ -1,137 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Free Kids Typing Games on Kids Typing Games</title>
-    <link>http://localhost:36265/</link>
-    <description>Recent content in Free Kids Typing Games on Kids Typing Games</description>
-    <generator>Hugo</generator>
-    <language>en-gb</language>
-    <atom:link href="http://localhost:36265/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>A–Z</title>
-      <link>http://localhost:36265/games/az/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:36265/games/az/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>About</title>
-      <link>http://localhost:36265/about/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:36265/about/</guid>
-      <description>&lt;p&gt;Kids Free Typing Games is a collection of short, playful typing activities designed for very young learners (roughly ages &lt;strong&gt;2–6&lt;/strong&gt;).&lt;/p&gt;&#xA;&lt;h2 id=&#34;what-makes-it-different&#34;&gt;What makes it different&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Free to play&lt;/strong&gt; — no sign‑ups required.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Mobile friendly&lt;/strong&gt; — big targets, touch keyboard support, and short rounds.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Typing first&lt;/strong&gt; — letter practice, simple words, and confidence-building feedback.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Kid-safe vibes&lt;/strong&gt; — calm pacing, positive reinforcement, and clear instructions.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;tips-for-parents-and-teachers&#34;&gt;Tips for parents and teachers&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Start with one game and keep sessions short (1–3 minutes).&lt;/li&gt;&#xA;&lt;li&gt;Say the letter or word out loud first, then type together.&lt;/li&gt;&#xA;&lt;li&gt;Celebrate effort, not speed.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Have ideas for new games or word lists? Share them in the repo issues.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Directions</title>
-      <link>http://localhost:36265/games/directions/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:36265/games/directions/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Emotion Journey</title>
-      <link>http://localhost:36265/games/emotion-journey/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:36265/games/emotion-journey/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Farm Animals</title>
-      <link>http://localhost:36265/games/farm-animals/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:36265/games/farm-animals/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Ghostly Word Hunt</title>
-      <link>http://localhost:36265/games/ghostly-word-hunt/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:36265/games/ghostly-word-hunt/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Maze Escape</title>
-      <link>http://localhost:36265/games/maze-escape/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:36265/games/maze-escape/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>New Year’s Countdown</title>
-      <link>http://localhost:36265/games/new-years-countdown/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:36265/games/new-years-countdown/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Numbers Nemesis</title>
-      <link>http://localhost:36265/games/numbers-nemesis/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:36265/games/numbers-nemesis/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Only Verbs</title>
-      <link>http://localhost:36265/games/only-verbs/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:36265/games/only-verbs/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Phoneme Sound Lab</title>
-      <link>http://localhost:36265/games/phoneme-sound-lab/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:36265/games/phoneme-sound-lab/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Quick Fox Quest</title>
-      <link>http://localhost:36265/games/quick-fox/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:36265/games/quick-fox/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Rocket Run</title>
-      <link>http://localhost:36265/games/rocket-run/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:36265/games/rocket-run/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Santa Spells</title>
-      <link>http://localhost:36265/games/santa-spells/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:36265/games/santa-spells/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Snowman Builder</title>
-      <link>http://localhost:36265/games/snowman-builder/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:36265/games/snowman-builder/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Speed Racer</title>
-      <link>http://localhost:36265/games/speed-racer/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:36265/games/speed-racer/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Vampire Vowels</title>
-      <link>http://localhost:36265/games/vampire-vowels/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:36265/games/vampire-vowels/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Word Builder</title>
-      <link>http://localhost:36265/games/word-builder/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:36265/games/word-builder/</guid>
-      <description></description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Free Kids Typing Games on Kids Typing Games</title><link>https://localhost/</link><description>Recent content in Free Kids Typing Games on Kids Typing Games</description><generator>Hugo</generator><language>en-gb</language><atom:link href="https://localhost/index.xml" rel="self" type="application/rss+xml"/><item><title>A–Z</title><link>https://localhost/games/az/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://localhost/games/az/</guid><description/></item><item><title>About</title><link>https://localhost/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://localhost/about/</guid><description>&lt;p&gt;Kids Free Typing Games is a collection of short, playful typing activities designed for very young learners (roughly ages &lt;strong&gt;2–6&lt;/strong&gt;).&lt;/p&gt;
+&lt;h2 id="what-makes-it-different"&gt;What makes it different&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Free to play&lt;/strong&gt; — no sign‑ups required.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Mobile friendly&lt;/strong&gt; — big targets, touch keyboard support, and short rounds.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Typing first&lt;/strong&gt; — letter practice, simple words, and confidence-building feedback.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Kid-safe vibes&lt;/strong&gt; — calm pacing, positive reinforcement, and clear instructions.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="tips-for-parents-and-teachers"&gt;Tips for parents and teachers&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Start with one game and keep sessions short (1–3 minutes).&lt;/li&gt;
+&lt;li&gt;Say the letter or word out loud first, then type together.&lt;/li&gt;
+&lt;li&gt;Celebrate effort, not speed.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Have ideas for new games or word lists? Share them in the repo issues.&lt;/p&gt;</description></item><item><title>Directions</title><link>https://localhost/games/directions/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://localhost/games/directions/</guid><description/></item><item><title>Emotion Journey</title><link>https://localhost/games/emotion-journey/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://localhost/games/emotion-journey/</guid><description/></item><item><title>Farm Animals</title><link>https://localhost/games/farm-animals/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://localhost/games/farm-animals/</guid><description/></item><item><title>Ghostly Word Hunt</title><link>https://localhost/games/ghostly-word-hunt/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://localhost/games/ghostly-word-hunt/</guid><description/></item><item><title>Maze Escape</title><link>https://localhost/games/maze-escape/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://localhost/games/maze-escape/</guid><description/></item><item><title>New Year’s Countdown</title><link>https://localhost/games/new-years-countdown/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://localhost/games/new-years-countdown/</guid><description/></item><item><title>Numbers Nemesis</title><link>https://localhost/games/numbers-nemesis/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://localhost/games/numbers-nemesis/</guid><description/></item><item><title>Only Verbs</title><link>https://localhost/games/only-verbs/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://localhost/games/only-verbs/</guid><description/></item><item><title>Phoneme Sound Lab</title><link>https://localhost/games/phoneme-sound-lab/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://localhost/games/phoneme-sound-lab/</guid><description/></item><item><title>Quick Fox Quest</title><link>https://localhost/games/quick-fox/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://localhost/games/quick-fox/</guid><description/></item><item><title>Rocket Run</title><link>https://localhost/games/rocket-run/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://localhost/games/rocket-run/</guid><description/></item><item><title>Santa Spells</title><link>https://localhost/games/santa-spells/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://localhost/games/santa-spells/</guid><description/></item><item><title>Snowman Builder</title><link>https://localhost/games/snowman-builder/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://localhost/games/snowman-builder/</guid><description/></item><item><title>Speed Racer</title><link>https://localhost/games/speed-racer/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://localhost/games/speed-racer/</guid><description/></item><item><title>Vampire Vowels</title><link>https://localhost/games/vampire-vowels/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://localhost/games/vampire-vowels/</guid><description/></item><item><title>Word Builder</title><link>https://localhost/games/word-builder/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://localhost/games/word-builder/</guid><description/></item></channel></rss>

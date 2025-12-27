@@ -1,0 +1,450 @@
+{{ define "styles" }}
+  <style>
+    .game-farm-animals {
+      color: #0f172a;
+      background:
+        radial-gradient(900px circle at 75% -260px, rgba(34,197,94,0.35), transparent 60%),
+        radial-gradient(900px circle at 18% 120%, rgba(234,179,8,0.25), transparent 60%),
+        linear-gradient(180deg, #fefce8, #ecfccb 60%, #f8fafc);
+      --card-bg: linear-gradient(145deg, rgba(255,255,255,0.92), rgba(254,249,195,0.7));
+      --card-border: rgba(101,163,13,0.18);
+      --card-shadow: 0 32px 95px rgba(101,163,13,0.18);
+      --status-border: rgba(101,163,13,0.2);
+      --status-bg: rgba(101,163,13,0.08);
+      --status-color: #0f172a;
+      --status-ok-bg: rgba(34,197,94,0.16);
+      --status-ok-border: rgba(34,197,94,0.35);
+      --status-ok-color: #065f46;
+      --status-bad-bg: rgba(248,113,113,0.16);
+      --status-bad-border: rgba(248,113,113,0.35);
+      --status-bad-color: #991b1b;
+      --status-badge-bg: rgba(101,163,13,0.2);
+      --status-badge-color: #0f172a;
+      --status-ok-badge-bg: rgba(34,197,94,0.9);
+      --status-ok-badge-color: #fff;
+      --status-bad-badge-bg: rgba(248,113,113,0.9);
+      --status-bad-badge-color: #fff;
+      --overlay-panel-bg: rgba(255,255,255,0.95);
+      --overlay-panel-color: #0f172a;
+      --overlay-action-primary: #65a30d;
+      --letter-radius: 18px;
+      --letter-gap: clamp(10px, 3.2vw, 20px);
+      --letter-border-width: 2px;
+      --letter-border-style: dashed;
+      --letter-border-color: rgba(101,163,13,0.28);
+      --letter-color: rgba(101,163,13,0.75);
+      --letter-filled-border-color: rgba(101,163,13,0.45);
+      --letter-filled-bg: rgba(255,255,255,0.85);
+      --letter-filled-color: #0f172a;
+      --letter-current-border-color: rgba(234,179,8,0.75);
+      --letter-current-bg: rgba(234,179,8,0.2);
+      --letter-current-color: #92400e;
+      --letter-current-shadow: 0 18px 45px rgba(234,179,8,0.25);
+      --letter-error-bg: rgba(254,226,226,0.35);
+      --letter-error-color: #991b1b;
+      --touch-panel-bg: linear-gradient(145deg, rgba(101,163,13,0.92), rgba(34,197,94,0.7));
+      --touch-panel-color: #f7fee7;
+      --touch-label-color: rgba(236,252,203,0.95);
+      --touch-key-bg: rgba(101,163,13,0.28);
+      --touch-key-border: rgba(190,242,100,0.55);
+      --touch-key-color: #f7fee7;
+      --touch-key-shadow: 0 16px 34px rgba(63,98,18,0.25);
+      --touch-key-active-bg: rgba(234,179,8,0.95);
+      --touch-key-active-color: #422006;
+      --touch-key-highlight-bg: rgba(234,179,8,0.95);
+      --touch-key-highlight-border: rgba(251,191,36,0.5);
+    }
+    .game-farm-animals.win-mode {
+      background:
+        radial-gradient(900px circle at 60% -200px, rgba(250,204,21,0.7), transparent 60%),
+        radial-gradient(900px circle at 15% 120%, rgba(134,239,172,0.7), transparent 60%),
+        linear-gradient(180deg, rgba(254,249,195,1), rgba(220,252,231,0.95));
+    }
+    .animal-stage {
+      display: grid;
+      gap: 12px;
+      text-align: center;
+      padding: 18px 14px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.75);
+      border: 2px solid rgba(101,163,13,0.18);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+    }
+    .animal-emoji {
+      font-size: clamp(64px, 14vw, 110px);
+      line-height: 1;
+      filter: drop-shadow(0 16px 30px rgba(101,163,13,0.3));
+    }
+    .animal-label {
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      color: rgba(15,23,42,0.6);
+    }
+    .progress-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(236,252,203,0.8);
+      border: 2px solid rgba(101,163,13,0.25);
+      font-weight: 700;
+      color: #365314;
+    }
+    .game-farm-animals .letter-row {
+      justify-content: center;
+      margin-inline: auto;
+    }
+    .game-farm-animals .letter-box.wiggle {
+      animation: farmAnimalsWiggle 0.35s ease;
+    }
+    @keyframes farmAnimalsWiggle {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-6px); }
+      40% { transform: translateX(6px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+    .celebration {
+      padding: 24px 20px;
+      border-radius: 32px;
+      border: 3px solid rgba(101,163,13,0.28);
+      background: linear-gradient(145deg, rgba(250,204,21,0.92), rgba(220,252,231,0.9));
+      box-shadow: 0 30px 70px rgba(101,163,13,0.22);
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+      animation: bannerPop 0.6s ease;
+      text-align: center;
+    }
+  </style>
+{{ end }}
+
+{{ define "body_class" }}game-page game-farm-animals text-slate-900{{ end }}
+
+{{ define "main" }}
+  <main id="mainContent" class="game-shell text-slate-900">
+    <header class="game-hero">
+      <h1 class="flex items-center justify-center gap-2 text-3xl font-extrabold tracking-tight sm:text-5xl">
+        <span aria-hidden="true">🚜</span>
+        <span>Farm Animals</span>
+      </h1>
+      <p class="mx-auto max-w-2xl text-sm text-slate-600 sm:text-base">
+        Look at the animal and type its name to move through the barnyard.
+      </p>
+    </header>
+
+    <section class="game-card space-y-6" style="--card-shadow-current: 0 32px 110px rgba(101,163,13,0.16); --card-border-current: rgba(101,163,13,0.22);">
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+        <div class="space-y-2">
+          <div class="text-sm font-semibold text-slate-700">Type the animal name</div>
+          <div class="progress-chip" id="progressChip">
+            <span>Animal</span>
+            <strong id="progressCounter">1 / 10</strong>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3 md:grid-cols-[auto_auto]">
+          <button id="startBtn" class="inline-flex min-w-[9.5rem] w-full items-center justify-center rounded-2xl bg-lime-400 px-4 py-3 text-base font-extrabold text-slate-900 shadow-xl shadow-lime-900/15 ring-2 ring-lime-300/70 transition hover:bg-lime-500 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-lime-200">Start</button>
+          <button id="resetBtn" class="inline-flex min-w-[9.5rem] w-full items-center justify-center rounded-2xl border-2 border-lime-200 bg-white/90 px-4 py-3 text-base font-extrabold text-slate-900 shadow-xl shadow-lime-900/10 transition hover:bg-lime-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-lime-200" style="display:none;">Play again</button>
+        </div>
+      </div>
+      <div id="status" class="status-banner" role="status" aria-live="polite" aria-atomic="true">
+        <span class="status-badge" id="statusBadge">i</span>
+        <span id="statusText">Press Start, then type the animal name.</span>
+      </div>
+    </section>
+
+    <section id="gameArea" class="game-card space-y-8" style="display:none; --card-shadow-current: 0 36px 120px rgba(234,179,8,0.18); --card-border-current: rgba(234,179,8,0.22);" aria-live="polite">
+      <div class="animal-stage">
+        <div id="animalEmoji" class="animal-emoji">🐮</div>
+        <div class="animal-label">Type this animal</div>
+      </div>
+      <div id="letterRow" class="letter-row" role="list" aria-label="Animal name"></div>
+    </section>
+
+    <div id="celebrate" aria-live="polite"></div>
+
+    <audio id="soundCorrect" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg" preload="auto"></audio>
+    <audio id="soundWrong" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg" preload="auto"></audio>
+    <audio id="soundWin" src="https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg" preload="auto"></audio>
+  </main>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "game-footer.html" (dict "context" . "tip" .Params.tip "theme" (default "light" .Params.theme)) }}
+{{ end }}
+
+{{ define "scripts" }}
+  <script>
+    (() => {
+      const ANIMALS = [
+        { word: 'cow', emoji: '🐮' },
+        { word: 'pig', emoji: '🐷' },
+        { word: 'sheep', emoji: '🐑' },
+        { word: 'goat', emoji: '🐐' },
+        { word: 'horse', emoji: '🐴' },
+        { word: 'chicken', emoji: '🐔' },
+        { word: 'duck', emoji: '🦆' },
+        { word: 'turkey', emoji: '🦃' },
+        { word: 'rabbit', emoji: '🐰' },
+        { word: 'cat', emoji: '🐱' }
+      ];
+      const TOTAL_ROUNDS = 10;
+
+      const startBtn = document.getElementById('startBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      const status = document.getElementById('status');
+      const statusBadge = document.getElementById('statusBadge');
+      const statusText = document.getElementById('statusText');
+      const gameArea = document.getElementById('gameArea');
+      const progressCounter = document.getElementById('progressCounter');
+      const animalEmoji = document.getElementById('animalEmoji');
+      const letterRow = document.getElementById('letterRow');
+      const celebrate = document.getElementById('celebrate');
+
+      const soundCorrect = document.getElementById('soundCorrect');
+      const soundWrong = document.getElementById('soundWrong');
+      const soundWin = document.getElementById('soundWin');
+
+      let active = false;
+      let roundIndex = 0;
+      let letterIndex = 0;
+      let animals = [];
+
+      const touchKeyboard = window.GameTouchKeyboard?.attach({
+        id: 'farm-animals',
+        label: 'Tap letters to type the animal name',
+        onKeyPress: (char) => handleKeyPress(char, { skipHighlight: true }),
+        getViewportTarget: () => letterRow,
+        getPaddingTarget: () => document.querySelector('.game-shell')
+      });
+      const isTouchDevice = touchKeyboard?.isTouchDevice?.() ?? false;
+
+      function setStatus(kind, message){
+        statusText.innerHTML = message;
+        status.classList.remove('ok','bad');
+        statusBadge.textContent = 'i';
+        if(kind === 'ok'){
+          status.classList.add('ok');
+          statusBadge.textContent = '✓';
+        } else if(kind === 'bad'){
+          status.classList.add('bad');
+          statusBadge.textContent = '×';
+        }
+        status.style.display = 'flex';
+      }
+
+      function shuffleAnimals(){
+        const pool = [...ANIMALS];
+        for(let i = pool.length - 1; i > 0; i--){
+          const j = Math.floor(Math.random() * (i + 1));
+          [pool[i], pool[j]] = [pool[j], pool[i]];
+        }
+        return pool.slice(0, TOTAL_ROUNDS);
+      }
+
+      function currentAnimal(){
+        return animals[roundIndex];
+      }
+
+      function renderWordBoxes(){
+        const animal = currentAnimal();
+        const word = animal?.word || '';
+        letterRow.innerHTML = '';
+        letterRow.style.setProperty('--letters', word.length);
+        for(let i = 0; i < word.length; i++){
+          const box = document.createElement('div');
+          box.className = 'letter-box';
+          box.dataset.index = String(i);
+          const letter = word[i].toUpperCase();
+          box.textContent = letter;
+          box.setAttribute('role', 'listitem');
+          if(i < letterIndex){
+            box.classList.add('filled');
+            box.setAttribute('aria-label', `Letter ${letter}, correct`);
+          } else if(i === letterIndex){
+            box.classList.add('current');
+            box.setAttribute('aria-label', `Letter ${letter}, current`);
+            box.setAttribute('aria-current', 'step');
+          } else {
+            box.setAttribute('aria-label', `Letter ${letter}`);
+          }
+          letterRow.appendChild(box);
+        }
+        window.GameUI?.fitLettersFor?.(letterRow);
+        if(typeof requestAnimationFrame === 'function'){
+          requestAnimationFrame(() => window.GameUI?.fitLettersFor?.(letterRow));
+        }
+        if(isTouchDevice){
+          touchKeyboard?.ensureVisible(letterRow);
+        }
+      }
+
+      function renderRound(){
+        const animal = currentAnimal();
+        if(!animal) return;
+        animalEmoji.textContent = animal.emoji;
+        progressCounter.textContent = `${Math.min(roundIndex + 1, TOTAL_ROUNDS)} / ${TOTAL_ROUNDS}`;
+        renderWordBoxes();
+      }
+
+      function startRound(){
+        letterIndex = 0;
+        renderRound();
+        setStatus('ok', 'Type the animal name.');
+        if(isTouchDevice){
+          touchKeyboard?.show();
+          touchKeyboard?.ensureVisible(letterRow);
+        }
+      }
+
+      function handleCorrectLetter(){
+        const animal = currentAnimal();
+        const word = animal?.word || '';
+        letterIndex++;
+        soundCorrect.currentTime = 0;
+        window.GameSound.play(soundCorrect);
+        if(letterIndex >= word.length){
+          roundIndex++;
+          if(roundIndex >= animals.length){
+            finishGame();
+            return;
+          }
+          startRound();
+          return;
+        }
+        const next = word[letterIndex]?.toUpperCase();
+        setStatus('ok', `Nice! Next letter: <strong>${next}</strong>.`);
+        renderWordBoxes();
+      }
+
+      function wiggleCurrentBox(){
+        const box = letterRow.querySelector(`.letter-box[data-index="${letterIndex}"]`);
+        if(!box) return;
+        box.classList.remove('wiggle');
+        void box.offsetWidth;
+        box.classList.add('wiggle');
+      }
+
+      function handleWrongLetter(pressed){
+        soundWrong.currentTime = 0;
+        window.GameSound.play(soundWrong);
+        const animal = currentAnimal();
+        const word = animal?.word || '';
+        const expected = (word[letterIndex] || '').toUpperCase();
+        const shown = (pressed || '?').toUpperCase();
+        setStatus('bad', `Almost! Need <strong>${expected}</strong> — you pressed <strong>${shown}</strong>.`);
+        wiggleCurrentBox();
+        if(isTouchDevice){
+          touchKeyboard?.ensureVisible(letterRow);
+        }
+      }
+
+      function handleBackspace(){
+        if(letterIndex <= 0) return;
+        letterIndex--;
+        renderWordBoxes();
+        setStatus(null, 'Backspace used — keep going!');
+      }
+
+      function handleKeyPress(key, opts = {}){
+        if(!active) return;
+        if(!key) return;
+        if(key === 'Backspace'){
+          handleBackspace();
+          return;
+        }
+        if(key.length !== 1) return;
+        if(!/[a-zA-Z]/.test(key)) return;
+        if(!opts.skipHighlight){
+          touchKeyboard?.flashKey(key);
+        }
+        const animal = currentAnimal();
+        const word = animal?.word || '';
+        const expected = word[letterIndex];
+        if(!expected) return;
+        if(key.toLowerCase() === expected.toLowerCase()){
+          handleCorrectLetter();
+        } else {
+          handleWrongLetter(key);
+        }
+      }
+
+      function finishGame(){
+        active = false;
+        touchKeyboard?.hide();
+        document.body.classList.add('win-mode');
+        setStatus('ok', 'All animals complete! Great farm typing.');
+        const winMarkup = `
+          <div class="celebration">
+            <div class="text-2xl font-extrabold uppercase tracking-[0.2em] text-lime-700">Barnyard Champ</div>
+            <div class="text-lg font-semibold text-slate-700">You named every farm friend!</div>
+            <div class="text-4xl leading-none">🐮🐷🐔✨</div>
+          </div>
+        `;
+        celebrate.innerHTML = winMarkup;
+        soundWin.currentTime = 0;
+        window.GameSound.play(soundWin);
+        if(window.GameCelebration){
+          window.GameCelebration.show({
+            content: winMarkup,
+            onPlayAgain: () => {
+              resetGame();
+              startGame();
+            },
+            focusTarget: resetBtn,
+            initialFocus: 'playAgain'
+          });
+        } else {
+          resetBtn.focus();
+        }
+        window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
+      }
+
+      function startGame(){
+        animals = shuffleAnimals();
+        roundIndex = 0;
+        active = true;
+        celebrate.innerHTML = '';
+        document.body.classList.remove('win-mode');
+        startBtn.style.display = 'none';
+        resetBtn.style.display = 'inline-flex';
+        gameArea.style.display = 'block';
+        startRound();
+      }
+
+      function resetGame(){
+        active = false;
+        startBtn.style.display = 'inline-flex';
+        resetBtn.style.display = 'none';
+        gameArea.style.display = 'none';
+        celebrate.innerHTML = '';
+        letterRow.innerHTML = '';
+        letterRow.style.removeProperty('--letters');
+        progressCounter.textContent = `1 / ${TOTAL_ROUNDS}`;
+        animalEmoji.textContent = '🐮';
+        setStatus('ok', 'Press Start, then type the animal name.');
+      }
+
+      function handleKeydown(event){
+        handleKeyPress(event.key);
+      }
+
+      resetGame();
+
+      startBtn.addEventListener('click', () => {
+        if(active) return;
+        startGame();
+      });
+
+      resetBtn.addEventListener('click', () => {
+        resetGame();
+        startGame();
+      });
+
+      window.addEventListener('keydown', handleKeydown);
+    })();
+  </script>
+{{ end }}
