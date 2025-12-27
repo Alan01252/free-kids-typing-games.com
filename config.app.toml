@@ -1,0 +1,3 @@
+baseURL = "https://localhost/"
+relativeURLs = false
+canonifyURLs = false

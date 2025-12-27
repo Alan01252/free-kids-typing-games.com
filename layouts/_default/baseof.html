@@ -21,6 +21,19 @@
   {{ partial "game-touch-controls.html" . }}
   <script src="{{ "js/game/ui/sound.js" | relURL }}"></script>
   <script src="{{ "js/game/ui/fitLetters.js" | relURL }}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const app = window.Capacitor?.Plugins?.App;
+      if (!app) return;
+      app.addListener('backButton', ({ canGoBack }) => {
+        if (canGoBack) {
+          window.history.back();
+        } else {
+          app.exitApp();
+        }
+      });
+    });
+  </script>
   {{ block "scripts" . }}{{ end }}
 </body>
 </html>

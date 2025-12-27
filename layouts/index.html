@@ -68,7 +68,7 @@
 
       <div class="hero-banner -mx-5 w-[calc(100%+2.5rem)] overflow-hidden rounded-3xl border border-indigo-100 bg-white/80 shadow-xl shadow-indigo-900/5 sm:-mx-6 sm:w-[calc(100%+3rem)]">
         <img
-          src="/images/og.png"
+          src="{{ "images/og.png" | relURL }}"
           width="1200"
           height="630"
           alt="Playful banner artwork showing keyboard letters and game badges."
@@ -80,7 +80,7 @@
 
     <section class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
       {{ range .Site.Data.games }}
-        {{ $permalink := printf "/games/%s/" .slug }}
+        {{ $permalink := printf "games/%s/" .slug | relURL }}
         <a href="{{ $permalink }}" class="game-card focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-200">
           <div class="pill">
             <span>{{ .badge_emoji }}</span>
@@ -104,10 +104,10 @@
         These are short, encouraging typing activities (no pressure, no timers by default) designed to help kids build early keyboard confidence at home or in the classroom.
       </p>
       <div class="mt-4 flex flex-wrap justify-center gap-2">
-        <a href="/games/" class="inline-flex items-center gap-2 rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-200">
+        <a href="{{ "games/" | relURL }}" class="inline-flex items-center gap-2 rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-200">
           Browse all games <span aria-hidden="true">→</span>
         </a>
-        <a href="/about/" class="inline-flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-700 shadow-sm transition hover:bg-indigo-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-200">
+        <a href="{{ "about/" | relURL }}" class="inline-flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-700 shadow-sm transition hover:bg-indigo-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-200">
           About this site
         </a>
       </div>

@@ -1,0 +1,9 @@
+{
+  "appId": "com.freekidstypinggames",
+  "appName": "Free Kids Typing Games",
+  "webDir": "public",
+  "server": {
+    "url": "https://free-kids-typing-games.com/",
+    "cleartext": false
+  }
+}

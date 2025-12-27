@@ -4,13 +4,21 @@
   "main": "index.js",
   "scripts": {
     "dev": "hugo server --disableFastRender",
-    "build": "hugo --gc --minify"
+    "build": "hugo --gc --minify",
+    "cap:sync": "hugo --gc --minify --config config.toml,config.app.toml && npx cap sync",
+    "cap:android": "hugo --gc --minify --config config.toml,config.app.toml && npx cap sync android",
+    "cap:open-android": "npx cap open android",
+    "cap:android:debug": "npm run cap:android && (cd android && ./gradlew assembleDebug)",
+    "cap:android:debug:install": "npm run cap:android:debug && $ANDROID_HOME/platform-tools/adb uninstall com.freekidstypinggames || true && $ANDROID_HOME/platform-tools/adb install -r -t android/app/build/outputs/apk/debug/app-debug.apk"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor/core": "^6.0.0",
     "@tailwindcss/cli": "^4.1.14",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.6",
