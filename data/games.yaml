@@ -16,6 +16,24 @@
   badge_label: "Spooky"
   badge_emoji: "👻"
   description: "Type spooky-themed words letter by letter to complete each round."
+- slug: maze-escape
+  title: "Maze Escape"
+  emoji: "🧩"
+  badge_label: "Maze"
+  badge_emoji: "🧭"
+  description: "Navigate the maze using the arrow keys to reach the flag."
+- slug: new-years-countdown
+  title: "New Year’s Countdown"
+  emoji: "🎆"
+  badge_label: "New Year"
+  badge_emoji: "🎉"
+  description: "Type the countdown words, then type HAPPY NEW YEAR to launch the fireworks."
+- slug: numbers-nemesis
+  title: "Numbers Nemesis"
+  emoji: "🔢"
+  badge_label: "Numbers"
+  badge_emoji: "🔢"
+  description: "See a number in digits and words, then type the word to practise number names."
 - slug: only-verbs
   title: "Only Verbs"
   emoji: "💬"

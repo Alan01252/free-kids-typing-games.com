@@ -3,6 +3,7 @@
 ## Quick Start: New Game Checklist
 - **Create content stub** in `content/games/<slug>.md` with the standard front matter (`title`, `layout`, `tip`, optional `theme`). The `layout` key must equal the template filename you add under `layouts/games/<slug>.html`.
 - **Copy a reference layout** from `layouts/games/` (Rocket Run, Only Verbs, etc.) and trim it down. Keep every `define` block: `styles`, `body_class`, `main`, `footer`, `scripts`.
+- **Include the shared footer** in the `footer` block (don’t leave it empty), e.g. `{{ partial "game-footer.html" (dict "context" . "tip" .Params.tip "theme" (default "light" .Params.theme)) }}` (use `"dark"` as the fallback if the game uses a dark theme).
 - **Use shared shells** in `main`: wrap everything in `.game-shell`, use `.game-card` for surfaces, `.status-banner` for status, `.letter-row` for typing rows, etc. These classes are styled globally in `assets/css/main.css`.
 - **Register the game** in `data/games.yaml` (alphabetical list) so navigation, footer carousel, and landing pages stay in sync.
 - **Store art and audio** in `static/` (`static/images/...`, etc.) so Hugo copies them automatically. New PNG face art should retain transparent backgrounds.

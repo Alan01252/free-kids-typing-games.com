@@ -1,0 +1,475 @@
+{{ define "styles" }}
+  <style>
+    .game-numbers-nemesis {
+      color: #0f172a;
+      background:
+        radial-gradient(900px circle at 75% -260px, rgba(59,130,246,0.35), transparent 60%),
+        radial-gradient(820px circle at 20% 120%, rgba(251,191,36,0.3), transparent 58%),
+        linear-gradient(180deg, #eff6ff, #fff7ed 60%, #f8fafc);
+      --card-bg: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(239,246,255,0.55));
+      --card-border: rgba(59,130,246,0.16);
+      --card-shadow: 0 32px 95px rgba(59,130,246,0.16);
+      --status-border: rgba(59,130,246,0.18);
+      --status-bg: rgba(59,130,246,0.08);
+      --status-color: #0f172a;
+      --status-ok-bg: rgba(34,197,94,0.16);
+      --status-ok-border: rgba(34,197,94,0.32);
+      --status-ok-color: #065f46;
+      --status-bad-bg: rgba(248,113,113,0.16);
+      --status-bad-border: rgba(248,113,113,0.32);
+      --status-bad-color: #991b1b;
+      --status-badge-bg: rgba(59,130,246,0.18);
+      --status-badge-color: #1d4ed8;
+      --status-ok-badge-bg: rgba(34,197,94,0.9);
+      --status-ok-badge-color: #fff;
+      --status-bad-badge-bg: rgba(248,113,113,0.9);
+      --status-bad-badge-color: #fff;
+      --overlay-panel-bg: rgba(255,255,255,0.96);
+      --overlay-panel-color: #0f172a;
+      --overlay-action-primary: #3b82f6;
+      --letter-radius: 22px;
+      --letter-gap: clamp(10px, 3.8vw, 22px);
+      --letter-border-width: 2px;
+      --letter-border-style: dashed;
+      --letter-border-color: rgba(59,130,246,0.28);
+      --letter-color: rgba(37,99,235,0.55);
+      --letter-filled-border-color: rgba(37,99,235,0.35);
+      --letter-filled-bg: rgba(255,255,255,0.8);
+      --letter-filled-color: #0f172a;
+      --letter-current-border-color: rgba(251,191,36,0.8);
+      --letter-current-bg: rgba(251,191,36,0.22);
+      --letter-current-color: #92400e;
+      --letter-current-shadow: 0 22px 55px rgba(251,191,36,0.25);
+      --letter-error-bg: rgba(254,226,226,0.35);
+      --letter-error-color: #991b1b;
+      --touch-panel-bg: linear-gradient(145deg, rgba(37,99,235,0.92), rgba(29,78,216,0.7));
+      --touch-panel-color: #eff6ff;
+      --touch-label-color: rgba(191,219,254,0.95);
+      --touch-key-bg: rgba(59,130,246,0.28);
+      --touch-key-border: rgba(147,197,253,0.55);
+      --touch-key-color: #eff6ff;
+      --touch-key-shadow: 0 16px 34px rgba(29,78,216,0.25);
+      --touch-key-active-bg: rgba(59,130,246,0.95);
+      --touch-key-active-color: #eff6ff;
+      --touch-key-highlight-bg: rgba(251,191,36,0.95);
+      --touch-key-highlight-border: rgba(251,191,36,0.5);
+    }
+    .number-stage {
+      display: grid;
+      gap: 14px;
+      justify-items: center;
+      text-align: center;
+      padding: 18px 14px;
+      border-radius: 30px;
+      background: rgba(255,255,255,0.65);
+      border: 2px solid rgba(59,130,246,0.18);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+    }
+    .number-numeral {
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      font-size: clamp(72px, 14vw, 132px);
+      line-height: 1;
+      color: #1d4ed8;
+      text-shadow: 0 18px 45px rgba(37,99,235,0.25);
+    }
+    .number-word {
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: clamp(18px, 3.8vw, 28px);
+      color: #0f172a;
+    }
+    .game-numbers-nemesis .letter-row {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-inline: auto;
+      --letter-overflow-x: visible;
+    }
+    .game-numbers-nemesis .letter-box.wiggle {
+      animation: numbersNemesisWiggle 0.35s ease;
+    }
+    @keyframes numbersNemesisWiggle {
+      0%, 100% { transform: translateY(0); }
+      20% { transform: translate(-3px, -3px); }
+      40% { transform: translate(3px, -6px); }
+      60% { transform: translate(-2px, -4px); }
+      80% { transform: translate(2px, -5px); }
+    }
+    .celebration {
+      padding: 24px 20px;
+      border-radius: 32px;
+      border: 3px solid rgba(59,130,246,0.28);
+      background: linear-gradient(145deg, rgba(219,234,254,0.95), rgba(254,243,199,0.92));
+      box-shadow: 0 30px 70px rgba(59,130,246,0.18);
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+      animation: bannerPop 0.6s ease;
+      text-align: center;
+    }
+  </style>
+{{ end }}
+
+{{ define "body_class" }}game-page game-numbers-nemesis text-slate-900{{ end }}
+
+{{ define "main" }}
+  <main id="mainContent" class="game-shell text-slate-900">
+    <header class="game-hero">
+      <h1 class="flex items-center justify-center gap-2 text-3xl font-extrabold tracking-tight sm:text-5xl">
+        <span aria-hidden="true">🔢</span>
+        <span>Numbers Nemesis</span>
+      </h1>
+      <p class="mx-auto max-w-2xl text-sm text-slate-600 sm:text-base">
+        A number appears as digits and as a word. Type the word to clear the round and get a new number.
+      </p>
+    </header>
+
+    <section class="game-card space-y-6" style="--card-shadow-current: 0 32px 110px rgba(59,130,246,0.14); --card-border-current: rgba(59,130,246,0.22);">
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+        <label class="grid gap-2">
+          <span class="text-sm font-semibold text-slate-700">Max number</span>
+          <select id="maxNumber" class="w-full rounded-2xl border-2 border-blue-100/70 bg-white/70 px-4 py-3 text-base font-semibold text-slate-800 shadow-sm transition focus:border-blue-400 focus:outline-none focus:ring-4 focus:ring-blue-200">
+            <option value="10" selected>1–10 (easier)</option>
+            <option value="20">1–20</option>
+          </select>
+        </label>
+        <div class="grid grid-cols-2 gap-3 md:grid-cols-[auto_auto]">
+          <button id="startBtn" class="inline-flex min-w-[9.5rem] w-full items-center justify-center rounded-2xl bg-amber-400 px-4 py-3 text-base font-extrabold text-slate-900 shadow-xl shadow-amber-900/15 ring-2 ring-amber-300/70 transition hover:bg-amber-500 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-200">Start</button>
+          <button id="resetBtn" class="inline-flex min-w-[9.5rem] w-full items-center justify-center rounded-2xl border-2 border-blue-200 bg-white/90 px-4 py-3 text-base font-extrabold text-slate-900 shadow-xl shadow-blue-900/10 transition hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200" style="display:none;">Play again</button>
+        </div>
+      </div>
+      <div id="status" class="status-banner" role="status" aria-live="polite" aria-atomic="true">
+        <span class="status-badge" id="statusBadge">i</span>
+        <span id="statusText">Press Start to meet your first number.</span>
+      </div>
+    </section>
+
+    <section id="gameArea" class="game-card space-y-8" style="display:none; --card-shadow-current: 0 36px 120px rgba(251,191,36,0.16); --card-border-current: rgba(251,191,36,0.22);" aria-live="polite">
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div class="rounded-3xl bg-amber-50 px-5 py-4 text-center text-sm font-semibold text-amber-700 shadow-inner">
+          <div class="uppercase tracking-[0.3em] text-xs text-amber-500">Rounds</div>
+          <div id="progressCounter" class="mt-1 text-3xl font-extrabold text-amber-700">1 / 10</div>
+        </div>
+        <div class="rounded-3xl bg-blue-50 px-5 py-4 text-center text-sm font-semibold text-blue-700 shadow-inner">
+          <div class="uppercase tracking-[0.3em] text-xs text-blue-500">Type the word</div>
+          <div id="targetWord" class="mt-1 text-xl font-extrabold text-blue-800 uppercase tracking-[0.15em]">ONE</div>
+        </div>
+      </div>
+
+      <div class="number-stage">
+        <div id="numberNumeral" class="number-numeral" aria-label="Number as digits">1</div>
+        <div id="numberWord" class="number-word" aria-label="Number as a word">one</div>
+      </div>
+
+      <div class="grid gap-3">
+        <div id="letterRow" class="letter-row" role="list" aria-label="Target word letters"></div>
+        <p class="text-center text-sm font-semibold text-slate-600">Hint: letters only (A–Z). Backspace lets you try again.</p>
+      </div>
+    </section>
+  </main>
+
+  <audio id="soundCorrect" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+  <audio id="soundWrong" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+  <audio id="soundWin" src="https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg"></audio>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "game-footer.html" (dict "context" . "tip" .Params.tip "theme" (default "light" .Params.theme)) }}
+{{ end }}
+
+{{ define "scripts" }}
+  <script>
+    const NUMBER_WORDS = new Map([
+      [1,'one'],
+      [2,'two'],
+      [3,'three'],
+      [4,'four'],
+      [5,'five'],
+      [6,'six'],
+      [7,'seven'],
+      [8,'eight'],
+      [9,'nine'],
+      [10,'ten'],
+      [11,'eleven'],
+      [12,'twelve'],
+      [13,'thirteen'],
+      [14,'fourteen'],
+      [15,'fifteen'],
+      [16,'sixteen'],
+      [17,'seventeen'],
+      [18,'eighteen'],
+      [19,'nineteen'],
+      [20,'twenty']
+    ]);
+    const TOTAL_ROUNDS = 10;
+
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const maxNumber = document.getElementById('maxNumber');
+    const status = document.getElementById('status');
+    const statusBadge = document.getElementById('statusBadge');
+    const statusText = document.getElementById('statusText');
+    const gameArea = document.getElementById('gameArea');
+    const progressCounter = document.getElementById('progressCounter');
+    const numberNumeral = document.getElementById('numberNumeral');
+    const numberWord = document.getElementById('numberWord');
+    const targetWord = document.getElementById('targetWord');
+    const letterRow = document.getElementById('letterRow');
+
+    const soundCorrect = document.getElementById('soundCorrect');
+    const soundWrong = document.getElementById('soundWrong');
+    const soundWin = document.getElementById('soundWin');
+
+    let active = false;
+    let round = 0;
+    let targetNumber = 1;
+    let word = 'one';
+    let letterIndex = 0;
+    let previousNumber = null;
+
+    const touchKeyboard = window.GameTouchKeyboard?.attach({
+      id: 'numbers-nemesis',
+      label: 'Tap letters to type the number word',
+      onKeyPress: (char) => handleKeyPress(char, { skipHighlight: true }),
+      getViewportTarget: () => letterRow,
+      getPaddingTarget: () => document.querySelector('.game-shell')
+    });
+    const isTouchDevice = touchKeyboard?.isTouchDevice?.() ?? false;
+
+    function setStatus(kind, message){
+      statusText.innerHTML = message;
+      status.classList.remove('ok','bad');
+      statusBadge.textContent = 'i';
+      if(kind === 'ok'){
+        status.classList.add('ok');
+        statusBadge.textContent = '✓';
+      } else if(kind === 'bad'){
+        status.classList.add('bad');
+        statusBadge.textContent = '×';
+      }
+      status.style.display = 'flex';
+    }
+
+    function allowedNumbers(){
+      const max = Math.max(1, Math.min(20, Number(maxNumber.value || 10)));
+      const list = [];
+      for(let n = 1; n <= max; n++){
+        if(NUMBER_WORDS.has(n)) list.push(n);
+      }
+      return list;
+    }
+
+    function pickNumber(){
+      const list = allowedNumbers();
+      if(list.length === 0) return 1;
+      if(list.length === 1) return list[0];
+      let choice = list[Math.floor(Math.random() * list.length)];
+      if(previousNumber != null){
+        let tries = 0;
+        while(choice === previousNumber && tries < 6){
+          choice = list[Math.floor(Math.random() * list.length)];
+          tries++;
+        }
+      }
+      previousNumber = choice;
+      return choice;
+    }
+
+    function renderWordBoxes(){
+      letterRow.innerHTML = '';
+      letterRow.style.setProperty('--letters', word.length);
+      for(let i = 0; i < word.length; i++){
+        const box = document.createElement('div');
+        box.className = 'letter-box';
+        box.dataset.index = String(i);
+        const letter = word[i].toUpperCase();
+        box.textContent = letter;
+        box.setAttribute('role', 'listitem');
+        if(i < letterIndex){
+          box.classList.add('filled');
+          box.setAttribute('aria-label', `Letter ${letter}, correct`);
+        } else if(i === letterIndex){
+          box.classList.add('current');
+          box.setAttribute('aria-label', `Letter ${letter}, current`);
+          box.setAttribute('aria-current', 'step');
+        } else {
+          box.setAttribute('aria-label', `Letter ${letter}`);
+        }
+        letterRow.appendChild(box);
+      }
+      window.GameUI?.fitLettersFor?.(letterRow);
+      if(typeof requestAnimationFrame === 'function'){
+        requestAnimationFrame(()=> window.GameUI?.fitLettersFor?.(letterRow));
+      }
+      if(isTouchDevice){
+        touchKeyboard?.ensureVisible(letterRow);
+      }
+    }
+
+    function renderRound(){
+      progressCounter.textContent = `${Math.min(round + 1, TOTAL_ROUNDS)} / ${TOTAL_ROUNDS}`;
+      numberNumeral.textContent = String(targetNumber);
+      numberWord.textContent = word;
+      targetWord.textContent = word.toUpperCase();
+      renderWordBoxes();
+    }
+
+    function startNewTarget(){
+      targetNumber = pickNumber();
+      word = NUMBER_WORDS.get(targetNumber) || String(targetNumber);
+      letterIndex = 0;
+      renderRound();
+      setStatus('ok', `Type <strong>${word.toUpperCase()}</strong>.`);
+      if(isTouchDevice){
+        touchKeyboard?.show();
+        touchKeyboard?.ensureVisible(letterRow);
+      }
+    }
+
+    function handleCorrectLetter(){
+      letterIndex++;
+      if(letterIndex >= word.length){
+        round++;
+        soundCorrect.currentTime = 0;
+        window.GameSound.play(soundCorrect);
+        if(round >= TOTAL_ROUNDS){
+          finishGame();
+          return;
+        }
+        startNewTarget();
+        return;
+      }
+      soundCorrect.currentTime = 0;
+      window.GameSound.play(soundCorrect);
+      const next = word[letterIndex].toUpperCase();
+      setStatus('ok', `Nice! Next letter: <strong>${next}</strong>.`);
+      renderWordBoxes();
+    }
+
+    function wiggleCurrentBox(){
+      const box = letterRow.querySelector(`.letter-box[data-index="${letterIndex}"]`);
+      if(!box) return;
+      box.classList.remove('wiggle');
+      void box.offsetWidth;
+      box.classList.add('wiggle');
+    }
+
+    function handleWrongLetter(pressed){
+      soundWrong.currentTime = 0;
+      window.GameSound.play(soundWrong);
+      const expected = (word[letterIndex] || '').toUpperCase();
+      const shown = (pressed || '?').toUpperCase();
+      setStatus('bad', `Need <strong>${expected}</strong> — you pressed <strong>${shown}</strong>.`);
+      wiggleCurrentBox();
+      if(isTouchDevice){
+        touchKeyboard?.ensureVisible(letterRow);
+      }
+    }
+
+    function handleBackspace(){
+      if(letterIndex <= 0) return;
+      letterIndex = Math.max(0, letterIndex - 1);
+      setStatus(null, `Try again. Type <strong>${word.toUpperCase()}</strong>.`);
+      renderWordBoxes();
+      if(isTouchDevice){
+        touchKeyboard?.ensureVisible(letterRow);
+      }
+    }
+
+    function handleKeyPress(key, opts = {}){
+      if(!active) return;
+      if(key === 'Backspace') return handleBackspace();
+      if(!key || key.length !== 1) return;
+      if(!/[a-zA-Z]/.test(key)) return;
+      if(!opts.skipHighlight){
+        touchKeyboard?.flashKey(key);
+      }
+      const expected = word[letterIndex];
+      if(!expected) return;
+      if(key.toLowerCase() === expected.toLowerCase()){
+        handleCorrectLetter();
+      } else {
+        handleWrongLetter(key);
+      }
+    }
+
+    function finishGame(){
+      active = false;
+      touchKeyboard?.hide();
+      startBtn.style.display = 'none';
+      resetBtn.style.display = 'inline-flex';
+      setStatus('ok', 'All rounds complete! You beat the numbers.');
+      const winMarkup = `
+        <div class="celebration">
+          <div class="text-2xl font-extrabold text-blue-700 uppercase tracking-[0.25em]">Numbers</div>
+          <div class="text-lg font-semibold text-slate-700">Ten number-words typed. Great job!</div>
+          <div class="text-3xl">🔢 🎉 ⭐</div>
+        </div>
+      `;
+      soundWin.currentTime = 0;
+      window.GameSound.play(soundWin);
+      if(window.GameCelebration){
+        window.GameCelebration.show({
+          content: winMarkup,
+          onPlayAgain: ()=>{
+            resetGame();
+            startGame();
+          },
+          focusTarget: resetBtn,
+          initialFocus: 'playAgain'
+        });
+      } else {
+        resetBtn.focus();
+      }
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
+    }
+
+    function startGame(){
+      round = 0;
+      previousNumber = null;
+      active = true;
+      startBtn.style.display = 'none';
+      resetBtn.style.display = 'inline-flex';
+      gameArea.style.display = 'block';
+      startNewTarget();
+    }
+
+    function resetGame(){
+      active = false;
+      round = 0;
+      letterIndex = 0;
+      previousNumber = null;
+      startBtn.style.display = 'inline-flex';
+      resetBtn.style.display = 'none';
+      gameArea.style.display = 'none';
+      letterRow.innerHTML = '';
+      letterRow.style.removeProperty('--letters');
+      progressCounter.textContent = `1 / ${TOTAL_ROUNDS}`;
+      numberNumeral.textContent = '1';
+      numberWord.textContent = 'one';
+      targetWord.textContent = 'ONE';
+      setStatus(null, 'Press Start to meet your first number.');
+      touchKeyboard?.hide();
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
+    }
+
+    startBtn.addEventListener('click', startGame);
+    resetBtn.addEventListener('click', resetGame);
+    maxNumber.addEventListener('change', () => {
+      if(!active) return;
+      startNewTarget();
+    });
+
+    document.addEventListener('keydown', (e)=>{
+      if(!active) return;
+      const target = e.target;
+      if(target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;
+      handleKeyPress(e.key);
+    });
+
+    setStatus(null, 'Press Start to meet your first number.');
+    status.style.display = 'flex';
+  </script>
+{{ end }}

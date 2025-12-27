@@ -1,0 +1,615 @@
+{{ define "styles" }}
+  <style>
+    .game-new-years-countdown {
+      --night-top: #020617;
+      --night-mid: #0b1026;
+      --night-bottom: #090b14;
+      --accent: #fbbf24;
+      --accent-2: #60a5fa;
+      --good: #22c55e;
+      --bad: #fb7185;
+      color: #f8fafc;
+      background:
+        radial-gradient(1000px circle at 15% 12%, rgba(96,165,250,0.25), transparent 55%),
+        radial-gradient(850px circle at 85% 14%, rgba(251,191,36,0.22), transparent 52%),
+        radial-gradient(1200px circle at 50% 120%, rgba(236,72,153,0.16), transparent 62%),
+        linear-gradient(180deg, var(--night-top), var(--night-mid) 45%, var(--night-bottom));
+      --card-bg: rgba(15,23,42,0.72);
+      --card-border: rgba(148,163,184,0.22);
+      --card-shadow: 0 34px 110px rgba(0,0,0,0.42);
+      --card-blur: blur(12px);
+      --status-border: rgba(148,163,184,0.35);
+      --status-bg: rgba(15,23,42,0.6);
+      --status-color: #e2e8f0;
+      --status-ok-bg: rgba(34,197,94,0.18);
+      --status-ok-border: rgba(34,197,94,0.4);
+      --status-bad-bg: rgba(251,113,133,0.18);
+      --status-bad-border: rgba(251,113,133,0.45);
+      --status-badge-bg: rgba(96,165,250,0.22);
+      --status-badge-color: #93c5fd;
+      --status-ok-badge-bg: rgba(34,197,94,0.95);
+      --status-ok-badge-color: #052e16;
+      --status-bad-badge-bg: rgba(251,113,133,0.95);
+      --status-bad-badge-color: #ffffff;
+      --overlay-panel-bg: rgba(2,6,23,0.94);
+      --overlay-panel-color: #f8fafc;
+      --overlay-action-primary: #f59e0b;
+      --letter-gap: clamp(10px, 4vw, 18px);
+      --letter-size: clamp(48px, 9vw, 86px);
+      --letter-min-size: clamp(42px, 8vw, 78px);
+      --letter-height: clamp(62px, 10vw, 104px);
+      --letter-radius: clamp(18px, 4vw, 28px);
+      --letter-border-width: 3px;
+      --letter-border-style: dashed;
+      --letter-border-color: rgba(148,163,184,0.32);
+      --letter-bg: rgba(15,23,42,0.5);
+      --letter-color: rgba(226,232,240,0.55);
+      --letter-filled-border-color: rgba(96,165,250,0.6);
+      --letter-filled-bg: rgba(59,130,246,0.22);
+      --letter-filled-color: #e0f2fe;
+      --letter-current-border-color: rgba(251,191,36,0.78);
+      --letter-current-bg: rgba(251,191,36,0.18);
+      --letter-current-color: #fff7ed;
+      --letter-current-shadow: 0 24px 60px rgba(251,191,36,0.22);
+      --letter-error-border-color: rgba(251,113,133,0.7);
+      --letter-error-bg: rgba(251,113,133,0.2);
+      --letter-error-color: #fecdd3;
+      --touch-panel-bg: linear-gradient(145deg, rgba(30,64,175,0.92), rgba(37,99,235,0.72));
+      --touch-panel-color: #e0f2fe;
+      --touch-panel-shadow: 0 18px 40px rgba(2,6,23,0.55);
+      --touch-label-color: rgba(191,219,254,0.9);
+      --touch-key-bg: rgba(59,130,246,0.26);
+      --touch-key-border: rgba(147,197,253,0.55);
+      --touch-key-color: #e0f2fe;
+      --touch-key-shadow: 0 16px 34px rgba(2,6,23,0.35);
+      --touch-key-active-bg: rgba(251,191,36,0.92);
+      --touch-key-active-color: #1f2937;
+      --touch-key-highlight-bg: rgba(236,72,153,0.95);
+      --touch-key-highlight-border: rgba(251,191,36,0.55);
+    }
+
+    .sky-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .firework-sky {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.85;
+      filter: drop-shadow(0 26px 65px rgba(0,0,0,0.25));
+    }
+
+    .firework {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      left: calc(var(--x, 50) * 1%);
+      top: calc(var(--y, 35) * 1%);
+      background: radial-gradient(circle, rgba(255,255,255,0.95), rgba(255,255,255,0.2) 40%, transparent 65%);
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+      animation: fireworkPop 950ms ease-out forwards;
+    }
+
+    .firework::before,
+    .firework::after {
+      content: '';
+      position: absolute;
+      inset: -44px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 0%, hsla(var(--hue, 42), 92%, 65%, 0.9), transparent 58%),
+        radial-gradient(circle at 100% 50%, hsla(calc(var(--hue, 42) + 90), 92%, 65%, 0.8), transparent 60%),
+        radial-gradient(circle at 50% 100%, hsla(calc(var(--hue, 42) + 180), 92%, 65%, 0.7), transparent 62%),
+        radial-gradient(circle at 0% 50%, hsla(calc(var(--hue, 42) + 270), 92%, 65%, 0.75), transparent 60%);
+      opacity: 0.75;
+      filter: blur(0.4px);
+      transform: rotate(calc(var(--spin, 0) * 1deg));
+    }
+
+    .firework::after {
+      inset: -26px;
+      opacity: 0.55;
+      filter: blur(1px);
+    }
+
+    @keyframes fireworkPop {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+      20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      70% { opacity: 0.85; transform: translate(-50%, -50%) scale(1.25); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(1.6); }
+    }
+
+    .meter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .meter-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      border: 2px solid rgba(148,163,184,0.35);
+      background: rgba(2,6,23,0.2);
+      box-shadow: inset 0 -4px 10px rgba(2,6,23,0.35);
+    }
+
+    .meter-dot.done {
+      border-color: rgba(34,197,94,0.6);
+      background: rgba(34,197,94,0.35);
+    }
+
+    .meter-dot.current {
+      border-color: rgba(251,191,36,0.75);
+      background: rgba(251,191,36,0.35);
+      box-shadow: 0 14px 30px rgba(251,191,36,0.22);
+    }
+
+    .game-new-years-countdown .letter-box.space {
+      width: clamp(44px, 7vw, 64px);
+      padding-inline: 0;
+    }
+
+    .game-new-years-countdown .letter-box.wiggle {
+      animation: countdownWiggle 0.35s ease;
+    }
+
+    @keyframes countdownWiggle {
+      0%, 100% { transform: translateY(0); }
+      20% { transform: translate(-4px, -2px); }
+      40% { transform: translate(4px, -6px); }
+      60% { transform: translate(-3px, -4px); }
+      80% { transform: translate(3px, -5px); }
+    }
+
+    .celebration {
+      padding: 26px 22px;
+      border-radius: 32px;
+      border: 3px solid rgba(251,191,36,0.45);
+      background: linear-gradient(150deg, rgba(59,130,246,0.22), rgba(236,72,153,0.18));
+      box-shadow: 0 40px 120px rgba(2,6,23,0.5);
+      text-align: center;
+      display: grid;
+      gap: 10px;
+      animation: bannerPop 0.6s ease;
+    }
+  </style>
+{{ end }}
+
+{{ define "body_class" }}game-page game-new-years-countdown text-slate-100{{ end }}
+
+{{ define "main" }}
+  <main id="mainContent" class="game-shell text-slate-100">
+    <header class="game-hero">
+      <h1 class="flex items-center justify-center gap-2 text-3xl font-extrabold tracking-tight sm:text-5xl">
+        <span aria-hidden="true">🎆</span>
+        <span>New Year’s Countdown</span>
+      </h1>
+      <p class="mx-auto max-w-2xl text-sm text-slate-200 sm:text-base">
+        Type the countdown words, then type <strong>HAPPY NEW YEAR</strong> to light up the sky!
+      </p>
+    </header>
+
+    <section class="game-card space-y-5">
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+        <button id="startBtn" class="inline-flex w-full items-center justify-center rounded-2xl bg-amber-500 px-4 py-3 text-base font-semibold text-slate-950 shadow-lg shadow-amber-900/40 transition hover:bg-amber-400 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-300">
+          Start countdown
+        </button>
+        <button id="resetBtn" class="inline-flex w-full items-center justify-center rounded-2xl bg-slate-500 px-4 py-3 text-base font-semibold text-white shadow-lg shadow-slate-950/30 transition hover:bg-slate-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-slate-300" style="display:none;">
+          Reset
+        </button>
+      </div>
+
+      <div id="status" class="status-banner" role="status" aria-live="polite" aria-atomic="true">
+        <span class="status-badge" id="statusBadge">i</span>
+        <span id="statusText">Press Start to begin the countdown.</span>
+      </div>
+    </section>
+
+    <section id="gameArea" class="game-card sky-card space-y-8" style="display:none;" aria-live="polite">
+      <div id="sky" class="firework-sky" aria-hidden="true"></div>
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div class="rounded-3xl bg-slate-950/40 px-5 py-4 text-center text-sm font-semibold text-slate-200 shadow-inner shadow-slate-950/40 border border-slate-500/30">
+          <div class="uppercase tracking-[0.3em] text-xs text-slate-400">Round</div>
+          <div id="roundCounter" class="mt-1 text-3xl font-extrabold text-slate-100">1 / 11</div>
+        </div>
+        <div class="rounded-3xl bg-amber-500/15 px-5 py-4 text-center text-sm font-semibold text-amber-100 shadow-inner shadow-amber-950/40 border border-amber-400/30">
+          <div class="uppercase tracking-[0.3em] text-xs text-amber-200">Next up</div>
+          <div id="nextChip" class="mt-1 text-lg font-extrabold uppercase tracking-[0.25em] text-amber-100">TEN</div>
+        </div>
+      </div>
+
+      <div class="space-y-4 text-center">
+        <div class="game-section-title text-slate-300">Type this</div>
+        <div id="letterRows" class="space-y-3" aria-label="Target letters"></div>
+        <div id="hint" class="text-sm font-semibold text-slate-300">Spaces count too (press Spacebar).</div>
+      </div>
+
+      <div class="space-y-3 text-center">
+        <div class="game-section-title text-slate-400">After that</div>
+        <div id="queue" class="flex flex-wrap justify-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-slate-400"></div>
+      </div>
+
+      <div class="space-y-3 text-center">
+        <div class="game-section-title text-slate-400">Progress</div>
+        <div id="meter" class="meter" aria-label="Progress meter"></div>
+      </div>
+
+      <div id="celebrate" class="celebrate" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <audio id="soundCorrect" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+  <audio id="soundWrong" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+  <audio id="soundWin" src="https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg"></audio>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "game-footer.html" (dict "context" . "tip" .Params.tip "theme" (default "dark" .Params.theme)) }}
+{{ end }}
+
+{{ define "scripts" }}
+  <script>
+    const TARGETS = ['TEN','NINE','EIGHT','SEVEN','SIX','FIVE','FOUR','THREE','TWO','ONE','HAPPY NEW YEAR'];
+
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const status = document.getElementById('status');
+    const statusBadge = document.getElementById('statusBadge');
+    const statusText = document.getElementById('statusText');
+    const gameArea = document.getElementById('gameArea');
+    const sky = document.getElementById('sky');
+    const roundCounter = document.getElementById('roundCounter');
+    const nextChip = document.getElementById('nextChip');
+    const letterRows = document.getElementById('letterRows');
+    const hint = document.getElementById('hint');
+    const queue = document.getElementById('queue');
+    const meter = document.getElementById('meter');
+    const celebrate = document.getElementById('celebrate');
+
+    const soundCorrect = document.getElementById('soundCorrect');
+    const soundWrong = document.getElementById('soundWrong');
+    const soundWin = document.getElementById('soundWin');
+
+    let active = false;
+    let targets = [];
+    let targetIndex = 0;
+    let charIndex = 0;
+
+    const touchKeyboard = window.GameTouchKeyboard?.attach({
+      id: 'new-years-countdown',
+      label: 'Tap letters to launch fireworks',
+      layout: [
+        'Q W E R T Y U I O P',
+        'A S D F G H J K L',
+        'Z X C V B N M Space'
+      ],
+      onKeyPress: (char) => handleKeyDown(char === ' ' ? ' ' : char, { skipHighlight: true }),
+      getViewportTarget: () => letterRows?.querySelector('.letter-box.current') || letterRows,
+      getPaddingTarget: () => document.querySelector('.game-shell')
+    });
+    const isTouchDevice = touchKeyboard?.isTouchDevice?.() ?? false;
+
+    function setStatus(kind, message){
+      statusText.innerHTML = message;
+      status.classList.remove('ok','bad');
+      statusBadge.textContent = 'i';
+      if(kind === 'ok'){
+        status.classList.add('ok');
+        statusBadge.textContent = '✓';
+      } else if(kind === 'bad'){
+        status.classList.add('bad');
+        statusBadge.textContent = '×';
+      }
+      status.style.display = 'flex';
+    }
+
+    function getCurrentTarget(){
+      return targets[targetIndex] || '';
+    }
+
+    function renderMeter(){
+      meter.innerHTML = '';
+      for(let i = 0; i < targets.length; i++){
+        const dot = document.createElement('span');
+        dot.className = 'meter-dot';
+        dot.setAttribute('aria-hidden', 'true');
+        if(i < targetIndex) dot.classList.add('done');
+        if(i === targetIndex && active) dot.classList.add('current');
+        meter.appendChild(dot);
+      }
+    }
+
+    function renderQueue(){
+      const upcoming = targets.slice(targetIndex + 1, targetIndex + 4);
+      if(upcoming.length === 0){
+        queue.innerHTML = '<span class="px-3 py-1 text-xs text-slate-400">Final round!</span>';
+        return;
+      }
+      queue.innerHTML = upcoming.map(word => (
+        `<span class="rounded-full bg-slate-950/35 px-3 py-1 text-xs font-semibold text-slate-200 border border-slate-500/25">${word}</span>`
+      )).join('');
+    }
+
+    function renderRoundHeader(){
+      roundCounter.textContent = `${Math.min(targetIndex + 1, targets.length)} / ${targets.length}`;
+      const next = targets[targetIndex + 1];
+      nextChip.textContent = (next || '—');
+    }
+
+    function splitTargetForDisplay(target){
+      if(typeof target !== 'string') return [''];
+      if(!target.includes(' ')) return [target];
+      const words = target.split(' ').filter(word => word.length > 0);
+      if(words.length <= 1) return [target];
+      const maxCharsPerLine = 10;
+      const segments = words.map((word, idx) => (idx < words.length - 1 ? `${word} ` : word));
+      const lines = [];
+      let current = '';
+      for(const segment of segments){
+        if(!current){
+          current = segment;
+          continue;
+        }
+        if((current.length + segment.length) <= maxCharsPerLine){
+          current += segment;
+          continue;
+        }
+        lines.push(current);
+        current = segment;
+      }
+      if(current) lines.push(current);
+      const reconstructed = lines.join('');
+      return reconstructed === target ? lines : [target];
+    }
+
+    function renderTargetLines(target){
+      const lines = splitTargetForDisplay(target);
+      let globalIndex = 0;
+      letterRows.innerHTML = '';
+
+      lines.forEach((lineText, lineIndex) => {
+        const row = document.createElement('div');
+        row.className = 'letter-row';
+        row.dataset.row = String(lineIndex);
+        row.setAttribute('role', 'list');
+        row.setAttribute('aria-label', lines.length > 1 ? `Line ${lineIndex + 1} of ${lines.length}` : 'Target letters');
+
+        const chars = lineText.split('');
+        row.style.setProperty('--letters', chars.length);
+
+        chars.forEach((char) => {
+          const box = document.createElement('div');
+          box.className = 'letter-box';
+          box.dataset.globalIndex = String(globalIndex);
+          box.setAttribute('role', 'listitem');
+
+          if(char === ' '){
+            box.classList.add('space');
+            box.innerHTML = '&nbsp;';
+            box.setAttribute('aria-label', 'Space');
+          } else {
+            const shown = char.toUpperCase();
+            box.textContent = shown;
+            box.setAttribute('aria-label', `Letter ${shown}`);
+          }
+
+          if(globalIndex < charIndex){
+            box.classList.add('filled');
+          } else if(globalIndex === charIndex && active){
+            box.classList.add('current');
+            box.setAttribute('aria-current', 'step');
+          }
+
+          row.appendChild(box);
+          globalIndex++;
+        });
+
+        letterRows.appendChild(row);
+      });
+
+      window.GameUI?.fitAllLetterRows?.();
+      if(typeof requestAnimationFrame === 'function'){
+        requestAnimationFrame(() => window.GameUI?.fitAllLetterRows?.());
+      }
+
+      if(isTouchDevice){
+        const currentBox = letterRows.querySelector('.letter-box.current');
+        touchKeyboard?.ensureVisible(currentBox || letterRows);
+      }
+    }
+
+    function renderTarget(){
+      const target = getCurrentTarget();
+      renderTargetLines(target);
+      hint.textContent = target.includes(' ')
+        ? 'Spaces count too (press Spacebar).'
+        : 'No spaces in this word — just letters!';
+    }
+
+    function wiggleCurrent(){
+      const box = letterRows.querySelector(`.letter-box[data-global-index="${charIndex}"]`);
+      if(!box) return;
+      box.classList.remove('wiggle');
+      void box.offsetWidth;
+      box.classList.add('wiggle');
+      if(isTouchDevice){
+        touchKeyboard?.ensureVisible(box);
+      }
+    }
+
+    function launchFirework(){
+      if(!sky) return;
+      const el = document.createElement('div');
+      el.className = 'firework';
+      el.style.setProperty('--x', String(18 + Math.random() * 64));
+      el.style.setProperty('--y', String(14 + Math.random() * 38));
+      el.style.setProperty('--hue', String(Math.floor(Math.random() * 360)));
+      el.style.setProperty('--spin', String(Math.floor(Math.random() * 360)));
+      sky.appendChild(el);
+      window.setTimeout(() => el.remove(), 1100);
+    }
+
+    function handleCorrectChar(){
+      const target = getCurrentTarget();
+      charIndex++;
+      soundCorrect.currentTime = 0;
+      window.GameSound.play(soundCorrect);
+      if(charIndex >= target.length){
+        launchFirework();
+        targetIndex++;
+        charIndex = 0;
+        renderMeter();
+        if(targetIndex >= targets.length){
+          finishGame();
+          return;
+        }
+        setStatus('ok', `Nice! Next: <strong>${getCurrentTarget()}</strong>`);
+      } else {
+        const next = target[charIndex];
+        const nextLabel = next === ' ' ? 'Space' : next.toUpperCase();
+        setStatus('ok', `Great! Next character: <strong>${nextLabel}</strong>`);
+      }
+      renderRoundHeader();
+      renderTarget();
+      renderQueue();
+    }
+
+    function handleWrongChar(key){
+      soundWrong.currentTime = 0;
+      window.GameSound.play(soundWrong);
+      const target = getCurrentTarget();
+      const expected = target[charIndex];
+      const expectedLabel = expected === ' ' ? 'Space' : expected.toUpperCase();
+      const pressedLabel = key === ' ' ? 'Space' : (key || '?').toUpperCase();
+      setStatus('bad', `Almost! Need <strong>${expectedLabel}</strong> — you pressed <strong>${pressedLabel}</strong>.`);
+      wiggleCurrent();
+    }
+
+    function handleBackspace(){
+      if(charIndex <= 0) return;
+      charIndex--;
+      renderTarget();
+      setStatus(null, 'Backspace used — keep going!');
+    }
+
+    function handleKeyDown(key, opts = {}){
+      if(!active) return;
+      if(!key) return;
+
+      if(key === 'Backspace'){
+        handleBackspace();
+        return;
+      }
+
+      if(key === ' '){
+        if(!opts.skipHighlight) touchKeyboard?.flashKey(' ');
+      } else {
+        if(key.length !== 1) return;
+        if(!/[a-zA-Z]/.test(key)) return;
+        if(!opts.skipHighlight) touchKeyboard?.flashKey(key);
+      }
+
+      const expected = getCurrentTarget()[charIndex];
+      if(!expected) return;
+      const matches = expected === ' '
+        ? key === ' '
+        : key.toLowerCase() === expected.toLowerCase();
+
+      if(matches){
+        handleCorrectChar();
+      } else {
+        handleWrongChar(key);
+      }
+    }
+
+    function finishGame(){
+      active = false;
+      touchKeyboard?.hide();
+      setStatus('ok', 'Happy New Year! You launched the whole show.');
+      const winMarkup = `
+        <div class="celebration">
+          <div class="text-2xl font-extrabold uppercase tracking-[0.25em] text-amber-200">Happy New Year!</div>
+          <div class="text-lg font-semibold text-slate-100">Fireworks unlocked. Great typing!</div>
+          <div class="text-3xl">🎉 🎆 🥳</div>
+        </div>
+      `;
+      celebrate.innerHTML = winMarkup;
+      soundWin.currentTime = 0;
+      window.GameSound.play(soundWin);
+      if(window.GameCelebration){
+        window.GameCelebration.show({
+          content: winMarkup,
+          onPlayAgain: ()=>{
+            resetGame();
+            startGame();
+          },
+          focusTarget: resetBtn,
+          initialFocus: 'playAgain'
+        });
+      } else {
+        resetBtn.focus();
+      }
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
+    }
+
+    function startGame(){
+      targets = TARGETS.slice();
+      targetIndex = 0;
+      charIndex = 0;
+      active = true;
+      celebrate.innerHTML = '';
+      startBtn.style.display = 'none';
+      resetBtn.style.display = 'inline-flex';
+      gameArea.style.display = 'block';
+      renderRoundHeader();
+      renderMeter();
+      renderTarget();
+      renderQueue();
+      setStatus('ok', `Ready! First word: <strong>${getCurrentTarget()}</strong>`);
+      if(isTouchDevice){
+        touchKeyboard?.show();
+        touchKeyboard?.ensureVisible(letterRows);
+      }
+    }
+
+    function resetGame(){
+      active = false;
+      targets = [];
+      targetIndex = 0;
+      charIndex = 0;
+      startBtn.style.display = 'inline-flex';
+      resetBtn.style.display = 'none';
+      gameArea.style.display = 'none';
+      celebrate.innerHTML = '';
+      if(sky) sky.innerHTML = '';
+      letterRows.innerHTML = '';
+      queue.innerHTML = '';
+      meter.innerHTML = '';
+      setStatus(null, 'Press Start to begin the countdown.');
+      status.style.display = 'flex';
+      touchKeyboard?.hide();
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
+    }
+
+    startBtn.addEventListener('click', startGame);
+    resetBtn.addEventListener('click', resetGame);
+
+    document.addEventListener('keydown', (e)=>{
+      if(!active) return;
+      const target = e.target;
+      if(target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;
+      handleKeyDown(e.key);
+    });
+
+    (()=>{
+      nextChip.textContent = TARGETS[0] || '—';
+    })();
+  </script>
+{{ end }}
