@@ -9,7 +9,8 @@
     "cap:android": "hugo --gc --minify --config config.toml,config.app.toml && npx cap sync android",
     "cap:open-android": "npx cap open android",
     "cap:android:debug": "npm run cap:android && (cd android && ./gradlew assembleDebug)",
-    "cap:android:debug:install": "npm run cap:android:debug && $ANDROID_HOME/platform-tools/adb uninstall com.freekidstypinggames || true && $ANDROID_HOME/platform-tools/adb install -r -t android/app/build/outputs/apk/debug/app-debug.apk"
+    "cap:android:debug:install": "npm run cap:android:debug && $ANDROID_HOME/platform-tools/adb uninstall com.freekidstypinggames || true && $ANDROID_HOME/platform-tools/adb install -r -t android/app/build/outputs/apk/debug/app-debug.apk",
+    "cap:android:release": "npm run cap:android && (cd android && ./gradlew bundleRelease)"
   },
   "keywords": [],
   "author": "",
