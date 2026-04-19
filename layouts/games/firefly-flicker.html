@@ -1,0 +1,620 @@
+{{ define "styles" }}
+  <style>
+    .game-firefly-flicker {
+      --night-top: #020617;
+      --night-bottom: #0b1022;
+      --accent: #fbbf24;
+      --good: #34d399;
+      --bad: #fb7185;
+      background: radial-gradient(circle at 50% -20%, rgba(56,189,248,0.14), transparent 55%),
+        radial-gradient(circle at 12% 20%, rgba(251,191,36,0.12), transparent 42%),
+        linear-gradient(180deg, var(--night-top), var(--night-bottom));
+      color: #f8fafc;
+      --card-bg: rgba(15,23,42,0.65);
+      --card-border: rgba(148,163,184,0.25);
+      --card-shadow: 0 25px 90px rgba(2,6,23,0.55);
+      --card-blur: blur(12px);
+      --status-border: rgba(148,163,184,0.35);
+      --status-bg: rgba(15,23,42,0.6);
+      --status-color: #e2e8f0;
+      --status-ok-bg: rgba(16,185,129,0.2);
+      --status-ok-border: rgba(52,211,153,0.45);
+      --status-bad-bg: rgba(251,113,133,0.18);
+      --status-bad-border: rgba(251,113,133,0.45);
+      --status-badge-bg: rgba(251,191,36,0.9);
+      --status-badge-color: #111827;
+      --status-ok-badge-bg: var(--good);
+      --status-bad-badge-bg: var(--bad);
+      --status-bad-badge-color: #ffffff;
+      --overlay-panel-bg: rgba(15,23,42,0.94);
+      --overlay-panel-color: #f8fafc;
+      --overlay-action-primary: #fbbf24;
+      --overlay-action-primary-color: #111827;
+      --letter-radius: 22px;
+      --letter-border-width: 2px;
+      --letter-border-style: solid;
+      --letter-border-color: rgba(148,163,184,0.3);
+      --letter-color: rgba(226,232,240,0.75);
+      --letter-filled-border-color: rgba(52,211,153,0.6);
+      --letter-filled-bg: rgba(52,211,153,0.2);
+      --letter-filled-color: #ecfeff;
+      --letter-current-border-color: rgba(251,191,36,0.75);
+      --letter-current-bg: rgba(251,191,36,0.18);
+      --letter-current-color: #fff7ed;
+      --letter-current-shadow: 0 22px 55px rgba(251,191,36,0.18);
+      --letter-error-bg: rgba(251,113,133,0.18);
+      --letter-error-color: #fecdd3;
+      --touch-panel-bg: linear-gradient(145deg, rgba(15,23,42,0.95), rgba(30,41,59,0.78));
+      --touch-panel-color: #f8fafc;
+      --touch-panel-shadow: 0 18px 40px rgba(2,6,23,0.55);
+      --touch-label-color: rgba(226,232,240,0.75);
+      --touch-key-bg: rgba(15,23,42,0.4);
+      --touch-key-border: rgba(148,163,184,0.3);
+      --touch-key-color: #f8fafc;
+      --touch-key-shadow: 0 16px 34px rgba(2,6,23,0.4);
+      --touch-key-active-bg: rgba(251,191,36,0.9);
+      --touch-key-active-color: #111827;
+      --touch-key-highlight-bg: rgba(251,191,36,0.95);
+      --touch-key-highlight-border: rgba(251,191,36,0.4);
+    }
+
+    .jar-visual {
+      position: relative;
+      width: min(240px, 100%);
+      aspect-ratio: 4 / 5;
+      border-radius: 30px 30px 34px 34px;
+      border: 2px solid rgba(148,163,184,0.25);
+      background: linear-gradient(180deg, rgba(148,163,184,0.12), rgba(15,23,42,0.35));
+      box-shadow: inset 0 0 0 1px rgba(251,191,36,0.06), 0 30px 80px rgba(2,6,23,0.55);
+      overflow: hidden;
+    }
+    .jar-visual::before {
+      content: '';
+      position: absolute;
+      inset: 12px;
+      border-radius: 26px;
+      background: radial-gradient(circle at 20% 18%, rgba(226,232,240,0.18), transparent 42%),
+        radial-gradient(circle at 70% 35%, rgba(251,191,36,0.18), transparent 52%),
+        radial-gradient(circle at 50% 90%, rgba(59,130,246,0.08), transparent 65%);
+      pointer-events: none;
+      opacity: 0.9;
+    }
+    .jar-fill {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .jar-fill-inner {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 42px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      align-items: end;
+      justify-items: center;
+      min-height: 42%;
+      transition: filter 0.25s ease;
+    }
+    .jar-caught-firefly {
+      width: clamp(44px, 14vw, 62px);
+      aspect-ratio: 1;
+      border-radius: 999px;
+      background: rgba(2,6,23,0.76);
+      box-shadow: 0 0 18px rgba(251,191,36,0.28);
+      object-fit: cover;
+      animation: jarFireflyPop 0.32s ease both;
+    }
+    .jar-caught-firefly:nth-child(2n) {
+      transform: translateY(-10px) rotate(8deg);
+    }
+    .jar-caught-firefly:nth-child(3n) {
+      transform: translateY(6px) rotate(-7deg);
+    }
+    @keyframes jarFireflyPop {
+      0% { opacity: 0; transform: translateY(12px) scale(0.72); }
+      100% { opacity: 1; }
+    }
+    .jar-cap {
+      position: absolute;
+      top: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 36px;
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(100,116,139,0.6), rgba(15,23,42,0.9));
+      border: 2px solid rgba(148,163,184,0.25);
+      box-shadow: 0 18px 40px rgba(2,6,23,0.55);
+    }
+    .jar-label {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
+      text-align: center;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      color: rgba(226,232,240,0.78);
+      text-shadow: 0 10px 28px rgba(2,6,23,0.8);
+    }
+    .jar-visual.wiggle {
+      animation: jarWiggle 0.38s ease;
+    }
+    @keyframes jarWiggle {
+      0%, 100% { transform: translateX(0) rotate(0deg); }
+      20% { transform: translateX(-6px) rotate(-2deg); }
+      40% { transform: translateX(6px) rotate(2deg); }
+      60% { transform: translateX(-4px) rotate(-1deg); }
+      80% { transform: translateX(4px) rotate(1deg); }
+    }
+
+    .target-letter-row .letter-box {
+      font-size: clamp(2.2rem, 7vw, 3.25rem);
+      min-width: clamp(92px, 22vw, 140px);
+      min-height: clamp(92px, 22vw, 140px);
+    }
+
+    .firefly-field {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 12px;
+      justify-items: stretch;
+      align-items: stretch;
+    }
+    @media (max-width: 540px) {
+      .firefly-field {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+    .firefly {
+      position: relative;
+      min-height: 92px;
+      border: 1px solid rgba(251,191,36,0.18);
+      background: rgba(2,6,23,0.5);
+      padding: 0;
+      cursor: pointer;
+      border-radius: 22px;
+      overflow: hidden;
+      outline-offset: 4px;
+      box-shadow: 0 18px 44px rgba(2,6,23,0.28);
+      animation: fireflyFloat var(--floatDur, 2.9s) ease-in-out infinite;
+      animation-delay: var(--floatDelay, 0s);
+      transform: translate3d(0, 0, 0);
+    }
+    .firefly:focus-visible {
+      outline: 3px solid rgba(251,191,36,0.55);
+    }
+    .firefly-img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 92px;
+      object-fit: cover;
+      opacity: 0.92;
+      filter: saturate(1.1);
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+    .firefly-letter {
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      z-index: 1;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: 1px solid rgba(251,191,36,0.42);
+      background: rgba(15,23,42,0.86);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: #fff7ed;
+      text-shadow: 0 16px 40px rgba(2,6,23,0.75);
+      box-shadow: 0 10px 24px rgba(2,6,23,0.32);
+    }
+    .firefly::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 28px;
+      background: radial-gradient(circle at 50% 50%, rgba(251,191,36,0.34), rgba(251,191,36,0.08), transparent 70%);
+      opacity: 0.85;
+      filter: blur(2px);
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .firefly:hover::after {
+      opacity: 1;
+    }
+    .firefly.caught {
+      animation: none;
+    }
+    .firefly.caught::after {
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .firefly:hover .firefly-img {
+      transform: scale(1.05);
+      filter: saturate(1.22) brightness(1.08);
+    }
+    .firefly.caught .firefly-img,
+    .firefly.caught .firefly-letter {
+      animation: fireflyCatch 0.5s ease forwards;
+    }
+    @keyframes fireflyFloat {
+      0% { transform: translate3d(calc(var(--driftX, 0px) * -1), calc(var(--driftY, 0px) * 1), 0); }
+      50% { transform: translate3d(var(--driftX, 0px), calc(var(--driftY, 0px) * -1), 0); }
+      100% { transform: translate3d(calc(var(--driftX, 0px) * -1), calc(var(--driftY, 0px) * 1), 0); }
+    }
+    @keyframes fireflyCatch {
+      0% { transform: scale(1); filter: brightness(1); }
+      35% { transform: scale(1.05); filter: brightness(1.35); }
+      100% { transform: translateY(16px) scale(0.88); opacity: 0; filter: brightness(1.6); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .game-firefly-flicker .firefly,
+      .game-firefly-flicker .firefly-img,
+      .game-firefly-flicker .firefly-letter,
+      .game-firefly-flicker .jar-caught-firefly,
+      .game-firefly-flicker .jar-visual.wiggle {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+{{ end }}
+
+{{ define "body_class" }}game-page game-firefly-flicker text-slate-100{{ end }}
+
+{{ define "main" }}
+  <main id="mainContent" class="game-shell text-slate-100">
+    <header class="game-hero">
+      <h1 class="flex items-center justify-center gap-2 text-3xl font-extrabold tracking-tight text-slate-100 sm:text-5xl">
+        <span aria-hidden="true">✨</span>
+        <span>Firefly Flicker</span>
+      </h1>
+      <p class="text-sm text-slate-200 sm:text-base">Type the target letter to catch the glowing firefly and fill your jar.</p>
+    </header>
+
+    <section class="game-card space-y-5">
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+        <button id="startBtn" class="inline-flex w-full items-center justify-center rounded-2xl bg-amber-400 px-4 py-3 text-base font-semibold text-slate-900 shadow-lg shadow-amber-900/40 transition hover:bg-amber-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-200">Catch fireflies</button>
+        <button id="resetBtn" class="inline-flex w-full items-center justify-center rounded-2xl bg-slate-800/70 px-4 py-3 text-base font-semibold text-slate-100 shadow-lg shadow-slate-950/40 transition hover:bg-slate-700/70 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-slate-300" style="display:none;">Play again</button>
+      </div>
+      <div id="status" class="status-banner" role="status" aria-live="polite" aria-atomic="true">
+        <span class="status-badge" id="statusBadge">i</span>
+        <span id="statusText">Press “Catch fireflies” to start.</span>
+      </div>
+    </section>
+
+    <section id="gameArea" class="game-card space-y-8" style="display:none;" aria-live="polite">
+      <div class="grid gap-4 md:grid-cols-2 md:items-center">
+        <div class="grid place-items-center">
+          <div id="jar" class="jar-visual" role="img" aria-label="A jar filling with captured fireflies">
+            <div class="jar-cap" aria-hidden="true"></div>
+            <div class="jar-fill" aria-hidden="true">
+              <div id="jarFill" class="jar-fill-inner"></div>
+            </div>
+            <div id="jarLabel" class="jar-label">Fireflies: 0 / 7</div>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div class="rounded-3xl bg-amber-400/15 px-5 py-4 text-center text-sm font-semibold text-amber-100 shadow-inner shadow-amber-950/40 border border-amber-300/25">
+            <div class="uppercase tracking-[0.3em] text-xs text-amber-200">Target letter</div>
+            <div id="targetRow" class="letter-row target-letter-row mt-3 flex justify-center" role="list" aria-label="Target letter"></div>
+          </div>
+          <div class="rounded-3xl bg-slate-900/60 px-5 py-5 shadow-inner shadow-slate-950/35 border border-slate-600/30">
+            <div class="uppercase tracking-[0.3em] text-xs text-slate-300 text-center">Fireflies</div>
+            <div id="fireflyField" class="firefly-field mt-4" aria-label="Fireflies you can catch"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="celebrate" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <audio id="soundCorrect" src="https://actions.google.com/sounds/v1/cartoon/small_bell_jingle.ogg"></audio>
+  <audio id="soundWrong" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+  <audio id="soundWin" src="https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg"></audio>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "game-footer.html" (dict "context" . "tip" .Params.tip "theme" (default "dark" .Params.theme)) }}
+{{ end }}
+
+{{ define "scripts" }}
+  <script>
+    const TOTAL_CATCHES = 7;
+    const FIREFLY_COUNT = 7;
+    const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const status = document.getElementById('status');
+    const statusBadge = document.getElementById('statusBadge');
+    const statusText = document.getElementById('statusText');
+    const gameArea = document.getElementById('gameArea');
+    const jar = document.getElementById('jar');
+    const jarFill = document.getElementById('jarFill');
+    const jarLabel = document.getElementById('jarLabel');
+    const targetRow = document.getElementById('targetRow');
+    const fireflyField = document.getElementById('fireflyField');
+    const celebrate = document.getElementById('celebrate');
+
+    const soundCorrect = document.getElementById('soundCorrect');
+    const soundWrong = document.getElementById('soundWrong');
+    const soundWin = document.getElementById('soundWin');
+
+    const touchKeyboard = window.GameTouchKeyboard?.attach({
+      id: 'firefly-flicker',
+      label: 'Tap letters to catch fireflies',
+      onKeyPress: (char) => handleKeyPress(char, { skipHighlight: true }),
+      getViewportTarget: () => fireflyField,
+      getPaddingTarget: () => document.querySelector('.game-shell')
+    });
+    const isTouchDevice = touchKeyboard?.isTouchDevice?.() ?? false;
+
+    let active = false;
+    let catches = 0;
+    let targetLetter = 'A';
+    let fireflies = [];
+
+    function setStatus(kind, message){
+      statusText.innerHTML = message;
+      status.classList.remove('ok','bad');
+      statusBadge.textContent = 'i';
+      if(kind === 'ok'){
+        status.classList.add('ok');
+        statusBadge.textContent = '✓';
+      } else if(kind === 'bad'){
+        status.classList.add('bad');
+        statusBadge.textContent = '×';
+      }
+      status.style.display = 'flex';
+    }
+
+    function pickRandomLetter(){
+      return LETTERS[Math.floor(Math.random() * LETTERS.length)];
+    }
+
+    function shuffle(array){
+      for(let i = array.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function buildFireflies(target){
+      const chosen = new Set([target]);
+      while(chosen.size < FIREFLY_COUNT){
+        chosen.add(pickRandomLetter());
+      }
+      return shuffle(Array.from(chosen));
+    }
+
+    function renderTarget(){
+      targetRow.innerHTML = '';
+      targetRow.style.setProperty('--letters', 1);
+      const box = document.createElement('div');
+      box.className = 'letter-box current';
+      box.textContent = targetLetter;
+      box.setAttribute('role', 'listitem');
+      box.setAttribute('aria-label', `Target letter ${targetLetter}`);
+      box.setAttribute('aria-current', 'step');
+      targetRow.appendChild(box);
+      window.GameUI?.fitLettersFor?.(targetRow);
+      if(typeof requestAnimationFrame === 'function'){
+        requestAnimationFrame(()=> window.GameUI?.fitLettersFor?.(targetRow));
+      }
+    }
+
+    function driftValue(min, max){
+      return `${Math.round(min + Math.random() * (max - min))}px`;
+    }
+
+    function renderFireflies(){
+      fireflyField.innerHTML = '';
+      fireflies.forEach((letter, index)=>{
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'firefly';
+        btn.dataset.letter = letter;
+        btn.style.setProperty('--driftX', driftValue(4, 16));
+        btn.style.setProperty('--driftY', driftValue(6, 18));
+        btn.style.setProperty('--floatDur', `${(2.4 + Math.random() * 1.4).toFixed(2)}s`);
+        btn.style.setProperty('--floatDelay', `${(index * 0.07 + Math.random() * 0.15).toFixed(2)}s`);
+        btn.setAttribute('aria-label', `Firefly letter ${letter}`);
+
+        const img = document.createElement('img');
+        img.className = 'firefly-img';
+        img.src = '/images/firefly-flicker/firefly-card.png';
+        img.alt = '';
+        img.setAttribute('aria-hidden', 'true');
+        img.decoding = 'async';
+
+        const badge = document.createElement('span');
+        badge.className = 'firefly-letter';
+        badge.textContent = letter;
+        btn.appendChild(img);
+        btn.appendChild(badge);
+
+        btn.addEventListener('click', ()=> handleChoice(letter, { source: 'tap' }));
+        fireflyField.appendChild(btn);
+      });
+
+      if(isTouchDevice){
+        touchKeyboard?.ensureVisible?.(fireflyField);
+      }
+    }
+
+    function renderProgress(){
+      jarLabel.textContent = `Fireflies: ${catches} / ${TOTAL_CATCHES}`;
+      jarFill.innerHTML = '';
+      for(let i = 0; i < catches; i++){
+        const img = document.createElement('img');
+        img.className = 'jar-caught-firefly';
+        img.src = '/images/firefly-flicker/firefly-card.png';
+        img.alt = '';
+        img.setAttribute('aria-hidden', 'true');
+        img.decoding = 'async';
+        img.style.animationDelay = `${Math.min(i * 0.035, 0.18)}s`;
+        jarFill.appendChild(img);
+      }
+    }
+
+    function render(){
+      renderProgress();
+      renderTarget();
+      renderFireflies();
+    }
+
+    function nextPrompt(){
+      targetLetter = pickRandomLetter();
+      fireflies = buildFireflies(targetLetter);
+      render();
+      setStatus('ok', `Catch the firefly with <strong>${targetLetter}</strong>.`);
+    }
+
+    function handleCorrect(){
+      catches += 1;
+      renderProgress();
+      soundCorrect.currentTime = 0;
+      window.GameSound.play(soundCorrect);
+
+      if(catches >= TOTAL_CATCHES){
+        finishGame();
+        return;
+      }
+
+      nextPrompt();
+    }
+
+    function jarOops(){
+      jar.classList.remove('wiggle');
+      void jar.offsetWidth;
+      jar.classList.add('wiggle');
+    }
+
+    function handleWrong(pressed){
+      soundWrong.currentTime = 0;
+      window.GameSound.play(soundWrong);
+      jarOops();
+      const shown = (pressed || '?').toUpperCase();
+      setStatus('bad', `Oops! Looking for <strong>${targetLetter}</strong> — you pressed <strong>${shown}</strong>.`);
+      if(isTouchDevice){
+        touchKeyboard?.ensureVisible?.(fireflyField);
+      }
+    }
+
+    function catchVisual(){
+      const matching = fireflyField.querySelector(`.firefly[data-letter="${targetLetter}"]`);
+      if(!matching){
+        handleCorrect();
+        return;
+      }
+      matching.classList.add('caught');
+      setTimeout(()=> handleCorrect(), 480);
+    }
+
+    function handleChoice(letter, opts = {}){
+      if(!active) return;
+      if(!letter || letter.length !== 1) return;
+      const pressed = letter.toUpperCase();
+      if(!/[A-Z]/.test(pressed)) return;
+      if(!opts.skipHighlight){
+        touchKeyboard?.flashKey?.(pressed);
+      }
+      if(pressed === targetLetter){
+        setStatus('ok', `Yes! You caught <strong>${targetLetter}</strong>.`);
+        catchVisual();
+      } else {
+        handleWrong(pressed);
+      }
+    }
+
+    function handleKeyPress(key, opts = {}){
+      if(!key || key.length !== 1) return;
+      handleChoice(key, opts);
+    }
+
+    function finishGame(){
+      active = false;
+      const winMarkup = `
+        <div class="rounded-[28px] border-2 border-amber-300/30 bg-amber-400/10 px-6 py-6 text-center shadow-2xl shadow-black/40">
+          <div class="text-2xl font-extrabold text-amber-100 uppercase tracking-[0.25em]">Jar Full</div>
+          <div class="mt-2 text-lg font-semibold text-slate-100">You caught every firefly!</div>
+          <div class="mt-2 text-4xl leading-none">✨🫙✨</div>
+        </div>
+      `;
+      celebrate.innerHTML = winMarkup;
+      setStatus('ok', 'Jar full of sparkle! Want to play again?');
+      soundWin.currentTime = 0;
+      window.GameSound.play(soundWin);
+      touchKeyboard?.hide?.();
+      if(window.GameCelebration){
+        window.GameCelebration.show({
+          content: winMarkup,
+          onPlayAgain: ()=>{
+            resetGame();
+            startGame();
+          },
+          focusTarget: resetBtn,
+          initialFocus: 'playAgain'
+        });
+      } else {
+        resetBtn.focus();
+      }
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
+    }
+
+    function startGame(){
+      active = true;
+      catches = 0;
+      celebrate.innerHTML = '';
+      startBtn.style.display = 'none';
+      resetBtn.style.display = 'inline-flex';
+      gameArea.style.display = 'block';
+      renderProgress();
+      nextPrompt();
+      if(isTouchDevice){
+        touchKeyboard?.show?.();
+      }
+    }
+
+    function resetGame(){
+      active = false;
+      catches = 0;
+      startBtn.style.display = 'inline-flex';
+      resetBtn.style.display = 'none';
+      gameArea.style.display = 'none';
+      celebrate.innerHTML = '';
+      targetRow.innerHTML = '';
+      fireflyField.innerHTML = '';
+      jarFill.innerHTML = '';
+      jar.classList.remove('wiggle');
+      setStatus(null, 'Press “Catch fireflies” to start.');
+      touchKeyboard?.hide?.();
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
+    }
+
+    startBtn.addEventListener('click', startGame);
+    resetBtn.addEventListener('click', resetGame);
+
+    document.addEventListener('keydown', (e)=>{
+      if(!active) return;
+      const target = e.target;
+      if(target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;
+      handleKeyPress(e.key);
+    });
+
+    setStatus(null, 'Press “Catch fireflies” to start.');
+    status.style.display = 'flex';
+  </script>
+{{ end }}

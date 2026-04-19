@@ -1,0 +1,543 @@
+{{ define "styles" }}
+  <style>
+    .game-sandcastle-builder {
+      color: #17324d;
+      background:
+        radial-gradient(900px circle at 8% 8%, rgba(125, 211, 252, 0.55), transparent 60%),
+        radial-gradient(760px circle at 90% 10%, rgba(251, 191, 36, 0.42), transparent 58%),
+        linear-gradient(180deg, #e0f7ff 0%, #fff7d6 58%, #fef3c7 100%);
+      --card-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(255, 251, 235, 0.76));
+      --card-border: rgba(14, 116, 144, 0.18);
+      --card-shadow: 0 32px 95px rgba(8, 145, 178, 0.15);
+      --status-border: rgba(14, 116, 144, 0.22);
+      --status-bg: rgba(14, 116, 144, 0.08);
+      --status-color: #17324d;
+      --status-ok-bg: rgba(16, 185, 129, 0.16);
+      --status-ok-border: rgba(16, 185, 129, 0.32);
+      --status-ok-color: #065f46;
+      --status-bad-bg: rgba(244, 63, 94, 0.14);
+      --status-bad-border: rgba(244, 63, 94, 0.3);
+      --status-bad-color: #9f1239;
+      --status-badge-bg: rgba(14, 165, 233, 0.2);
+      --status-badge-color: #0369a1;
+      --status-ok-badge-bg: rgba(16, 185, 129, 0.9);
+      --status-ok-badge-color: #ffffff;
+      --status-bad-badge-bg: rgba(244, 63, 94, 0.9);
+      --status-bad-badge-color: #ffffff;
+      --overlay-panel-bg: rgba(255, 255, 255, 0.96);
+      --overlay-panel-color: #17324d;
+      --overlay-action-primary: #0891b2;
+      --letter-gap: clamp(10px, 4vw, 22px);
+      --letter-size: clamp(50px, min(11vw, 80px), 90px);
+      --letter-min-size: clamp(50px, min(11vw, 80px), 90px);
+      --letter-height: clamp(66px, min(15vw, 104px), 112px);
+      --letter-radius: clamp(16px, 4vw, 24px);
+      --letter-border-width: 3px;
+      --letter-border-color: rgba(14, 116, 144, 0.22);
+      --letter-bg: rgba(255, 255, 255, 0.92);
+      --letter-color: rgba(14, 116, 144, 0.62);
+      --letter-filled-border-color: rgba(16, 185, 129, 0.52);
+      --letter-filled-bg: rgba(209, 250, 229, 0.72);
+      --letter-filled-color: #047857;
+      --letter-current-border-color: rgba(8, 145, 178, 0.78);
+      --letter-current-bg: rgba(207, 250, 254, 0.86);
+      --letter-current-color: #17324d;
+      --letter-current-shadow: 0 18px 46px rgba(8, 145, 178, 0.17);
+      --letter-error-border-color: rgba(244, 63, 94, 0.62);
+      --letter-error-bg: rgba(255, 228, 230, 0.94);
+      --letter-error-color: #9f1239;
+      --touch-panel-bg: linear-gradient(145deg, rgba(8, 145, 178, 0.94), rgba(13, 148, 136, 0.82));
+      --touch-panel-color: #ecfeff;
+      --touch-label-color: #bae6fd;
+      --touch-key-bg: rgba(14, 116, 144, 0.26);
+      --touch-key-border: rgba(165, 243, 252, 0.56);
+      --touch-key-color: #ecfeff;
+      --touch-key-shadow: 0 16px 34px rgba(21, 94, 117, 0.22);
+      --touch-key-active-bg: rgba(14, 116, 144, 0.94);
+      --touch-key-active-color: #ecfeff;
+      --touch-key-highlight-bg: rgba(8, 145, 178, 0.96);
+      --touch-key-highlight-border: rgba(207, 250, 254, 0.58);
+    }
+
+    .game-sandcastle-builder .game-card--controls,
+    .game-sandcastle-builder .game-card--play {
+      --card-shadow-current: 0 32px 105px rgba(8, 145, 178, 0.16);
+      --card-border-current: rgba(14, 116, 144, 0.2);
+    }
+
+    .castle-scene {
+      position: relative;
+      aspect-ratio: 3 / 2;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 2px solid rgba(14, 116, 144, 0.16);
+      background: #dff7fb;
+      box-shadow: 0 26px 70px rgba(8, 145, 178, 0.13);
+      isolation: isolate;
+    }
+
+    .castle-scene img {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 180ms ease, transform 240ms ease;
+    }
+
+    .castle-scene.is-advanced img {
+      animation: sceneSettle 260ms ease;
+    }
+
+    .castle-scene__progress {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 16px;
+      z-index: 2;
+      height: 10px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.58);
+      box-shadow: 0 8px 24px rgba(8, 145, 178, 0.16);
+    }
+
+    .castle-scene__progress span {
+      display: block;
+      width: var(--build-progress, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #f59e0b, #06b6d4);
+      transition: width 240ms ease;
+    }
+
+    @keyframes sceneSettle {
+      0% { opacity: 0.45; transform: scale(1.012); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .castle-scene__shine {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(115deg, transparent 0 34%, rgba(255, 255, 255, 0.28) 46%, transparent 58% 100%);
+      transform: translateX(-120%);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .castle-scene.is-advanced .castle-scene__shine {
+      animation: shoreShine 520ms ease;
+    }
+
+    @keyframes shoreShine {
+      0% { opacity: 0; transform: translateX(-120%); }
+      30% { opacity: 1; }
+      100% { opacity: 0; transform: translateX(120%); }
+    }
+
+    .progress-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      background: rgba(14, 165, 233, 0.09);
+      border-radius: 999px;
+      border: 2px solid rgba(14, 116, 144, 0.2);
+      font-weight: 800;
+      color: #0369a1;
+    }
+
+    .progress-chip strong {
+      font-size: 1.1rem;
+    }
+
+    .queue-list span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: rgba(252, 211, 77, 0.22);
+      border: 1px solid rgba(217, 119, 6, 0.18);
+      color: #92400e;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .build-goal {
+      border-radius: 24px;
+      border: 1px solid rgba(14, 116, 144, 0.16);
+      background: linear-gradient(145deg, rgba(236, 254, 255, 0.84), rgba(254, 243, 199, 0.68));
+      padding: 16px;
+      color: #164e63;
+      font-weight: 800;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.74);
+    }
+
+    .celebration {
+      padding: 24px 20px;
+      border-radius: 28px;
+      border: 3px solid rgba(14, 165, 233, 0.28);
+      background: linear-gradient(145deg, rgba(207, 250, 254, 0.9), rgba(254, 243, 199, 0.86));
+      box-shadow: 0 30px 80px rgba(8, 145, 178, 0.17);
+      text-align: center;
+      animation: bannerPop 0.6s ease;
+    }
+
+    @media (max-width: 520px) {
+      .castle-scene {
+        border-radius: 18px;
+      }
+    }
+  </style>
+{{ end }}
+
+{{ define "body_class" }}game-page game-sandcastle-builder text-slate-900{{ end }}
+
+{{ define "main" }}
+  <main id="mainContent" class="game-shell text-slate-900">
+    <header class="game-hero">
+      <h1 class="text-3xl font-extrabold tracking-tight text-cyan-950 sm:text-5xl">Sandcastle Builder</h1>
+      <p class="text-sm text-cyan-900/75 sm:text-base">Type beach words to pack sand, raise towers, add flags, and finish the castle by the shore.</p>
+    </header>
+
+    <section class="game-card game-card--controls space-y-6">
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+        <button id="startBtn" class="inline-flex w-full items-center justify-center rounded-2xl bg-cyan-600 px-4 py-3 text-base font-semibold text-white shadow-lg shadow-cyan-200 transition hover:bg-cyan-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cyan-200">
+          Start building
+        </button>
+        <button id="resetBtn" class="inline-flex w-full items-center justify-center rounded-2xl bg-amber-500 px-4 py-3 text-base font-semibold text-white shadow-lg shadow-amber-200 transition hover:bg-amber-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-200" style="display:none;">
+          Play again
+        </button>
+      </div>
+      <div id="status" class="status-banner" role="status" aria-live="polite" aria-atomic="true">
+        <span class="status-badge" id="statusBadge">i</span>
+        <span id="statusText">Press Start to scoop the first bucket of sand.</span>
+      </div>
+    </section>
+
+    <section id="gameArea" class="game-card game-card--play space-y-8" style="display:none;" aria-live="polite">
+      <div class="grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-start">
+        <div id="scene" class="castle-scene" aria-label="Sandcastle building scene" role="img">
+          <img id="sceneImage" src="/images/sandcastle-builder/step-0-empty.png" alt="Sandcastle builder scene: empty beach spot" decoding="async" />
+          <div class="castle-scene__shine"></div>
+          <div class="castle-scene__progress" aria-hidden="true"><span></span></div>
+        </div>
+        <div class="space-y-4">
+          <div class="flex flex-wrap items-center justify-center gap-3 text-sm text-cyan-900/75 lg:justify-start">
+            <div class="progress-chip" id="progressChip"><span>Step</span> <strong>1 of 5</strong></div>
+            <div class="inline-flex items-center gap-2 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.32em] text-amber-700">
+              <span aria-hidden="true">~</span><span>Shore</span>
+            </div>
+          </div>
+          <div id="buildGoal" class="build-goal">Find a sunny spot on the beach.</div>
+          <div class="rounded-3xl border border-cyan-100/80 bg-white/70 p-4 shadow-inner">
+            <div id="queue" class="queue-list flex flex-wrap justify-center gap-2 lg:justify-start" aria-label="Next words"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-4 text-center">
+        <div class="game-section-title text-cyan-600">Type the word</div>
+        <div id="letterRow" class="letter-row" role="list" aria-label="Current word letters"></div>
+        <div id="hint" class="text-sm font-semibold text-cyan-900/75">Press Start to begin.</div>
+      </div>
+
+      <div id="celebrate" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <audio id="soundCorrect" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+  <audio id="soundWrong" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+  <audio id="soundWin" src="https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg"></audio>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "game-footer.html" (dict "context" . "tip" .Params.tip "theme" (default "light" .Params.theme)) }}
+{{ end }}
+
+{{ define "scripts" }}
+  <script>
+    const WORDS = [
+      { word: 'scoop', label: 'Scoop the first bucket of sand' },
+      { word: 'base', label: 'Press the base walls into place' },
+      { word: 'tower', label: 'Raise the castle towers' },
+      { word: 'shells', label: 'Plant flags and press shells into the castle wall' },
+      { word: 'moat', label: 'Fill the moat around the castle' }
+    ];
+
+    const STATES = [
+      { image: '/images/sandcastle-builder/step-0-empty.png', progress: 0, label: 'Empty beach spot' },
+      { image: '/images/sandcastle-builder/step-1-scoop.png', progress: 20, label: 'Loose sand pile started' },
+      { image: '/images/sandcastle-builder/step-2-base.png', progress: 40, label: 'Base walls pressed into place' },
+      { image: '/images/sandcastle-builder/step-3-towers.png', progress: 60, label: 'Castle towers raised' },
+      { image: '/images/sandcastle-builder/step-4-shells.png', progress: 80, label: 'Flags and shells added' },
+      { image: '/images/sandcastle-builder/step-5-moat.png', progress: 100, label: 'Finished sandcastle with moat' }
+    ];
+
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const status = document.getElementById('status');
+    const statusBadge = document.getElementById('statusBadge');
+    const statusText = document.getElementById('statusText');
+    const gameArea = document.getElementById('gameArea');
+    const letterRow = document.getElementById('letterRow');
+    const hint = document.getElementById('hint');
+    const queue = document.getElementById('queue');
+    const celebrate = document.getElementById('celebrate');
+    const scene = document.getElementById('scene');
+    const sceneImage = document.getElementById('sceneImage');
+    const progressChip = document.getElementById('progressChip');
+    const buildGoal = document.getElementById('buildGoal');
+
+    const soundCorrect = document.getElementById('soundCorrect');
+    const soundWrong = document.getElementById('soundWrong');
+    const soundWin = document.getElementById('soundWin');
+
+    let active = false;
+    let wordIndex = 0;
+    let letterIndex = 0;
+
+    const touchKeyboard = window.GameTouchKeyboard?.attach({
+      id: 'sandcastle-builder',
+      label: 'Tap letters to build the sandcastle',
+      onKeyPress: (char) => handleKeyPress(char, { skipHighlight: true }),
+      getViewportTarget: () => letterRow,
+      getPaddingTarget: () => document.querySelector('.game-shell')
+    });
+    const isTouchDevice = touchKeyboard?.isTouchDevice?.() ?? false;
+
+    function setStatus(kind, message){
+      statusText.innerHTML = message;
+      status.classList.remove('ok','bad');
+      statusBadge.textContent = 'i';
+      if(kind === 'ok'){
+        status.classList.add('ok');
+        statusBadge.textContent = '✓';
+      } else if(kind === 'bad'){
+        status.classList.add('bad');
+        statusBadge.textContent = '×';
+      }
+      status.style.display = 'flex';
+    }
+
+    function currentStep(){
+      return WORDS[wordIndex];
+    }
+
+    function updateScene(animate = false){
+      const state = STATES[Math.min(wordIndex, STATES.length - 1)] || STATES[0];
+      scene.setAttribute('aria-label', `Sandcastle builder scene: ${state.label}`);
+      sceneImage.src = state.image;
+      sceneImage.alt = `Sandcastle builder scene: ${state.label}`;
+      scene.style.setProperty('--build-progress', `${state.progress}%`);
+      if(animate){
+        scene.classList.remove('is-advanced');
+        void scene.offsetWidth;
+        scene.classList.add('is-advanced');
+      }
+    }
+
+    function renderQueue(){
+      const upcoming = WORDS.slice(wordIndex + 1, wordIndex + 5);
+      if(upcoming.length === 0){
+        queue.innerHTML = '';
+        return;
+      }
+      queue.innerHTML = upcoming.map(step => `<span>${step.word.toUpperCase()}</span>`).join('');
+    }
+
+    function updateProgress(){
+      const total = WORDS.length;
+      const current = Math.min(wordIndex + 1, total);
+      progressChip.innerHTML = `<span>Step</span> <strong>${current} of ${total}</strong>`;
+      buildGoal.textContent = currentStep()?.label || 'The sandcastle is complete.';
+      renderQueue();
+    }
+
+    function renderWord(){
+      letterRow.innerHTML = '';
+      const step = currentStep();
+      const word = step?.word || '';
+      letterRow.style.setProperty('--letters', word.length);
+      for(let i = 0; i < word.length; i++){
+        const box = document.createElement('div');
+        box.className = 'letter-box';
+        box.dataset.index = i;
+        const letter = word[i].toUpperCase();
+        box.textContent = letter;
+        box.setAttribute('role', 'listitem');
+        if(i < letterIndex){
+          box.classList.add('filled');
+          box.setAttribute('aria-label', `Letter ${letter}, correct`);
+        } else if(i === letterIndex){
+          box.classList.add('current');
+          box.setAttribute('aria-label', `Letter ${letter}, current`);
+          box.setAttribute('aria-current', 'step');
+        } else {
+          box.setAttribute('aria-label', `Letter ${letter}`);
+        }
+        letterRow.appendChild(box);
+      }
+      window.GameUI?.fitLettersFor?.(letterRow);
+      if(typeof requestAnimationFrame === 'function'){
+        requestAnimationFrame(() => window.GameUI?.fitLettersFor?.(letterRow));
+      }
+      if(isTouchDevice){
+        touchKeyboard?.ensureVisible(letterRow);
+      }
+    }
+
+    function startGame(){
+      active = true;
+      wordIndex = 0;
+      letterIndex = 0;
+      celebrate.innerHTML = '';
+      startBtn.style.display = 'none';
+      resetBtn.style.display = 'inline-flex';
+      gameArea.style.display = 'block';
+      updateScene();
+      updateProgress();
+      renderWord();
+      hint.textContent = currentStep().label;
+      setStatus('ok', `Type <strong>${currentStep().word.toUpperCase()}</strong> to ${currentStep().label.toLowerCase()}.`);
+      if(isTouchDevice){
+        touchKeyboard?.show();
+        touchKeyboard?.ensureVisible(letterRow);
+      }
+    }
+
+    function resetGame(){
+      active = false;
+      wordIndex = 0;
+      letterIndex = 0;
+      startBtn.style.display = 'inline-flex';
+      resetBtn.style.display = 'none';
+      gameArea.style.display = 'none';
+      celebrate.innerHTML = '';
+      letterRow.innerHTML = '';
+      letterRow.style.removeProperty('--letters');
+      queue.innerHTML = '';
+      hint.textContent = 'Press Start to begin.';
+      buildGoal.textContent = 'Find a sunny spot on the beach.';
+      updateScene();
+      setStatus(null, 'Press Start to scoop the first bucket of sand.');
+      status.style.display = 'flex';
+      touchKeyboard?.hide();
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
+    }
+
+    function nextStep(){
+      wordIndex += 1;
+      letterIndex = 0;
+      if(wordIndex >= WORDS.length){
+        finishGame();
+        return;
+      }
+      updateScene(true);
+      updateProgress();
+      renderWord();
+      hint.textContent = currentStep().label;
+      setStatus('ok', `Nice! Type <strong>${currentStep().word.toUpperCase()}</strong> to ${currentStep().label.toLowerCase()}.`);
+    }
+
+    function finishGame(){
+      active = false;
+      touchKeyboard?.hide();
+      wordIndex = STATES.length - 1;
+      updateScene(true);
+      updateProgress();
+      setStatus('ok', 'The moat is full and the sandcastle is complete.');
+      const winMarkup = `
+        <div class="celebration">
+          <div class="text-2xl font-extrabold uppercase tracking-[0.22em] text-cyan-800">Castle complete!</div>
+          <div class="text-sm font-semibold text-cyan-950/75">You typed every sunny beach word.</div>
+          <div class="text-3xl">🏰 ✨ 🌊</div>
+        </div>
+      `;
+      celebrate.innerHTML = winMarkup;
+      soundWin.currentTime = 0;
+      window.GameSound.play(soundWin);
+      if(window.GameCelebration){
+        window.GameCelebration.show({
+          content: winMarkup,
+          onPlayAgain: () => {
+            resetGame();
+            startGame();
+          },
+          focusTarget: resetBtn,
+          initialFocus: 'playAgain'
+        });
+      } else {
+        resetBtn.focus();
+      }
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
+    }
+
+    function handleWrong(key){
+      soundWrong.currentTime = 0;
+      window.GameSound.play(soundWrong);
+      const step = currentStep();
+      const expected = step.word[letterIndex].toUpperCase();
+      const shown = (key || '?').toUpperCase();
+      setStatus('bad', `Almost! Need <strong>${expected}</strong>; you pressed <strong>${shown}</strong>.`);
+      const box = letterRow.querySelector(`.letter-box[data-index="${letterIndex}"]`);
+      if(box){
+        box.classList.remove('wiggle');
+        void box.offsetWidth;
+        box.classList.add('wiggle');
+      }
+      if(isTouchDevice){
+        touchKeyboard?.ensureVisible(letterRow);
+      }
+    }
+
+    function handleCorrect(){
+      soundCorrect.currentTime = 0;
+      window.GameSound.play(soundCorrect);
+      const step = currentStep();
+      letterIndex += 1;
+      if(letterIndex >= step.word.length){
+        nextStep();
+        return;
+      }
+      renderWord();
+      setStatus('ok', `Great! Next letter: <strong>${step.word[letterIndex].toUpperCase()}</strong>`);
+    }
+
+    function handleKeyPress(key, opts = {}){
+      if(!active) return;
+      if(!key || key.length !== 1) return;
+      if(!/[a-zA-Z]/.test(key)) return;
+      if(!opts.skipHighlight){
+        touchKeyboard?.flashKey?.(key);
+      }
+      const step = currentStep();
+      const expected = step?.word?.[letterIndex];
+      if(!expected) return;
+      if(key.toLowerCase() === expected.toLowerCase()){
+        handleCorrect();
+      } else {
+        handleWrong(key);
+      }
+    }
+
+    startBtn.addEventListener('click', startGame);
+    resetBtn.addEventListener('click', resetGame);
+
+    document.addEventListener('keydown', (e) => {
+      if(!active) return;
+      const target = e.target;
+      if(target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;
+      handleKeyPress(e.key);
+    });
+
+    updateScene();
+    setStatus(null, 'Press Start to scoop the first bucket of sand.');
+    status.style.display = 'flex';
+  </script>
+{{ end }}

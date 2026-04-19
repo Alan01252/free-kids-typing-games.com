@@ -22,6 +22,12 @@
   badge_label: "Farm"
   badge_emoji: "🐷"
   description: "Type farm animal names to match the emoji and practise spelling."
+- slug: firefly-flicker
+  title: "Firefly Flicker"
+  emoji: "✨"
+  badge_label: "Letters"
+  badge_emoji: "🔤"
+  description: "Type the target letter to catch glowing fireflies and fill your jar."
 - slug: ghostly-word-hunt
   title: "Ghostly Word Hunt"
   emoji: "👻"
@@ -70,6 +76,12 @@
   badge_label: "Rocket launch"
   badge_emoji: "🚀"
   description: "Type each word to launch a rocket. A short space-themed word-typing game."
+- slug: sandcastle-builder
+  title: "Sandcastle Builder"
+  emoji: "🏖️"
+  badge_label: "Beach"
+  badge_emoji: "🏖️"
+  description: "Type sunny beach words to build a sandcastle one piece at a time."
 - slug: santa-spells
   title: "Santa Spells"
   emoji: "🎅"

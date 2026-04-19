@@ -103,3 +103,10 @@ https://actions.google.com/sounds/v1/cartoon/xylophone_tip_toe_scale_up.ogg
 - Keep character PNGs transparent so gradients show through (`sips -g hasAlpha static/images/*.png` on macOS helps verify).
 - Place reusable SVGs or audio in `static/` so Hugo copies them unchanged.
 - When adding new gradients or shadows, prefer CSS custom properties inside `.game-<slug>` so other games stay unaffected.
+- For generated step-by-step game art, design the game around a small number of unmistakably distinct states. Prefer 5-7 strong steps over 8-10 subtle ones.
+- If using generated image grids or sprite sheets, inspect the output before wiring it into gameplay. Drop panels that are visually duplicated, jump backward in progression, or do not clearly match a typed word.
+- Prompt image generation with exact gameplay states and visible deltas, e.g. "empty beach", "small mound", "shaped base", "towers added", "decorated", "finished with moat". Avoid separate words for changes the artwork cannot show clearly.
+- Keep the word list and art list tightly paired: one typed word should cause one obvious visual change. If two states look nearly the same, combine them into one word.
+- For the final game, prefer named per-state assets such as `step-0-empty.png`, `step-1-base.png`, etc. Cropping the approved panels into standalone files is more robust than relying on CSS background offsets over a raw generated sheet.
+- If using one finished image as a fixed-camera overlay, reveal it with a hard mask/`clip-path`, not opacity. A transparent full-image preview looks like a visual bug during play.
+- Best workflow for generated progression art: generate one strong base image, then edit that accepted image into the next state, save it, inspect it, and use that accepted state as the edit target for the following state. Do not ask for a whole progression grid unless you are willing to reject or manually crop/repair inconsistent panels.
