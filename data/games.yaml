@@ -10,6 +10,12 @@
   badge_label: "Directions"
   badge_emoji: "🧭"
   description: "Type direction words to guide the explorer through a tiny maze."
+- slug: easter-egg-hunt
+  title: "Easter Egg Hunt"
+  emoji: "🐣"
+  badge_label: "Easter"
+  badge_emoji: "🥚"
+  description: "Spell Easter and spring words to find eggs, meet garden friends, and fill a basket."
 - slug: emotion-journey
   title: "Emotion Journey"
   emoji: "🙂"

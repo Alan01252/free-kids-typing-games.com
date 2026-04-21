@@ -1,0 +1,635 @@
+{{ define "styles" }}
+  <style>
+    .game-easter-egg-hunt {
+      color: #243118;
+      background:
+        radial-gradient(760px circle at 10% 5%, rgba(244, 114, 182, 0.24), transparent 56%),
+        radial-gradient(720px circle at 90% 10%, rgba(250, 204, 21, 0.3), transparent 58%),
+        linear-gradient(180deg, #effdf5 0%, #fdf7ff 48%, #fff7ed 100%);
+      --card-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(253, 244, 255, 0.78));
+      --card-border: rgba(132, 204, 22, 0.2);
+      --card-shadow: 0 30px 90px rgba(132, 204, 22, 0.14);
+      --status-border: rgba(132, 204, 22, 0.28);
+      --status-bg: rgba(240, 253, 244, 0.72);
+      --status-color: #243118;
+      --status-ok-bg: rgba(220, 252, 231, 0.84);
+      --status-ok-border: rgba(34, 197, 94, 0.36);
+      --status-ok-color: #14532d;
+      --status-bad-bg: rgba(255, 228, 230, 0.92);
+      --status-bad-border: rgba(244, 63, 94, 0.36);
+      --status-bad-color: #9f1239;
+      --status-badge-bg: #84cc16;
+      --status-badge-color: #1a2e05;
+      --status-ok-badge-bg: #22c55e;
+      --status-ok-badge-color: #ffffff;
+      --status-bad-badge-bg: #e11d48;
+      --status-bad-badge-color: #ffffff;
+      --overlay-panel-bg: rgba(255, 255, 255, 0.97);
+      --overlay-panel-color: #243118;
+      --overlay-action-primary: #84cc16;
+      --letter-gap: clamp(8px, 3vw, 18px);
+      --letter-size: clamp(48px, min(10vw, 74px), 82px);
+      --letter-min-size: clamp(48px, min(10vw, 74px), 82px);
+      --letter-height: clamp(62px, min(13vw, 94px), 104px);
+      --letter-radius: 18px;
+      --letter-border-width: 3px;
+      --letter-border-color: rgba(132, 204, 22, 0.24);
+      --letter-bg: rgba(255, 255, 255, 0.94);
+      --letter-color: rgba(77, 124, 15, 0.58);
+      --letter-filled-border-color: rgba(34, 197, 94, 0.52);
+      --letter-filled-bg: rgba(220, 252, 231, 0.84);
+      --letter-filled-color: #166534;
+      --letter-current-border-color: rgba(236, 72, 153, 0.72);
+      --letter-current-bg: rgba(252, 231, 243, 0.88);
+      --letter-current-color: #243118;
+      --letter-current-shadow: 0 18px 44px rgba(236, 72, 153, 0.16);
+      --letter-error-border-color: rgba(244, 63, 94, 0.62);
+      --letter-error-bg: rgba(255, 228, 230, 0.94);
+      --letter-error-color: #9f1239;
+      --touch-panel-bg: linear-gradient(145deg, rgba(132, 204, 22, 0.96), rgba(236, 72, 153, 0.82));
+      --touch-panel-color: #ffffff;
+      --touch-label-color: #fff7ed;
+      --touch-key-bg: rgba(255, 255, 255, 0.18);
+      --touch-key-border: rgba(255, 255, 255, 0.48);
+      --touch-key-color: #ffffff;
+      --touch-key-shadow: 0 16px 34px rgba(77, 124, 15, 0.18);
+      --touch-key-active-bg: rgba(77, 124, 15, 0.96);
+      --touch-key-active-color: #ffffff;
+      --touch-key-highlight-bg: rgba(236, 72, 153, 0.96);
+      --touch-key-highlight-border: rgba(252, 231, 243, 0.68);
+    }
+
+    .game-easter-egg-hunt .game-card--controls,
+    .game-easter-egg-hunt .game-card--play {
+      --card-shadow-current: 0 32px 100px rgba(132, 204, 22, 0.16);
+      --card-border-current: rgba(132, 204, 22, 0.22);
+    }
+
+    .hunt-action {
+      display: inline-flex;
+      width: 100%;
+      min-height: 52px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      padding: 12px 16px;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 800;
+      box-shadow: 0 16px 34px rgba(77, 124, 15, 0.18);
+      transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+    }
+
+    .hunt-action:hover {
+      transform: translateY(-1px);
+    }
+
+    .hunt-action:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(190, 242, 100, 0.72), 0 16px 34px rgba(77, 124, 15, 0.18);
+    }
+
+    .hunt-action--start {
+      background: #65a30d;
+    }
+
+    .hunt-action--start:hover {
+      background: #4d7c0f;
+    }
+
+    .hunt-action--reset {
+      background: #db2777;
+      box-shadow: 0 16px 34px rgba(190, 24, 93, 0.18);
+    }
+
+    .hunt-action--reset:hover {
+      background: #be185d;
+    }
+
+    .hunt-scene {
+      position: relative;
+      min-height: clamp(260px, 48vw, 500px);
+      overflow: hidden;
+      border-radius: 24px;
+      border: 2px solid rgba(132, 204, 22, 0.2);
+      background: #dcfce7;
+      box-shadow: 0 26px 72px rgba(132, 204, 22, 0.14);
+      isolation: isolate;
+    }
+
+    .hunt-scene img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 260ms ease, filter 220ms ease;
+    }
+
+    .hunt-scene.is-advanced img {
+      animation: easterSceneSettle 300ms ease;
+    }
+
+    .hunt-scene::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(36, 49, 24, 0.16)),
+        radial-gradient(520px circle at 50% 76%, rgba(255, 255, 255, 0.24), transparent 54%);
+      pointer-events: none;
+    }
+
+    .hunt-banner {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      top: 16px;
+      z-index: 4;
+      display: grid;
+      gap: 8px;
+      max-width: 540px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(132, 204, 22, 0.22);
+      background: rgba(255, 255, 255, 0.9);
+      color: #243118;
+      box-shadow: 0 18px 44px rgba(77, 124, 15, 0.14);
+      backdrop-filter: blur(8px);
+    }
+
+    .hunt-banner__label {
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #65a30d;
+    }
+
+    .hunt-banner__title {
+      font-size: clamp(1.3rem, 4vw, 2rem);
+      font-weight: 900;
+      line-height: 1.05;
+    }
+
+    .hunt-banner__note {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: rgba(36, 49, 24, 0.72);
+    }
+
+    .hunt-progress {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 16px;
+      z-index: 4;
+      height: 12px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      box-shadow: 0 10px 26px rgba(77, 124, 15, 0.14);
+    }
+
+    .hunt-progress span {
+      display: block;
+      width: var(--hunt-progress, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #84cc16, #f472b6, #facc15, #38bdf8);
+      transition: width 260ms ease;
+    }
+
+    .finds-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .finds-list__item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 48px;
+      border-radius: 16px;
+      border: 1px solid rgba(132, 204, 22, 0.16);
+      background: rgba(255, 255, 255, 0.68);
+      padding: 10px 12px;
+      color: rgba(36, 49, 24, 0.72);
+      font-weight: 800;
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, color 160ms ease;
+    }
+
+    .finds-list__item.is-current {
+      border-color: rgba(236, 72, 153, 0.44);
+      background: rgba(252, 231, 243, 0.78);
+      color: #831843;
+      transform: translateX(4px);
+    }
+
+    .finds-list__item.is-done {
+      border-color: rgba(34, 197, 94, 0.32);
+      background: rgba(220, 252, 231, 0.8);
+      color: #166534;
+    }
+
+    .finds-list__label {
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .finds-list__word {
+      font-size: 0.95rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .basket-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 999px;
+      border: 2px solid rgba(132, 204, 22, 0.22);
+      background: rgba(240, 253, 244, 0.76);
+      padding: 10px 14px;
+      color: #4d7c0f;
+      font-weight: 900;
+    }
+
+    .celebration {
+      padding: 24px 20px;
+      border-radius: 28px;
+      border: 3px solid rgba(236, 72, 153, 0.24);
+      background: linear-gradient(145deg, rgba(252, 231, 243, 0.94), rgba(240, 253, 244, 0.92));
+      box-shadow: 0 30px 80px rgba(132, 204, 22, 0.17);
+      text-align: center;
+      animation: bannerPop 0.6s ease;
+    }
+
+    @keyframes easterSceneSettle {
+      0% { filter: saturate(0.86); transform: scale(1.012); }
+      100% { filter: saturate(1); transform: scale(1); }
+    }
+
+    @media (max-width: 720px) {
+      .hunt-scene {
+        border-radius: 18px;
+      }
+
+      .hunt-banner {
+        left: 12px;
+        right: 12px;
+        top: 12px;
+      }
+    }
+  </style>
+{{ end }}
+
+{{ define "body_class" }}game-page game-easter-egg-hunt text-slate-900{{ end }}
+
+{{ define "main" }}
+  <main id="mainContent" class="game-shell text-slate-900">
+    <header class="game-hero">
+      <h1 class="text-3xl font-extrabold tracking-tight text-lime-950 sm:text-5xl">Easter Egg Hunt</h1>
+      <p class="text-sm text-lime-900/75 sm:text-base">Type each Easter word to find eggs, meet spring friends, and fill the basket.</p>
+    </header>
+
+    <section class="game-card game-card--controls space-y-6">
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+        <button id="startBtn" class="hunt-action hunt-action--start">
+          Start the hunt
+        </button>
+        <button id="resetBtn" class="hunt-action hunt-action--reset" style="display:none;">
+          Hunt again
+        </button>
+      </div>
+      <div id="status" class="status-banner" role="status" aria-live="polite" aria-atomic="true">
+        <span class="status-badge" id="statusBadge">i</span>
+        <span id="statusText">Press Start to find the first painted egg.</span>
+      </div>
+    </section>
+
+    <section id="gameArea" class="game-card game-card--play space-y-8" style="display:none;" aria-live="polite">
+      <div class="grid gap-5 lg:grid-cols-[minmax(0,1.25fr)_minmax(280px,0.75fr)] lg:items-start">
+        <div id="scene" class="hunt-scene" aria-label="Easter egg hunt scene" role="img">
+          <img id="sceneImage" src="/images/easter-egg-hunt/stage-1-egg.png" alt="Cartoon Easter egg hunt garden with a child searching for a painted egg" decoding="async" />
+          <div class="hunt-banner">
+            <div id="stageLabel" class="hunt-banner__label">Find 1 of 6</div>
+            <div id="stageTitle" class="hunt-banner__title">Painted Egg</div>
+            <div id="stageNote" class="hunt-banner__note">Find the first painted egg in the grass.</div>
+          </div>
+          <div class="hunt-progress" aria-hidden="true"><span></span></div>
+        </div>
+        <aside class="space-y-4" aria-label="Egg hunt finds">
+          <div class="flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+            <div id="basketChip" class="basket-chip"><span aria-hidden="true">🧺</span><span>0 of 6</span></div>
+            <div class="inline-flex items-center gap-2 rounded-full bg-white/70 px-3 py-2 text-xs font-black uppercase tracking-[0.24em] text-lime-700">
+              <span aria-hidden="true">✓</span><span>Finds</span>
+            </div>
+          </div>
+          <div id="findsList" class="finds-list"></div>
+        </aside>
+      </div>
+
+      <div class="space-y-4 text-center">
+        <div class="game-section-title text-lime-700">Type the Easter word</div>
+        <div id="letterRow" class="letter-row" role="list" aria-label="Current Easter word letters"></div>
+        <div id="hint" class="text-sm font-semibold text-lime-900/75">Press Start to begin.</div>
+      </div>
+
+      <div id="celebrate" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <audio id="soundCorrect" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+  <audio id="soundWrong" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+  <audio id="soundWin" src="https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg"></audio>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "game-footer.html" (dict "context" . "tip" .Params.tip "theme" (default "light" .Params.theme)) }}
+{{ end }}
+
+{{ define "scripts" }}
+  <script>
+    const FINDS = [
+      { title: 'Painted Egg', word: 'egg', note: 'Find the first painted egg in the grass.', image: '/images/easter-egg-hunt/stage-1-egg.png' },
+      { title: 'Garden Bunny', word: 'bunny', note: 'Spot the bunny beside the spring flowers.', image: '/images/easter-egg-hunt/stage-2-bunny.png' },
+      { title: 'Little Chick', word: 'chick', note: 'Say hello to the fluffy chick by the tulips.', image: '/images/easter-egg-hunt/stage-3-chick.png' },
+      { title: 'Tulip Patch', word: 'tulip', note: 'Search the tulip patch for another egg.', image: '/images/easter-egg-hunt/stage-4-tulip.png' },
+      { title: 'Full Basket', word: 'basket', note: 'Put the last eggs into the basket.', image: '/images/easter-egg-hunt/stage-5-basket.png' },
+      { title: 'Easter Finish', word: 'easter', note: 'Type Easter to finish the egg hunt.', image: '/images/easter-egg-hunt/stage-6-easter.png' }
+    ];
+
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const status = document.getElementById('status');
+    const statusBadge = document.getElementById('statusBadge');
+    const statusText = document.getElementById('statusText');
+    const gameArea = document.getElementById('gameArea');
+    const scene = document.getElementById('scene');
+    const sceneImage = document.getElementById('sceneImage');
+    const stageLabel = document.getElementById('stageLabel');
+    const stageTitle = document.getElementById('stageTitle');
+    const stageNote = document.getElementById('stageNote');
+    const letterRow = document.getElementById('letterRow');
+    const hint = document.getElementById('hint');
+    const findsList = document.getElementById('findsList');
+    const basketChip = document.getElementById('basketChip');
+    const celebrate = document.getElementById('celebrate');
+    const soundCorrect = document.getElementById('soundCorrect');
+    const soundWrong = document.getElementById('soundWrong');
+    const soundWin = document.getElementById('soundWin');
+
+    let active = false;
+    let findIndex = 0;
+    let letterIndex = 0;
+
+    const touchKeyboard = window.GameTouchKeyboard?.attach({
+      id: 'easter-egg-hunt',
+      label: 'Tap letters to finish the Easter word',
+      onKeyPress: (char) => handleKeyPress(char, { skipHighlight: true }),
+      getViewportTarget: () => letterRow,
+      getPaddingTarget: () => document.querySelector('.game-shell')
+    });
+    const isTouchDevice = touchKeyboard?.isTouchDevice?.() ?? false;
+
+    function setStatus(kind, message){
+      statusText.innerHTML = message;
+      status.classList.remove('ok', 'bad');
+      statusBadge.textContent = 'i';
+      if(kind === 'ok'){
+        status.classList.add('ok');
+        statusBadge.textContent = '✓';
+      } else if(kind === 'bad'){
+        status.classList.add('bad');
+        statusBadge.textContent = '×';
+      }
+      status.style.display = 'flex';
+    }
+
+    function currentFind(){
+      return FINDS[findIndex];
+    }
+
+    function updateScene(animate = false){
+      const item = currentFind() || FINDS[FINDS.length - 1];
+      const progress = Math.round((findIndex / (FINDS.length - 1)) * 100);
+      stageLabel.textContent = `Find ${Math.min(findIndex + 1, FINDS.length)} of ${FINDS.length}`;
+      stageTitle.textContent = item.title;
+      stageNote.textContent = item.note;
+      sceneImage.src = item.image;
+      sceneImage.alt = `Cartoon Easter egg hunt scene for ${item.word}`;
+      scene.style.setProperty('--hunt-progress', `${progress}%`);
+      scene.setAttribute('aria-label', `Easter egg hunt scene: ${item.title}, spelling ${item.word}`);
+      if(animate){
+        scene.classList.remove('is-advanced');
+        void scene.offsetWidth;
+        scene.classList.add('is-advanced');
+      }
+    }
+
+    function renderFindsList(){
+      findsList.innerHTML = FINDS.map((item, index) => {
+        let state = '';
+        if(index < findIndex) state = ' is-done';
+        if(index === findIndex) state = ' is-current';
+        const mark = index < findIndex ? '✓' : index === findIndex ? '🥚' : '•';
+        return `
+          <div class="finds-list__item${state}">
+            <div>
+              <div class="finds-list__label">${item.title}</div>
+              <div class="finds-list__word">${item.word}</div>
+            </div>
+            <span aria-hidden="true">${mark}</span>
+          </div>
+        `;
+      }).join('');
+      basketChip.innerHTML = `<span aria-hidden="true">🧺</span><span>${Math.min(findIndex, FINDS.length)} of ${FINDS.length}</span>`;
+    }
+
+    function renderWord(){
+      letterRow.innerHTML = '';
+      const word = currentFind()?.word || '';
+      letterRow.style.setProperty('--letters', word.length);
+      for(let i = 0; i < word.length; i++){
+        const box = document.createElement('div');
+        box.className = 'letter-box';
+        box.dataset.index = i;
+        const letter = word[i].toUpperCase();
+        box.textContent = letter;
+        box.setAttribute('role', 'listitem');
+        if(i < letterIndex){
+          box.classList.add('filled');
+          box.setAttribute('aria-label', `Letter ${letter}, correct`);
+        } else if(i === letterIndex){
+          box.classList.add('current');
+          box.setAttribute('aria-label', `Letter ${letter}, current`);
+          box.setAttribute('aria-current', 'step');
+        } else {
+          box.setAttribute('aria-label', `Letter ${letter}`);
+        }
+        letterRow.appendChild(box);
+      }
+      window.GameUI?.fitLettersFor?.(letterRow);
+      if(typeof requestAnimationFrame === 'function'){
+        requestAnimationFrame(() => window.GameUI?.fitLettersFor?.(letterRow));
+      }
+      if(isTouchDevice){
+        touchKeyboard?.ensureVisible(letterRow);
+      }
+    }
+
+    function updateRound(animate = false){
+      updateScene(animate);
+      renderFindsList();
+      renderWord();
+      hint.textContent = currentFind().note;
+    }
+
+    function startGame(){
+      active = true;
+      findIndex = 0;
+      letterIndex = 0;
+      celebrate.innerHTML = '';
+      startBtn.style.display = 'none';
+      resetBtn.style.display = 'inline-flex';
+      gameArea.style.display = 'block';
+      updateRound();
+      setStatus('ok', `Type <strong>${currentFind().word.toUpperCase()}</strong> to start the egg hunt.`);
+      if(isTouchDevice){
+        touchKeyboard?.show();
+        touchKeyboard?.ensureVisible(letterRow);
+      }
+    }
+
+    function resetGame(){
+      active = false;
+      findIndex = 0;
+      letterIndex = 0;
+      startBtn.style.display = 'inline-flex';
+      resetBtn.style.display = 'none';
+      gameArea.style.display = 'none';
+      celebrate.innerHTML = '';
+      letterRow.innerHTML = '';
+      letterRow.style.removeProperty('--letters');
+      findsList.innerHTML = '';
+      hint.textContent = 'Press Start to begin.';
+      updateScene();
+      setStatus(null, 'Press Start to find the first painted egg.');
+      touchKeyboard?.hide();
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
+    }
+
+    function nextFind(){
+      findIndex += 1;
+      letterIndex = 0;
+      if(findIndex >= FINDS.length){
+        finishGame();
+        return;
+      }
+      updateRound(true);
+      setStatus('ok', `Lovely find! Now type <strong>${currentFind().word.toUpperCase()}</strong>.`);
+    }
+
+    function finishGame(){
+      active = false;
+      touchKeyboard?.hide();
+      findIndex = FINDS.length;
+      sceneImage.src = FINDS[FINDS.length - 1].image;
+      scene.style.setProperty('--hunt-progress', '100%');
+      stageLabel.textContent = `Find ${FINDS.length} of ${FINDS.length}`;
+      stageTitle.textContent = 'Basket Full';
+      stageNote.textContent = 'The Easter egg hunt is complete.';
+      renderFindsList();
+      setStatus('ok', 'The basket is full and the Easter hunt is complete.');
+      const winMarkup = `
+        <div class="celebration">
+          <div class="text-2xl font-extrabold uppercase tracking-[0.18em] text-lime-800">Egg hunt complete!</div>
+          <div class="text-sm font-semibold text-lime-950/75">You typed every Easter word and filled the basket.</div>
+          <div class="mt-2 text-3xl">🥚 🧺 ✨</div>
+        </div>
+      `;
+      celebrate.innerHTML = winMarkup;
+      soundWin.currentTime = 0;
+      window.GameSound.play(soundWin);
+      if(window.GameCelebration){
+        window.GameCelebration.show({
+          content: winMarkup,
+          onPlayAgain: () => {
+            resetGame();
+            startGame();
+          },
+          focusTarget: resetBtn,
+          initialFocus: 'playAgain'
+        });
+      } else {
+        resetBtn.focus();
+      }
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
+    }
+
+    function handleWrong(key){
+      soundWrong.currentTime = 0;
+      window.GameSound.play(soundWrong);
+      const item = currentFind();
+      const expected = item.word[letterIndex].toUpperCase();
+      const shown = (key || '?').toUpperCase();
+      setStatus('bad', `Almost! Need <strong>${expected}</strong>; you pressed <strong>${shown}</strong>.`);
+      const box = letterRow.querySelector(`.letter-box[data-index="${letterIndex}"]`);
+      if(box){
+        box.classList.remove('wiggle');
+        void box.offsetWidth;
+        box.classList.add('wiggle');
+      }
+      if(isTouchDevice){
+        touchKeyboard?.ensureVisible(letterRow);
+      }
+    }
+
+    function handleCorrect(){
+      soundCorrect.currentTime = 0;
+      window.GameSound.play(soundCorrect);
+      const item = currentFind();
+      letterIndex += 1;
+      if(letterIndex >= item.word.length){
+        nextFind();
+        return;
+      }
+      renderWord();
+      setStatus('ok', `Good. Next letter: <strong>${item.word[letterIndex].toUpperCase()}</strong>`);
+    }
+
+    function handleKeyPress(key, opts = {}){
+      if(!active) return;
+      if(!key || key.length !== 1) return;
+      if(!/[a-zA-Z]/.test(key)) return;
+      if(!opts.skipHighlight){
+        touchKeyboard?.flashKey?.(key);
+      }
+      const expected = currentFind()?.word?.[letterIndex];
+      if(!expected) return;
+      if(key.toLowerCase() === expected.toLowerCase()){
+        handleCorrect();
+      } else {
+        handleWrong(key);
+      }
+    }
+
+    startBtn.addEventListener('click', startGame);
+    resetBtn.addEventListener('click', resetGame);
+
+    document.addEventListener('keydown', (e) => {
+      if(!active) return;
+      const target = e.target;
+      if(target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;
+      handleKeyPress(e.key);
+    });
+
+    updateScene();
+    setStatus(null, 'Press Start to find the first painted egg.');
+  </script>
+{{ end }}
