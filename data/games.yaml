@@ -4,6 +4,12 @@
   badge_label: "Alphabet"
   badge_emoji: "🔤"
   description: "Type the alphabet in order from A to Z. A simple warm-up for learning letter keys."
+- slug: airport-adventure
+  title: "Airport Adventure"
+  emoji: "✈️"
+  badge_label: "Airport"
+  badge_emoji: "🛫"
+  description: "Spell airport words to move from ticket desk to gate, runway, and takeoff."
 - slug: directions
   title: "Directions"
   emoji: "🧭"

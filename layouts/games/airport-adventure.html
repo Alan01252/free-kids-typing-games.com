@@ -1,0 +1,696 @@
+{{ define "styles" }}
+  <style>
+    .game-airport-adventure {
+      color: #102a43;
+      background:
+        radial-gradient(760px circle at 10% 5%, rgba(56, 189, 248, 0.24), transparent 56%),
+        radial-gradient(720px circle at 92% 10%, rgba(251, 191, 36, 0.3), transparent 58%),
+        linear-gradient(180deg, #e0f7ff 0%, #f8fafc 48%, #fff7ed 100%);
+      --card-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(224, 242, 254, 0.76));
+      --card-border: rgba(14, 116, 144, 0.18);
+      --card-shadow: 0 30px 90px rgba(14, 116, 144, 0.14);
+      --status-border: rgba(14, 116, 144, 0.24);
+      --status-bg: rgba(236, 254, 255, 0.72);
+      --status-color: #102a43;
+      --status-ok-bg: rgba(207, 250, 254, 0.82);
+      --status-ok-border: rgba(6, 182, 212, 0.36);
+      --status-ok-color: #155e75;
+      --status-bad-bg: rgba(255, 228, 230, 0.92);
+      --status-bad-border: rgba(244, 63, 94, 0.36);
+      --status-bad-color: #9f1239;
+      --status-badge-bg: #0891b2;
+      --status-badge-color: #ffffff;
+      --status-ok-badge-bg: #06b6d4;
+      --status-ok-badge-color: #083344;
+      --status-bad-badge-bg: #e11d48;
+      --status-bad-badge-color: #ffffff;
+      --overlay-panel-bg: rgba(255, 255, 255, 0.97);
+      --overlay-panel-color: #102a43;
+      --overlay-action-primary: #0891b2;
+      --letter-gap: clamp(8px, 3vw, 18px);
+      --letter-size: clamp(48px, min(10vw, 74px), 82px);
+      --letter-min-size: clamp(48px, min(10vw, 74px), 82px);
+      --letter-height: clamp(62px, min(13vw, 94px), 104px);
+      --letter-radius: 18px;
+      --letter-border-width: 3px;
+      --letter-border-color: rgba(14, 116, 144, 0.24);
+      --letter-bg: rgba(255, 255, 255, 0.94);
+      --letter-color: rgba(14, 116, 144, 0.58);
+      --letter-filled-border-color: rgba(6, 182, 212, 0.52);
+      --letter-filled-bg: rgba(207, 250, 254, 0.84);
+      --letter-filled-color: #0e7490;
+      --letter-current-border-color: rgba(245, 158, 11, 0.78);
+      --letter-current-bg: rgba(254, 243, 199, 0.88);
+      --letter-current-color: #102a43;
+      --letter-current-shadow: 0 18px 44px rgba(245, 158, 11, 0.18);
+      --letter-error-border-color: rgba(244, 63, 94, 0.62);
+      --letter-error-bg: rgba(255, 228, 230, 0.94);
+      --letter-error-color: #9f1239;
+      --touch-panel-bg: linear-gradient(145deg, rgba(8, 145, 178, 0.96), rgba(37, 99, 235, 0.82));
+      --touch-panel-color: #ffffff;
+      --touch-label-color: #cffafe;
+      --touch-key-bg: rgba(255, 255, 255, 0.16);
+      --touch-key-border: rgba(207, 250, 254, 0.52);
+      --touch-key-color: #ffffff;
+      --touch-key-shadow: 0 16px 34px rgba(14, 116, 144, 0.2);
+      --touch-key-active-bg: rgba(14, 116, 144, 0.96);
+      --touch-key-active-color: #ffffff;
+      --touch-key-highlight-bg: rgba(245, 158, 11, 0.96);
+      --touch-key-highlight-border: rgba(254, 243, 199, 0.68);
+    }
+
+    .game-airport-adventure .game-card--controls,
+    .game-airport-adventure .game-card--play {
+      --card-shadow-current: 0 32px 100px rgba(14, 116, 144, 0.15);
+      --card-border-current: rgba(14, 116, 144, 0.2);
+    }
+
+    .airport-action {
+      display: inline-flex;
+      width: 100%;
+      min-height: 52px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      padding: 12px 16px;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 800;
+      box-shadow: 0 16px 34px rgba(14, 116, 144, 0.2);
+      transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+    }
+
+    .airport-action:hover { transform: translateY(-1px); }
+
+    .airport-action:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(165, 243, 252, 0.82), 0 16px 34px rgba(14, 116, 144, 0.2);
+    }
+
+    .airport-action--start { background: #0891b2; }
+    .airport-action--start:hover { background: #0e7490; }
+    .airport-action--reset { background: #f59e0b; color: #102a43; }
+    .airport-action--reset:hover { background: #d97706; color: #ffffff; }
+
+    .airport-scene {
+      position: relative;
+      aspect-ratio: 3 / 2;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 2px solid rgba(14, 116, 144, 0.18);
+      background: #dbeafe;
+      box-shadow: 0 26px 72px rgba(14, 116, 144, 0.14);
+      isolation: isolate;
+    }
+
+    .airport-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .airport-window {
+      position: absolute;
+      inset: 24px 22px 42%;
+      border-radius: 18px;
+      border: 2px solid rgba(14, 116, 144, 0.16);
+      background:
+        linear-gradient(90deg, rgba(14, 116, 144, 0.18) 1px, transparent 1px) 0 0 / 20% 100%,
+        radial-gradient(circle at 18% 26%, rgba(255, 255, 255, 0.9), transparent 16%),
+        linear-gradient(180deg, #bae6fd 0%, #e0f2fe 54%, #cbd5e1 55%, #94a3b8 59%, #e2e8f0 60% 100%);
+      overflow: hidden;
+    }
+
+    .airport-window::before {
+      content: "";
+      position: absolute;
+      left: 12%;
+      right: 54%;
+      bottom: 22%;
+      height: 42px;
+      border-radius: 70% 20% 18% 16%;
+      background: #ffffff;
+      box-shadow: inset 0 -10px 0 rgba(14, 116, 144, 0.12), 0 4px 0 rgba(14, 116, 144, 0.16);
+    }
+
+    .airport-window::after {
+      content: "";
+      position: absolute;
+      left: 39%;
+      bottom: 42%;
+      width: 110px;
+      height: 24px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #facc15, #fb7185, #38bdf8);
+      box-shadow: 290px -12px 0 -2px #0284c7;
+    }
+
+    .terminal-counter {
+      position: absolute;
+      right: 6%;
+      top: 32%;
+      z-index: 2;
+      width: min(34%, 360px);
+      height: 82px;
+      border-radius: 18px 18px 8px 8px;
+      background: linear-gradient(180deg, #ffffff 0 36%, #facc15 36% 64%, #fb7185 64% 100%);
+      box-shadow: 0 18px 36px rgba(15, 23, 42, 0.13);
+    }
+
+    .terminal-counter::before,
+    .terminal-counter::after {
+      content: "";
+      position: absolute;
+      top: -42px;
+      width: 54px;
+      height: 34px;
+      border-radius: 8px;
+      background: #334155;
+      box-shadow: inset 0 6px 0 rgba(148, 163, 184, 0.35);
+    }
+
+    .terminal-counter::before { left: 18%; }
+    .terminal-counter::after { right: 18%; }
+
+    .airport-scene.has-generated-art .airport-window,
+    .airport-scene.has-generated-art .terminal-counter {
+      display: none;
+    }
+
+    .airport-scene.is-advanced .airport-backdrop {
+      animation: airportSceneSettle 300ms ease;
+    }
+
+    .route-track {
+      height: 10px;
+      width: 100%;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.74);
+      box-shadow: 0 8px 20px rgba(14, 116, 144, 0.14);
+    }
+
+    .route-track__fill {
+      display: block;
+      width: var(--airport-progress, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #06b6d4, #f59e0b, #22c55e);
+      transition: width 280ms ease;
+    }
+
+    .airport-sign {
+      display: grid;
+      gap: 8px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(14, 116, 144, 0.2);
+      background: rgba(255, 255, 255, 0.9);
+      color: #102a43;
+      box-shadow: 0 18px 44px rgba(14, 116, 144, 0.14);
+    }
+
+    .airport-sign__label {
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #0e7490;
+    }
+
+    .airport-sign__title {
+      font-size: clamp(1.3rem, 4vw, 2rem);
+      font-weight: 900;
+      line-height: 1.05;
+    }
+
+    .airport-sign__note {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: rgba(16, 42, 67, 0.72);
+    }
+
+    .airport-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .airport-list__item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 48px;
+      border-radius: 16px;
+      border: 1px solid rgba(14, 116, 144, 0.15);
+      background: rgba(255, 255, 255, 0.68);
+      padding: 10px 12px;
+      color: rgba(16, 42, 67, 0.72);
+      font-weight: 800;
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, color 160ms ease;
+    }
+
+    .airport-list__item.is-current {
+      border-color: rgba(245, 158, 11, 0.46);
+      background: rgba(254, 243, 199, 0.78);
+      color: #78350f;
+      transform: translateX(4px);
+    }
+
+    .airport-list__item.is-done {
+      border-color: rgba(6, 182, 212, 0.34);
+      background: rgba(207, 250, 254, 0.78);
+      color: #0e7490;
+    }
+
+    .airport-list__label {
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .airport-list__word {
+      font-size: 0.95rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .boarding-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 999px;
+      border: 2px solid rgba(14, 116, 144, 0.2);
+      background: rgba(236, 254, 255, 0.76);
+      padding: 10px 14px;
+      color: #0e7490;
+      font-weight: 900;
+    }
+
+    .airport-type-panel {
+      --letter-gap: clamp(6px, 1.5vw, 12px);
+      --letter-size: clamp(42px, min(8vw, 64px), 72px);
+      --letter-min-size: 34px;
+      --letter-height: clamp(56px, min(10vw, 82px), 90px);
+      --letter-font-size: clamp(26px, min(5vw, 38px), 42px);
+      border-radius: 18px;
+      border: 1px solid rgba(14, 116, 144, 0.18);
+      background: rgba(255, 255, 255, 0.82);
+      padding: 14px;
+      box-shadow: 0 18px 44px rgba(14, 116, 144, 0.1);
+      text-align: center;
+    }
+
+    .airport-type-panel .letter-row {
+      margin-top: 12px;
+      width: 100%;
+      max-width: 100%;
+      justify-content: center;
+    }
+
+    .celebration {
+      padding: 24px 20px;
+      border-radius: 28px;
+      border: 3px solid rgba(14, 165, 233, 0.24);
+      background: linear-gradient(145deg, rgba(224, 242, 254, 0.94), rgba(254, 243, 199, 0.9));
+      box-shadow: 0 30px 80px rgba(14, 116, 144, 0.17);
+      text-align: center;
+      animation: bannerPop 0.6s ease;
+    }
+
+    @keyframes airportSceneSettle {
+      0% { filter: saturate(0.86); transform: scale(1.012); }
+      100% { filter: saturate(1); transform: scale(1); }
+    }
+
+    @media (max-width: 720px) {
+      .airport-scene {
+        border-radius: 18px;
+      }
+
+      .airport-sign {
+        border-radius: 16px;
+      }
+
+      .terminal-counter {
+        display: none;
+      }
+    }
+  </style>
+{{ end }}
+
+{{ define "body_class" }}game-page game-airport-adventure text-slate-900{{ end }}
+
+{{ define "main" }}
+  <main id="mainContent" class="game-shell text-slate-900">
+    <header class="game-hero">
+      <h1 class="text-3xl font-extrabold tracking-tight sm:text-5xl" style="color:#083344;">Airport Adventure</h1>
+      <p class="text-sm sm:text-base" style="color:rgba(8, 51, 68, 0.78);">Type airport words to check in, reach the gate, roll onto the runway, and take off.</p>
+    </header>
+
+    <section class="game-card game-card--controls space-y-6">
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+        <button id="startBtn" class="airport-action airport-action--start">
+          Start the trip
+        </button>
+        <button id="resetBtn" class="airport-action airport-action--reset" style="display:none;">
+          Fly again
+        </button>
+      </div>
+      <div id="status" class="status-banner" role="status" aria-live="polite" aria-atomic="true">
+        <span class="status-badge" id="statusBadge">i</span>
+        <span id="statusText">Press Start to check your ticket.</span>
+      </div>
+    </section>
+
+    <section id="gameArea" class="game-card game-card--play space-y-8" style="display:none;" aria-live="polite">
+      <div class="grid gap-5 lg:grid-cols-[minmax(0,1.25fr)_minmax(280px,0.75fr)] lg:items-start">
+        <div class="space-y-4">
+          <div id="scene" class="airport-scene has-generated-art" aria-label="Airport adventure scene" role="img">
+            <img id="sceneImage" class="airport-backdrop" src="/images/airport-adventure/stage-1-ticket.png" alt="Airport ticket desk with a boarding ticket" decoding="async" />
+            <div class="airport-window"></div>
+            <div class="terminal-counter" aria-hidden="true"></div>
+          </div>
+          <div class="airport-type-panel">
+            <div class="game-section-title" style="color:#0e7490;">Type the airport word</div>
+            <div id="letterRow" class="letter-row" role="list" aria-label="Current airport word letters"></div>
+            <div id="hint" class="mt-3 text-sm font-semibold" style="color:rgba(8, 51, 68, 0.78);">Press Start to begin.</div>
+          </div>
+        </div>
+        <aside class="space-y-4" aria-label="Airport checklist">
+          <div class="airport-sign">
+            <div id="stageLabel" class="airport-sign__label">Step 1 of 6</div>
+            <div id="stageTitle" class="airport-sign__title">Ticket Desk</div>
+            <div id="stageNote" class="airport-sign__note">Check the ticket before the trip begins.</div>
+            <div class="route-track" aria-hidden="true"><span class="route-track__fill"></span></div>
+          </div>
+          <div class="flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+            <div id="boardingChip" class="boarding-chip"><span aria-hidden="true">🧳</span><span>0 of 6</span></div>
+            <div class="inline-flex items-center gap-2 rounded-full bg-white/70 px-3 py-2 text-xs font-black uppercase tracking-[0.24em]" style="color:#0e7490;">
+              <span aria-hidden="true">✓</span><span>Trip</span>
+            </div>
+          </div>
+          <div id="airportList" class="airport-list"></div>
+        </aside>
+      </div>
+
+      <div id="celebrate" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <audio id="soundCorrect" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+  <audio id="soundWrong" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+  <audio id="soundWin" src="https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg"></audio>
+{{ end }}
+
+{{ define "footer" }}
+  {{ partial "game-footer.html" (dict "context" . "tip" .Params.tip "theme" (default "light" .Params.theme)) }}
+{{ end }}
+
+{{ define "scripts" }}
+  <script>
+    const STEPS = [
+      { title: 'Ticket Desk', word: 'ticket', note: 'Check the ticket before the trip begins.', image: '/images/airport-adventure/stage-1-ticket.png' },
+      { title: 'Travel Bag', word: 'bag', note: 'Find the rolling bag at check-in.', image: '/images/airport-adventure/stage-2-bag.png' },
+      { title: 'Boarding Gate', word: 'gate', note: 'Find the boarding gate and waiting lane.', image: '/images/airport-adventure/stage-3-gate.png' },
+      { title: 'Airport Seat', word: 'seat', note: 'Spot the blue waiting seat.', image: '/images/airport-adventure/stage-4-seat.png' },
+      { title: 'Runway View', word: 'runway', note: 'Look out at the runway.', image: '/images/airport-adventure/stage-5-runway.png' },
+      { title: 'Takeoff', word: 'takeoff', note: 'Type takeoff to lift into the sky.', image: '/images/airport-adventure/stage-6-takeoff.png' }
+    ];
+
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const status = document.getElementById('status');
+    const statusBadge = document.getElementById('statusBadge');
+    const statusText = document.getElementById('statusText');
+    const gameArea = document.getElementById('gameArea');
+    const scene = document.getElementById('scene');
+    const sceneImage = document.getElementById('sceneImage');
+    const stageLabel = document.getElementById('stageLabel');
+    const stageTitle = document.getElementById('stageTitle');
+    const stageNote = document.getElementById('stageNote');
+    const letterRow = document.getElementById('letterRow');
+    const hint = document.getElementById('hint');
+    const airportList = document.getElementById('airportList');
+    const boardingChip = document.getElementById('boardingChip');
+    const celebrate = document.getElementById('celebrate');
+    const soundCorrect = document.getElementById('soundCorrect');
+    const soundWrong = document.getElementById('soundWrong');
+    const soundWin = document.getElementById('soundWin');
+
+    let active = false;
+    let stepIndex = 0;
+    let letterIndex = 0;
+
+    const touchKeyboard = window.GameTouchKeyboard?.attach({
+      id: 'airport-adventure',
+      label: 'Tap letters to finish the airport word',
+      onKeyPress: (char) => handleKeyPress(char, { skipHighlight: true }),
+      getViewportTarget: () => letterRow,
+      getPaddingTarget: () => document.querySelector('.game-shell')
+    });
+    const isTouchDevice = touchKeyboard?.isTouchDevice?.() ?? false;
+
+    function setStatus(kind, message){
+      statusText.innerHTML = message;
+      status.classList.remove('ok', 'bad');
+      statusBadge.textContent = 'i';
+      if(kind === 'ok'){
+        status.classList.add('ok');
+        statusBadge.textContent = '✓';
+      } else if(kind === 'bad'){
+        status.classList.add('bad');
+        statusBadge.textContent = '×';
+      }
+      status.style.display = 'flex';
+    }
+
+    function currentStep(){
+      return STEPS[stepIndex];
+    }
+
+    function updateScene(animate = false){
+      const step = currentStep() || STEPS[STEPS.length - 1];
+      const progress = Math.round((stepIndex / (STEPS.length - 1)) * 100);
+      const progressDecimal = stepIndex / (STEPS.length - 1);
+      stageLabel.textContent = `Step ${Math.min(stepIndex + 1, STEPS.length)} of ${STEPS.length}`;
+      stageTitle.textContent = step.title;
+      stageNote.textContent = step.note;
+      sceneImage.src = step.image;
+      sceneImage.alt = `${step.title}: airport picture for the word ${step.word}`;
+      scene.style.setProperty('--airport-progress', `${progress}%`);
+      scene.style.setProperty('--airport-progress-decimal', String(progressDecimal));
+      scene.setAttribute('aria-label', `Airport adventure scene: ${step.title}, spelling ${step.word}`);
+      if(animate){
+        scene.classList.remove('is-advanced');
+        void scene.offsetWidth;
+        scene.classList.add('is-advanced');
+      }
+    }
+
+    function renderAirportList(){
+      airportList.innerHTML = STEPS.map((step, index) => {
+        let state = '';
+        if(index < stepIndex) state = ' is-done';
+        if(index === stepIndex) state = ' is-current';
+        const mark = index < stepIndex ? '✓' : index === stepIndex ? '→' : '•';
+        return `
+          <div class="airport-list__item${state}">
+            <div>
+              <div class="airport-list__label">${step.title}</div>
+              <div class="airport-list__word">${step.word}</div>
+            </div>
+            <span aria-hidden="true">${mark}</span>
+          </div>
+        `;
+      }).join('');
+      boardingChip.innerHTML = `<span aria-hidden="true">🧳</span><span>${Math.min(stepIndex, STEPS.length)} of ${STEPS.length}</span>`;
+    }
+
+    function renderWord(){
+      letterRow.innerHTML = '';
+      const word = currentStep()?.word || '';
+      letterRow.style.setProperty('--letters', word.length);
+      for(let i = 0; i < word.length; i++){
+        const box = document.createElement('div');
+        box.className = 'letter-box';
+        box.dataset.index = i;
+        const letter = word[i].toUpperCase();
+        box.textContent = letter;
+        box.setAttribute('role', 'listitem');
+        if(i < letterIndex){
+          box.classList.add('filled');
+          box.setAttribute('aria-label', `Letter ${letter}, correct`);
+        } else if(i === letterIndex){
+          box.classList.add('current');
+          box.setAttribute('aria-label', `Letter ${letter}, current`);
+          box.setAttribute('aria-current', 'step');
+        } else {
+          box.setAttribute('aria-label', `Letter ${letter}`);
+        }
+        letterRow.appendChild(box);
+      }
+      window.GameUI?.fitLettersFor?.(letterRow);
+      if(typeof requestAnimationFrame === 'function'){
+        requestAnimationFrame(() => window.GameUI?.fitLettersFor?.(letterRow));
+      }
+      if(isTouchDevice){
+        touchKeyboard?.ensureVisible(letterRow);
+      }
+    }
+
+    function updateRound(animate = false){
+      updateScene(animate);
+      renderAirportList();
+      renderWord();
+      hint.textContent = currentStep().note;
+    }
+
+    function startGame(){
+      active = true;
+      stepIndex = 0;
+      letterIndex = 0;
+      celebrate.innerHTML = '';
+      startBtn.style.display = 'none';
+      resetBtn.style.display = 'inline-flex';
+      gameArea.style.display = 'block';
+      updateRound();
+      setStatus('ok', `Type <strong>${currentStep().word.toUpperCase()}</strong> to start the airport trip.`);
+      if(isTouchDevice){
+        touchKeyboard?.show();
+        touchKeyboard?.ensureVisible(letterRow);
+      }
+    }
+
+    function resetGame(){
+      active = false;
+      stepIndex = 0;
+      letterIndex = 0;
+      startBtn.style.display = 'inline-flex';
+      resetBtn.style.display = 'none';
+      gameArea.style.display = 'none';
+      celebrate.innerHTML = '';
+      letterRow.innerHTML = '';
+      letterRow.style.removeProperty('--letters');
+      airportList.innerHTML = '';
+      hint.textContent = 'Press Start to begin.';
+      updateScene();
+      setStatus(null, 'Press Start to check your ticket.');
+      touchKeyboard?.hide();
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
+    }
+
+    function nextStep(){
+      stepIndex += 1;
+      letterIndex = 0;
+      if(stepIndex >= STEPS.length){
+        finishGame();
+        return;
+      }
+      updateRound(true);
+      setStatus('ok', `Good trip step. Now type <strong>${currentStep().word.toUpperCase()}</strong>.`);
+    }
+
+    function finishGame(){
+      active = false;
+      touchKeyboard?.hide();
+      stepIndex = STEPS.length;
+      scene.style.setProperty('--airport-progress', '100%');
+      scene.style.setProperty('--airport-progress-decimal', '1');
+      sceneImage.src = STEPS[STEPS.length - 1].image;
+      sceneImage.alt = 'Takeoff: airport picture for the word takeoff';
+      stageLabel.textContent = `Step ${STEPS.length} of ${STEPS.length}`;
+      stageTitle.textContent = 'Takeoff';
+      stageNote.textContent = 'The plane is up in the sky.';
+      renderAirportList();
+      setStatus('ok', 'Takeoff complete. The airport adventure is in the sky.');
+      const winMarkup = `
+        <div class="celebration">
+          <div class="text-2xl font-extrabold uppercase tracking-[0.18em]" style="color:#0e7490;">Ready for takeoff!</div>
+          <div class="text-sm font-semibold" style="color:rgba(8, 51, 68, 0.78);">You typed every airport word and finished the trip.</div>
+          <div class="mt-2 text-3xl">🎫 🧳 🛫</div>
+        </div>
+      `;
+      celebrate.innerHTML = winMarkup;
+      soundWin.currentTime = 0;
+      window.GameSound.play(soundWin);
+      if(window.GameCelebration){
+        window.GameCelebration.show({
+          content: winMarkup,
+          onPlayAgain: () => {
+            resetGame();
+            startGame();
+          },
+          focusTarget: resetBtn,
+          initialFocus: 'playAgain'
+        });
+      } else {
+        resetBtn.focus();
+      }
+      window.scrollTo({ top: 0, behavior: (window.GameUI?.scrollBehavior?.() ?? 'smooth') });
+    }
+
+    function handleWrong(key){
+      soundWrong.currentTime = 0;
+      window.GameSound.play(soundWrong);
+      const step = currentStep();
+      const expected = step.word[letterIndex].toUpperCase();
+      const shown = (key || '?').toUpperCase();
+      setStatus('bad', `Almost! Need <strong>${expected}</strong>; you pressed <strong>${shown}</strong>.`);
+      const box = letterRow.querySelector(`.letter-box[data-index="${letterIndex}"]`);
+      if(box){
+        box.classList.remove('wiggle');
+        void box.offsetWidth;
+        box.classList.add('wiggle');
+      }
+      if(isTouchDevice){
+        touchKeyboard?.ensureVisible(letterRow);
+      }
+    }
+
+    function handleCorrect(){
+      soundCorrect.currentTime = 0;
+      window.GameSound.play(soundCorrect);
+      const step = currentStep();
+      letterIndex += 1;
+      if(letterIndex >= step.word.length){
+        nextStep();
+        return;
+      }
+      renderWord();
+      setStatus('ok', `Nice. Next letter: <strong>${step.word[letterIndex].toUpperCase()}</strong>`);
+    }
+
+    function handleKeyPress(key, opts = {}){
+      if(!active) return;
+      if(!key || key.length !== 1) return;
+      if(!/[a-zA-Z]/.test(key)) return;
+      if(!opts.skipHighlight){
+        touchKeyboard?.flashKey?.(key);
+      }
+      const expected = currentStep()?.word?.[letterIndex];
+      if(!expected) return;
+      if(key.toLowerCase() === expected.toLowerCase()){
+        handleCorrect();
+      } else {
+        handleWrong(key);
+      }
+    }
+
+    startBtn.addEventListener('click', startGame);
+    resetBtn.addEventListener('click', resetGame);
+
+    document.addEventListener('keydown', (e) => {
+      if(!active) return;
+      const target = e.target;
+      if(target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;
+      handleKeyPress(e.key);
+    });
+
+    updateScene();
+    setStatus(null, 'Press Start to check your ticket.');
+  </script>
+{{ end }}
