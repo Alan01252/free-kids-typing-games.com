@@ -100,6 +100,12 @@
   badge_label: "Speed"
   badge_emoji: "🏎️"
   description: "Type a series of surprise words while a stopwatch runs."
+- slug: supermarket-spelling
+  title: "Supermarket Spelling"
+  emoji: "🛒"
+  badge_label: "Groceries"
+  badge_emoji: "🛒"
+  description: "Spell common grocery words to shop through supermarket aisles and finish at checkout."
 - slug: vampire-vowels
   title: "Vampire Vowels"
   emoji: "🧛"
