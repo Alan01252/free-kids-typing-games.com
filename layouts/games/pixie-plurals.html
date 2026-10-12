@@ -1,0 +1,62 @@
+{{ define "styles" }}
+  {{ $styles := resources.Get "css/games/pixie-plurals.css" | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}" crossorigin="anonymous">
+{{ end }}
+{{ define "body_class" }}game-page game-pixie-plurals{{ end }}
+{{ define "main" }}
+<main id="mainContent" class="game-shell">
+  <header class="game-hero pixie-hero">
+    <p class="pixie-eyebrow">The little garden of more</p>
+    <h1>Pixie <span>Plurals</span></h1>
+    <p>One becomes many. Spell the plural to help Pip’s garden grow.</p>
+  </header>
+  <section id="gameArea" class="game-card pixie-workshop" aria-label="Pip’s plural garden">
+    <div class="pixie-stage">
+      <p class="pixie-stage__caption">A little more is a little magical.</p>
+      <img class="pixie-scene" src="{{ "images/pixie-plurals/pip.webp" | relURL }}" width="960" height="640" alt="Pip, a smiling woodland pixie with delicate wings, tending tiny flowers with a golden wand." fetchpriority="high" decoding="async">
+      <div class="pixie-garden__heading"><span>Your plural garden</span><strong id="progressCounter">0 / 6</strong></div>
+      <ol id="pluralGarden" class="pixie-garden" aria-label="Six garden patches"></ol>
+      <progress id="gardenProgress" max="6" value="0" aria-label="Garden patches grown">0 of 6 patches</progress>
+    </div>
+    <div class="pixie-workspace">
+      <div class="pixie-workspace__top"><span class="pixie-eyebrow">Pip’s word magic</span><button id="resetBtn" type="button" class="pixie-text-button" hidden>New garden</button></div>
+      <div id="pixieSetup" class="pixie-setup">
+        <h2>Let’s grow a little more.</h2>
+        <p>A plural means more than one. Turn one word into many and fill six garden patches.</p>
+        <label for="pluralPath">Choose your path</label>
+        <select id="pluralPath">
+          <option value="s">Add S · little beginnings</option>
+          <option value="mix">Pixie Mix · changing words</option>
+        </select>
+        <button id="startBtn" type="button" class="pixie-button">Grow with Pip <span aria-hidden="true">→</span></button>
+        <p class="pixie-note">Six words. No timer. Room to blossom.</p>
+      </div>
+      <div id="pixiePlay" hidden>
+        <p id="roundNumber" class="pixie-small">Word 1 of 6</p>
+        <div class="pixie-pair">
+          <div class="pixie-one"><span class="pixie-small">One</span><div id="singlePicture" class="pixie-pictures" aria-hidden="true"></div><span id="singularWord" class="pixie-noun"></span></div>
+          <span class="pixie-pair__arrow" aria-hidden="true">→</span>
+          <div class="pixie-many"><span class="pixie-small">Two</span><div id="pluralPicture" class="pixie-pictures" aria-hidden="true"></div><span id="pluralWord" class="pixie-noun"></span></div>
+        </div>
+        <p id="pluralRule" class="pixie-rule"></p>
+        <div id="status" class="status-banner" role="status" aria-live="polite" aria-atomic="true"><span id="statusBadge" class="status-badge" aria-hidden="true">✦</span><span id="statusText"></span></div>
+        <p class="pixie-small pixie-type-label">Type the plural</p>
+        <div id="letterRow" class="letter-row" role="list" aria-label="Plural word letters"></div>
+      </div>
+      <div id="pixieFinished" class="pixie-finished" hidden>
+        <p class="pixie-eyebrow">Grown with words</p><h2>A garden full of more!</h2>
+        <p>Six plurals, six little patches. Look what your words have grown.</p>
+        <button id="pixieAgainBtn" type="button" class="pixie-button">Grow another garden <span aria-hidden="true">→</span></button>
+      </div>
+    </div>
+  </section>
+  <p class="pixie-bottom-note">One is singular. More than one is plural. Find the letters at your own pace.</p>
+</main>
+<audio id="soundCorrect" preload="none" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+<audio id="soundGrow" preload="none" src="https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg"></audio>
+<audio id="soundWin" preload="none" src="https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg"></audio>
+{{ end }}
+{{ define "footer" }}
+  {{ partial "game-footer.html" (dict "context" . "tip" .Params.tip "theme" (default "light" .Params.theme)) }}
+{{ end }}
+{{ define "scripts" }}<script src="{{ "js/game/pixie-plurals.js" | relURL }}" defer></script>{{ end }}

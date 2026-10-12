@@ -89,6 +89,14 @@
   badge_label: "Phonemes"
   badge_emoji: "🔊"
   description: "Type short words and hear their phoneme chunks as you go. Helps connect letter patterns to sounds."
+- slug: pixie-plurals
+  skill: words
+  title: "Pixie Plurals"
+  emoji: "🧚"
+  badge_label: "Plurals"
+  badge_emoji: "🌿"
+  image: "images/pixie-plurals/pip.webp"
+  description: "Turn one into many! Spell plurals to help Pip’s illustrated woodland garden grow."
 - slug: quick-fox
   skill: challenge
   title: "Quick Fox Quest"

@@ -1,0 +1,125 @@
+.game-pixie-plurals {
+  background: radial-gradient(ellipse at 12% 10%, #dcefe7, transparent 55%), radial-gradient(ellipse at 95% 60%, #e9e0f1, transparent 50%), #faf7ef;
+  color: #354f4a;
+  --card-bg: #fffef8;
+  --card-border: #d6e1d6;
+  --card-shadow: 0 24px 70px #2f675115;
+  --card-blur: none;
+  --status-bg: #ecf2e7;
+  --status-border: #c9d8bc;
+  --status-color: #354f4a;
+  --status-ok-bg: #e3f0e5;
+  --status-ok-border: #b4d2bc;
+  --status-ok-color: #29533c;
+  --status-bad-bg: #fff2da;
+  --status-bad-border: #e7cc98;
+  --status-bad-color: #79531d;
+  --status-badge-bg: #e5d7eb;
+  --status-badge-color: #664975;
+  --status-ok-badge-bg: #397955;
+  --status-bad-badge-bg: #92662b;
+  --status-badge-size: 26px;
+  --letter-gap: 7px;
+  --letter-size: 44px;
+  --letter-min-size: 44px;
+  --letter-height: 60px;
+  --letter-font-size: 27px;
+  --letter-padding-inline: 0px;
+  --letter-radius: 12px;
+  --letter-bg: #fffef8;
+  --letter-color: #496658;
+  --letter-border-color: #bdcdbf;
+  --letter-current-bg: #fff0c9;
+  --letter-current-color: #75501d;
+  --letter-current-border-color: #c99b4d;
+  --letter-current-shadow: 0 6px 18px #b48e3022;
+  --letter-filled-bg: #dceddb;
+  --letter-filled-color: #29533c;
+  --letter-filled-border-color: #94b59a;
+  --overlay-panel-bg: #fffaf0;
+  --overlay-panel-color: #354f4a;
+  --overlay-action-primary: #527762;
+  --touch-panel-bg: linear-gradient(140deg, #608b73, #3b6555);
+  --touch-label-color: #fff7e9;
+}
+.game-pixie-plurals .pixie-eyebrow { color: #6b7a52; text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.7rem; font-weight: 800; }
+.game-pixie-plurals .pixie-hero h1 { font: 700 clamp(2.5rem, 6vw, 4.7rem)/1.1 Georgia, serif; letter-spacing: -0.04em; }
+.game-pixie-plurals .pixie-hero h1 span { color: #7a5683; }
+.game-pixie-plurals .pixie-hero > p:last-child { color: #687b70; font-size: 1rem; }
+.game-pixie-plurals .pixie-workshop { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); padding: 1.2rem; gap: 1.5rem; overflow: visible; }
+.game-pixie-plurals .pixie-stage { padding: 1rem; border-radius: 20px; background: radial-gradient(ellipse at 50% 30%, #f9f1d2, transparent 65%), #e9f1e6; }
+.game-pixie-plurals .pixie-stage__caption { text-align: center; font: italic 0.95rem Georgia, serif; color: #687b52; }
+.game-pixie-plurals .pixie-scene { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: contain; display: block; margin: 0.6rem auto; }
+.game-pixie-plurals .pixie-garden__heading { display: flex; justify-content: space-between; gap: 0.5rem; font-size: 0.7rem; font-weight: 800; color: #607351; }
+.game-pixie-plurals .pixie-workshop:not(.is-playing) .pixie-garden__heading,
+.game-pixie-plurals .pixie-workshop:not(.is-playing) .pixie-garden,
+.game-pixie-plurals .pixie-workshop:not(.is-playing) #gardenProgress { display: none; }
+.game-pixie-plurals .pixie-garden { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; margin: 0.7rem 0; padding: 0; list-style: none; }
+.game-pixie-plurals .garden-plot { height: 64px; display: flex; align-items: center; justify-content: center; border: 1px dashed #b8c7a4; border-radius: 15px; background: #f8f8eb; }
+.game-pixie-plurals .garden-plot > .pixie-sprite { width: 34px; height: 34px; opacity: 0.45; }
+.game-pixie-plurals .garden-plot.is-grown { border-style: solid; background: #f4ebfb; border-color: #ccbbd3; }
+.game-pixie-plurals .garden-plot.is-grown > .pixie-sprite { width: 42px; height: 42px; opacity: 1; animation: pixie-blossom 550ms ease-out both; }
+.game-pixie-plurals .garden-plot.is-grown > .pixie-sprite:nth-child(2) { animation-delay: 70ms; }
+.game-pixie-plurals #gardenProgress { display: block; width: 100%; height: 6px; border: 0; border-radius: 20px; overflow: hidden; accent-color: #89a36f; background: #cddbbf; }
+.game-pixie-plurals #gardenProgress::-webkit-progress-bar { background: #cddbbf; }
+.game-pixie-plurals #gardenProgress::-webkit-progress-value { background: #89a36f; border-radius: 20px; }
+.game-pixie-plurals #gardenProgress::-moz-progress-bar { background: #89a36f; border-radius: 20px; }
+.game-pixie-plurals .pixie-workspace { padding: 1.25rem; border-radius: 18px; background: #fcf8ee; align-self: stretch; }
+.game-pixie-plurals .pixie-workspace__top { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 1.25rem; }
+.game-pixie-plurals .pixie-workspace__top .pixie-eyebrow { font-size: 0.65rem; letter-spacing: 0.1em; }
+.game-pixie-plurals .pixie-text-button { border: 1px solid #cdd9c9; border-radius: 10px; padding: 0.4rem 0.5rem; min-height: 44px; font-size: 0.7rem; font-weight: 800; color: #527762; flex-shrink: 0; }
+.game-pixie-plurals .pixie-workspace h2 { font: 700 clamp(1.6rem, 3vw, 2rem)/1.15 Georgia, serif; letter-spacing: -0.03em; }
+.game-pixie-plurals .pixie-setup > p { color: #687b70; font-size: 0.9rem; margin-top: 0.9rem; }
+.game-pixie-plurals .pixie-setup label { display: block; font-size: 0.8rem; font-weight: 800; margin: 1.6rem 0 0.5rem; }
+.game-pixie-plurals .pixie-setup select { width: 100%; min-width: 0; min-height: 48px; padding: 0.75rem; border: 1px solid #cbd8c5; border-radius: 10px; background: #fffef8; font: inherit; font-size: 0.85rem; }
+.game-pixie-plurals .pixie-button { display: flex; justify-content: center; align-items: center; gap: 1rem; width: 100%; min-height: 50px; margin-top: 1.1rem; padding: 0.8rem 1rem; background: #527762; color: #fffef4; border-radius: 12px; box-shadow: 0 4px 0 #395341; font-size: 0.95rem; font-weight: 800; transition: background 150ms; }
+.game-pixie-plurals .pixie-button:hover { background: #426550; }
+.game-pixie-plurals .pixie-setup .pixie-note { text-align: center; font-size: 0.7rem; margin-top: 1rem; }
+.game-pixie-plurals .pixie-small { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: #687b52; }
+.game-pixie-plurals .pixie-pair { display: grid; grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1.35fr); align-items: center; gap: 5px; margin: 0.6rem 0 1rem; }
+.game-pixie-plurals .pixie-one, .game-pixie-plurals .pixie-many { display: grid; justify-items: center; min-width: 0; border: 1px solid #dae3d0; border-radius: 15px; background: #fffef8; padding: 0.65rem 0.2rem; gap: 0.3rem; }
+.game-pixie-plurals .pixie-many { background: #f3edf8; border-color: #dfd1e5; }
+.game-pixie-plurals .pixie-pair__arrow { color: #7a5683; font-weight: 800; }
+.game-pixie-plurals .pixie-pictures { display: flex; justify-content: center; align-items: center; gap: 0; min-width: 0; }
+.game-pixie-plurals .pixie-sprite { display: inline-block; width: 60px; height: 60px; flex-shrink: 0; background: url('/images/pixie-plurals/objects.webp') var(--sprite-x, 0%) var(--sprite-y, 0%) / 600% 200% no-repeat; }
+.game-pixie-plurals .pixie-noun { font-weight: 850; font-size: 1rem; color: #354f4a; }
+.game-pixie-plurals .pixie-noun mark { background: #f5deb3; color: #73501f; border-radius: 4px; }
+.game-pixie-plurals .pixie-rule { font-size: 0.8rem; color: #735779; min-height: 2.8em; line-height: 1.4; margin-bottom: 0.7rem; }
+.game-pixie-plurals .status-banner { display: flex; padding: 0.6rem; gap: 0.5rem; font-size: 0.8rem; min-height: 58px; margin-bottom: 1rem; }
+.game-pixie-plurals .pixie-type-label { text-align: center; margin-bottom: 0.7rem; }
+.game-pixie-plurals .letter-row { padding-block: 10px; }
+.game-pixie-plurals .pixie-workspace .letter-box:not(.current):not(.filled):not(.wiggle) { color: var(--letter-color); }
+.game-pixie-plurals .plural-ending:not(.current):not(.filled) { background: #f3e9f9; border-color: #cdb3d8; }
+.game-pixie-plurals .pixie-finished h2 { margin-top: 0.7rem; }
+.game-pixie-plurals .pixie-finished > p:not(.pixie-eyebrow) { margin-top: 1rem; font-size: 0.95rem; color: #687b70; }
+.game-pixie-plurals .pixie-bottom-note { color: #687b70; text-align: center; font-size: 0.8rem; }
+.game-pixie-plurals .pixie-win { text-align: center; }
+.game-pixie-plurals .pixie-win-art { display: block; width: min(100%, 220px); height: auto; margin: auto; }
+.game-pixie-plurals .pixie-win h2 { font: 700 2rem/1.1 Georgia, serif; margin: 0.7rem 0 1rem; }
+.game-pixie-plurals .pixie-win p { max-width: 25rem; margin: auto; }
+@keyframes pixie-blossom { from { opacity: 0; transform: translateY(7px) scale(0.5); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (max-width: 800px) {
+  .game-pixie-plurals .pixie-workshop { grid-template-columns: minmax(0, 1fr); }
+  .game-pixie-plurals .pixie-scene { max-width: 360px; }
+}
+@media (max-width: 639px), (max-height: 500px) and (max-width: 960px) {
+  .game-pixie-plurals .game-shell .pixie-workshop { padding: 0.75rem; gap: 0; }
+  .game-pixie-plurals .pixie-stage { padding: 0.8rem; }
+  .game-pixie-plurals .pixie-scene { max-width: 230px; margin-block: 0.3rem; }
+  .game-pixie-plurals .is-playing .pixie-scene { max-width: 180px; }
+  .game-pixie-plurals .pixie-stage__caption { font-size: 0.85rem; }
+  .game-pixie-plurals .pixie-garden { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; }
+  .game-pixie-plurals .garden-plot { height: 42px; border-radius: 8px; }
+  .game-pixie-plurals .garden-plot > .pixie-sprite { width: 25px; height: 25px; }
+  .game-pixie-plurals .garden-plot.is-grown > .pixie-sprite { width: 50%; height: auto; aspect-ratio: 1; }
+  .game-pixie-plurals .pixie-workspace { padding: 1rem; }
+  .game-pixie-plurals .pixie-workspace__top { margin-bottom: 0.8rem; }
+  .game-pixie-plurals .pixie-setup label { margin-top: 1rem; }
+  .game-pixie-plurals .pixie-pair { grid-template-columns: minmax(0, 1fr) 15px minmax(0, 1.35fr); }
+  .game-pixie-plurals .pixie-pictures .pixie-sprite { width: 40px; height: 40px; }
+  .game-pixie-plurals .pixie-noun { font-size: 0.9rem; }
+  .game-pixie-plurals .pixie-small { letter-spacing: 0.06em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .game-pixie-plurals .garden-plot.is-grown > .pixie-sprite { animation: none; }
+}
