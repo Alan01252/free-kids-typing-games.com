@@ -3,8 +3,8 @@
 Hugo site with bite-sized typing games for kids. Uses Tailwind/PostCSS for styles and deploys to S3/CloudFront from GitHub Actions.
 
 ## Prerequisites
-- Node.js 20+
-- Hugo (extended) available in `$PATH`
+- Node.js 24 (matches CI)
+- Hugo 0.167.0 (extended) available in `$PATH`
 - npm
 
 ## Install
@@ -67,8 +67,8 @@ when registering it so both menus agree. Shared visual styles live in
 
 ## Deploy (CI)
 Push to `main` triggers `.github/workflows/deploy.yml`:
-- Checkout, Node 20 setup (npm cache), `npm ci`
-- Install Hugo (extended, latest)
+- Checkout, Node 24 setup (npm cache), `npm ci`
+- Install Hugo 0.167.0 (extended)
 - `hugo --minify`
 - Sync `public/` to the S3 bucket `free-kids-typing-games.com` (with `--delete`)
 
