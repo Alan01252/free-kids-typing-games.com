@@ -457,6 +457,7 @@
       }
 
       function handleKeydown(event){
+        if (!window.GameUI.shouldHandleGameKey(event, { allowRepeat: true })) return;
         const keyMap = {
           ArrowUp: 'up',
           ArrowDown: 'down',

@@ -568,6 +568,7 @@
       }
 
       function handleKeydown(event){
+        if (!window.GameUI.shouldHandleGameKey(event)) return;
         if(event.key === 'Tab') return;
         handleKeyPress(event.key);
       }

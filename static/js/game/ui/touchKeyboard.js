@@ -17,13 +17,15 @@
 
   const state = {
     isTouch: detectTouch(),
-    keyboard: null,
     active: null,
     pending: null,
     visible: false,
     hideTimer: null,
     resizeHandler: null,
+    layoutObserver: null,
+    targetObserver: null,
     paddingTarget: null,
+    originalPadding: null,
     appliedThemeKeys: [],
     keyFlashTimers: new Map()
   };
@@ -75,62 +77,45 @@
     if (!panel || !keyboardWrapper || !keyboardRoot || !keyboardContainer) {
       return Promise.resolve(null);
     }
-    if (!window.SimpleKeyboardLoader) {
-      return Promise.resolve(null);
-    }
-    return window.SimpleKeyboardLoader
-      .load()
-      .then(KeyboardCtor => {
-        if (!KeyboardCtor) return null;
-        if (!state.keyboard) {
-          state.keyboard = new KeyboardCtor(keyboardContainer, {
-            layout: { default: defaultLayout },
-            mergeDisplay: true,
-            display: {},
-            theme: 'hg-theme-default game-touch-keyboard',
-            useButtonTag: true,
-            preventMouseDownDefault: true,
-            onKeyPress: handleVirtualKeyPress
-          });
-        }
-        configureKeyboard(options);
-        return state.keyboard;
-      })
-      .catch(() => null);
+    configureKeyboard(options);
+    return Promise.resolve(keyboardContainer);
   }
 
   function configureKeyboard(options = {}){
-    if (!state.keyboard) return;
     const layoutRows = Array.isArray(options.layout)
       ? options.layout
       : (options.layout && Array.isArray(options.layout.default))
         ? options.layout.default
         : defaultLayout;
-    const layout = { default: layoutRows };
-    const keys = computeKeys(layoutRows);
-    const display = keys.reduce((acc, key) => {
-      acc[key] = keyDisplayLabel(key);
-      return acc;
-    }, {});
-    const attributes = keys.map(key => ({
-      attribute: 'aria-label',
-      value: ariaLabelForKey(key),
-      button: key
-    }));
-
-    state.keyboard.setOptions({
-      layout,
-      display,
-      mergeDisplay: true,
-      buttonAttributes: attributes,
-      theme: 'hg-theme-default game-touch-keyboard',
-      onKeyPress: handleVirtualKeyPress,
-      useButtonTag: true
+    clearFlashTimers();
+    const keysByRow = layoutRows.map(row => computeKeys([row]));
+    const letterRows = keysByRow.map(keys => keys.filter(key => !isSpaceKey(key))).filter(keys => keys.length);
+    const hasSpace = keysByRow.some(keys => keys.some(isSpaceKey));
+    // Space has its own row and must not change the widths of the letter keys.
+    const keyRows = hasSpace ? [...letterRows, ['Space']] : letterRows;
+    const columns = Math.max(1, ...letterRows.map(keys => keys.length));
+    keyboardContainer.style.setProperty('--keyboard-cols', String(columns));
+    const rows = document.createDocumentFragment();
+    keyRows.forEach(keys => {
+      const rowEl = document.createElement('div');
+      rowEl.className = 'hg-row';
+      rowEl.dataset.keyboardRow = keys.every(isSpaceKey) ? 'space' : 'letters';
+      rowEl.style.setProperty('--cols', String(keys.length));
+      keys.forEach(key => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'hg-button';
+        button.dataset.skbtn = keyDisplayLabel(key);
+        button.textContent = keyDisplayLabel(key);
+        button.setAttribute('aria-label', ariaLabelForKey(key));
+        button.addEventListener('pointerdown', event => event.preventDefault());
+        button.addEventListener('click', () => handleVirtualKeyPress(key));
+        rowEl.appendChild(button);
+      });
+      rows.appendChild(rowEl);
     });
-
-    if (keyboardWrapper) {
-      keyboardWrapper.querySelectorAll('.hg-button.is-flashing').forEach(btn => btn.classList.remove('is-flashing'));
-    }
+    keyboardContainer.classList.add('hg-theme-default', 'game-touch-keyboard');
+    keyboardContainer.replaceChildren(rows);
   }
 
   function applyTheme(theme){
@@ -159,7 +144,16 @@
   function updatePadding(connection){
     if (!state.visible || !panel) return;
     const paddingTarget = getPaddingTarget(connection);
-    state.paddingTarget = paddingTarget || null;
+    if (paddingTarget !== state.paddingTarget) {
+      restorePadding();
+      state.paddingTarget = paddingTarget || null;
+      if (paddingTarget) {
+        state.originalPadding = {
+          value: paddingTarget.style.getPropertyValue('padding-bottom'),
+          priority: paddingTarget.style.getPropertyPriority('padding-bottom')
+        };
+      }
+    }
     if (!paddingTarget) return;
     const height = Math.round(panel.offsetHeight || 0);
     if (height > 0) {
@@ -167,6 +161,16 @@
     } else {
       paddingTarget.style.removeProperty('padding-bottom');
     }
+  }
+
+  function restorePadding(){
+    if (state.paddingTarget) {
+      const { value, priority } = state.originalPadding || {};
+      if (value) state.paddingTarget.style.setProperty('padding-bottom', value, priority);
+      else state.paddingTarget.style.removeProperty('padding-bottom');
+    }
+    state.paddingTarget = null;
+    state.originalPadding = null;
   }
 
   function getPaddingTarget(connection){
@@ -184,14 +188,22 @@
   }
 
   function ensureVisible(connection, opts = {}){
-    if (!state.visible || !panel) return;
+    if (!state.visible || !panel || window.GameCelebration?.isOpen()) return;
     const anchor = opts.anchor || getViewportAnchor(connection);
     if (!anchor || typeof anchor.getBoundingClientRect !== 'function') return;
-    const anchorRect = anchor.getBoundingClientRect();
+    // A multi-line word or phoneme board may be taller than the usable screen.
+    // Keep the next letter visible rather than scrolling to the board's bottom.
+    const current = anchor.querySelector?.('.letter-box.current, .candle.current, .segment-letter.current, .token.current, .box.ghost');
+    const anchorRect = (current || anchor).getBoundingClientRect();
+    if (!anchorRect.width || !anchorRect.height) return;
     const panelRect = panel.getBoundingClientRect();
-    if (anchorRect.bottom > panelRect.top - 12) {
-      const offset = anchorRect.bottom - panelRect.top + 24;
-      window.scrollBy({ top: offset, behavior: 'smooth' });
+    const top = (window.visualViewport?.offsetTop || 0) + 12;
+    const bottom = panelRect.top - 16;
+    let offset = 0;
+    if (anchorRect.bottom > bottom) offset = anchorRect.bottom - bottom;
+    if (anchorRect.top - offset < top) offset = anchorRect.top - top;
+    if (offset) {
+      window.scrollBy({ top: offset, behavior: 'auto' });
     }
   }
 
@@ -253,8 +265,42 @@
     }
   }
 
+  function stopObservingLayout(){
+    state.layoutObserver?.disconnect();
+    state.targetObserver?.disconnect();
+    state.layoutObserver = null;
+    state.targetObserver = null;
+  }
+
+  function observeLayout(connection){
+    stopObservingLayout();
+    const ensureCurrent = () => requestAnimationFrame(() => {
+      if (state.visible && state.active === connection) ensureVisible(connection);
+    });
+    const shell = getPaddingTarget(connection);
+    if (shell && typeof ResizeObserver !== 'undefined') {
+      state.layoutObserver = new ResizeObserver(ensureCurrent);
+      state.layoutObserver.observe(shell);
+    }
+    const anchor = getViewportAnchor(connection);
+    const target = anchor?.closest('.letter-row, .sentence-grid, .phoneme-row, .boxes') || anchor;
+    if (target && typeof MutationObserver !== 'undefined') {
+      state.targetObserver = new MutationObserver(ensureCurrent);
+      state.targetObserver.observe(target, { subtree: true, childList: true, attributes: true, attributeFilter: ['class'] });
+    }
+  }
+
   function activatePanel(connection){
     if (!panel) return;
+    if (state.hideTimer) {
+      clearTimeout(state.hideTimer);
+      state.hideTimer = null;
+    }
+    if (state.resizeHandler) {
+      window.removeEventListener('resize', state.resizeHandler);
+      window.removeEventListener('orientationchange', state.resizeHandler);
+      window.visualViewport?.removeEventListener('resize', state.resizeHandler);
+    }
     state.visible = true;
     panel.classList.remove('hidden');
     panel.style.removeProperty('display');
@@ -265,10 +311,13 @@
       keyboardWrapper.setAttribute('aria-hidden', 'false');
     }
     document.body.classList.add('game-touch-keyboard-open');
+    observeLayout(connection);
     requestAnimationFrame(() => {
+      if (!state.visible || state.active !== connection) return;
       panel.classList.add('is-active');
       updatePadding(connection);
       window.setTimeout(() => {
+        if (!state.visible || state.active !== connection) return;
         updatePadding(connection);
         ensureVisible(connection);
         window.GameUI?.fitAllLetterRows?.();
@@ -281,30 +330,32 @@
     };
     window.addEventListener('resize', state.resizeHandler);
     window.addEventListener('orientationchange', state.resizeHandler);
+    window.visualViewport?.addEventListener('resize', state.resizeHandler);
   }
 
   function deactivatePanel(connection){
     if (!panel) return;
     if (!state.visible) return;
     state.visible = false;
+    stopObservingLayout();
     panel.setAttribute('aria-hidden', 'true');
     panel.classList.remove('is-active');
     document.body.classList.remove('game-touch-keyboard-open');
     if (state.resizeHandler) {
       window.removeEventListener('resize', state.resizeHandler);
       window.removeEventListener('orientationchange', state.resizeHandler);
+      window.visualViewport?.removeEventListener('resize', state.resizeHandler);
       state.resizeHandler = null;
     }
     clearFlashTimers();
-    if (state.paddingTarget) {
-      state.paddingTarget.style.removeProperty('padding-bottom');
-      state.paddingTarget = null;
-    }
+    restorePadding();
     window.GameUI?.fitAllLetterRows?.();
     if (state.hideTimer) {
       clearTimeout(state.hideTimer);
     }
     state.hideTimer = window.setTimeout(() => {
+      state.hideTimer = null;
+      if (state.visible) return;
       if (keyboardWrapper) {
         keyboardWrapper.classList.add('hidden');
         keyboardWrapper.style.display = 'none';
@@ -325,10 +376,10 @@
     if (!state.isTouch) return;
     if (!panel) return;
     mergeOptions(connection, overrides);
-    state.pending = connection;
     if (state.active && state.active !== connection) {
       hide(state.active);
     }
+    state.pending = connection;
     const { label, theme } = connection.options || {};
     updateLabel(label);
     applyTheme(theme);
@@ -345,8 +396,9 @@
   function hide(connection){
     if (!panel) return;
     if (connection && state.active && state.active !== connection) return;
+    if (!connection || state.pending === connection) state.pending = null;
     if (!state.visible) {
-      if (state.active === connection) {
+      if (!connection || state.active === connection) {
         state.active = null;
       }
       return;
@@ -421,6 +473,13 @@
     hide: hide.bind(null, null),
     isTouchDevice: () => state.isTouch
   };
+
+  panel?.addEventListener('transitionend', event => {
+    if (event.target === panel && event.propertyName === 'transform' && state.visible) {
+      updatePadding(state.active);
+      ensureVisible(state.active);
+    }
+  });
 
   if (closeBtn) {
     closeBtn.addEventListener('click', () => hide());

@@ -4,9 +4,8 @@
   window.__gameSoundAttached__ = true;
 
   const STORAGE_KEY = 'gameSoundEnabled';
-  const mediaQuery = typeof window.matchMedia === 'function'
-    ? window.matchMedia('(prefers-reduced-motion: reduce)')
-    : null;
+  const playing = new Set();
+  const observed = new WeakSet();
 
   function getInitialEnabled(){
     try {
@@ -27,6 +26,12 @@
     try {
       window.localStorage.setItem(STORAGE_KEY, String(state.enabled));
     } catch (e) {}
+    if (!state.enabled) {
+      playing.forEach(audioEl => {
+        try { audioEl.pause(); } catch (_) {}
+      });
+      playing.clear();
+    }
     syncButtons();
   }
 
@@ -36,11 +41,19 @@
 
   function play(audioEl){
     if (!state.enabled) return;
-    if (!audioEl) return;
+    if (!audioEl || typeof audioEl.play !== 'function') return;
     try {
-      const result = audioEl.play?.();
-      if (result && typeof result.catch === 'function') result.catch(() => {});
-    } catch (e) {}
+      if (!observed.has(audioEl)) {
+        observed.add(audioEl);
+        audioEl.addEventListener('ended', () => playing.delete(audioEl));
+        audioEl.addEventListener('pause', () => playing.delete(audioEl));
+      }
+      playing.add(audioEl);
+      const result = audioEl.play();
+      if (result && typeof result.catch === 'function') result.catch(() => playing.delete(audioEl));
+    } catch (e) {
+      playing.delete(audioEl);
+    }
   }
 
   function labelFor(enabled){
@@ -72,15 +85,6 @@
     toggle,
     play
   };
-
-  if (mediaQuery) {
-    const sync = () => syncButtons();
-    if (typeof mediaQuery.addEventListener === 'function') {
-      mediaQuery.addEventListener('change', sync);
-    } else if (typeof mediaQuery.addListener === 'function') {
-      mediaQuery.addListener(sync);
-    }
-  }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {

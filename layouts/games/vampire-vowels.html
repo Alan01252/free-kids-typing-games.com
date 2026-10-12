@@ -177,6 +177,51 @@
       animation: vampireCelebrate 0.6s ease;
     }
 
+    @media (max-width: 639px), (max-height: 500px) and (max-width: 960px) {
+      .game-vampire-vowels #gameArea > .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+      .game-vampire-vowels .round-card {
+        padding: 12px 8px;
+        border-radius: 16px;
+      }
+      .game-vampire-vowels .round-card .label {
+        font-size: 0.6rem;
+        letter-spacing: 0.08em;
+      }
+      .game-vampire-vowels .round-card .value {
+        font-size: 1.5rem;
+        letter-spacing: 0.05em;
+      }
+      .game-vampire-vowels .round-card #nextHint {
+        font-size: 0.9rem;
+        letter-spacing: 0.04em;
+      }
+      .game-vampire-vowels .chalice-shelf {
+        padding: 10px 6px;
+        gap: 6px;
+        border-radius: 18px;
+      }
+      .game-vampire-vowels .chalice {
+        min-width: 0;
+        min-height: 64px;
+        padding: 8px 2px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        letter-spacing: 0;
+      }
+      .game-vampire-vowels .chalice-name {
+        display: none;
+      }
+      .game-vampire-vowels .round-hint {
+        max-width: 100%;
+        padding: 8px 12px;
+        font-size: 0.65rem;
+        letter-spacing: 0.1em;
+      }
+    }
+
     @keyframes vampireCelebrate {
       0% { opacity: 0; transform: scale(0.9) translateY(18px); }
       50% { opacity: 1; transform: scale(1.02) translateY(-6px); }
@@ -221,11 +266,11 @@
       </div>
 
       <div class="chalice-shelf" aria-live="polite">
-        <div class="chalice" data-index="0">Round 1</div>
-        <div class="chalice" data-index="1">Round 2</div>
-        <div class="chalice" data-index="2">Round 3</div>
-        <div class="chalice" data-index="3">Round 4</div>
-        <div class="chalice" data-index="4">Round 5</div>
+        <div class="chalice" data-index="0" aria-label="Round 1"><span><span class="chalice-name">Round </span>1</span></div>
+        <div class="chalice" data-index="1" aria-label="Round 2"><span><span class="chalice-name">Round </span>2</span></div>
+        <div class="chalice" data-index="2" aria-label="Round 3"><span><span class="chalice-name">Round </span>3</span></div>
+        <div class="chalice" data-index="3" aria-label="Round 4"><span><span class="chalice-name">Round </span>4</span></div>
+        <div class="chalice" data-index="4" aria-label="Round 5"><span><span class="chalice-name">Round </span>5</span></div>
       </div>
 
       <div class="space-y-4 text-center">
@@ -275,6 +320,7 @@
     const touchKeyboard = window.GameTouchKeyboard?.attach({
       id: 'vampire-vowels',
       label: 'Tap vowels for the vampire',
+      layout: ['A E I O U'],
       onKeyPress: (char) => handleKeyPress(char, { skipHighlight: true }),
       getViewportTarget: () => letterRow,
       getPaddingTarget: () => document.querySelector('.game-shell')
@@ -513,6 +559,7 @@
     resetBtn.addEventListener('click', resetGame);
 
     document.addEventListener('keydown', (event) => {
+      if (!window.GameUI.shouldHandleGameKey(event)) return;
       if (!active) return;
       const target = event.target;
       if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;

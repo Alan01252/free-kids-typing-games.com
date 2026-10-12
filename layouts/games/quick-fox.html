@@ -124,6 +124,27 @@
       background: rgba(254,226,226,0.95);
       color: #b91c1c;
     }
+    @media (max-width: 639px), (max-height: 500px) and (max-width: 960px) {
+      .game-quick-fox .sentence-grid {
+        gap: 12px 6px;
+      }
+      .game-quick-fox .token-word {
+        gap: 5px;
+        max-width: 100%;
+      }
+      .game-quick-fox .token {
+        flex: 0 0 34px;
+        width: 34px;
+        height: 48px;
+        border-radius: 12px;
+        font-size: 22px;
+      }
+      .game-quick-fox .token.space {
+        flex-basis: 16px;
+        width: 16px;
+      }
+    }
+
     @keyframes quickFoxWiggle {
       0%, 100% { transform: translateX(0); }
       20% { transform: translateX(-6px); }
@@ -472,7 +493,9 @@
     resetBtn.addEventListener('click', resetGame);
 
     document.addEventListener('keydown', (e)=>{
+      if (!window.GameUI.shouldHandleGameKey(e)) return;
       if(!active) return;
+      if (e.key === ' ') e.preventDefault();
       const target = e.target;
       if(target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;
       const key = e.key === 'Spacebar' ? ' ' : e.key;

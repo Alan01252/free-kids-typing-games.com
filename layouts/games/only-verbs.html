@@ -352,6 +352,7 @@
     resetBtn.addEventListener('click', resetLesson);
 
     document.addEventListener('keydown', (e)=>{
+      if (!window.GameUI.shouldHandleGameKey(e)) return;
       if(!active) return;
       const target = e.target;
       if(target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;

@@ -429,6 +429,7 @@
       }
 
       function handleKeydown(event){
+        if (!window.GameUI.shouldHandleGameKey(event)) return;
         handleKeyPress(event.key);
       }
 

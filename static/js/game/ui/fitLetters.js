@@ -2,6 +2,8 @@
   if (typeof window === 'undefined') return;
   if (window.__fitLettersAttached__) return;
   window.__fitLettersAttached__ = true;
+  const main = document.getElementById('mainContent');
+  if (main && !main.hasAttribute('tabindex')) main.tabIndex = -1;
 
   function prefersReducedMotion() {
     if (typeof window.matchMedia !== 'function') return false;
@@ -12,39 +14,64 @@
     return prefersReducedMotion() ? 'auto' : 'smooth';
   }
 
-  function measureAndScale(el) {
-    if (!el) return;
+  function fitWord(el) {
+    if (!el || !el.getClientRects().length) return;
     el.style.transform = 'none';
-    el.style.whiteSpace = 'nowrap';
+    el.style.removeProperty('justify-content');
+    el.style.removeProperty('gap');
     el.style.removeProperty('--letter-fit-gap');
-    const parent = el.parentElement;
-    if (!parent) return;
-    const available = parent.getBoundingClientRect().width || 0;
-    let actual = el.scrollWidth || 0;
-    if (!available || !actual) return;
-    const childCount = el.children ? el.children.length : 0;
-    if (childCount > 1 && actual > available) {
-      const style = window.getComputedStyle(el);
-      const baseGap = parseFloat(style.columnGap || style.gap || '0') || 0;
-      if (baseGap > 0) {
-        const overflow = actual - available;
-        const adjust = overflow / (childCount - 1);
-        const targetGap = Math.max(baseGap * 0.4, baseGap - adjust);
-        if (targetGap < baseGap) {
-          el.style.setProperty('--letter-fit-gap', `${targetGap}px`);
-          actual = el.scrollWidth || actual;
-        }
-      }
+    el.removeAttribute('data-word-fit');
+    el.removeAttribute('data-word-scroll');
+    const style = window.getComputedStyle(el);
+    if (style.flexWrap !== 'nowrap') {
+      el.style.removeProperty('white-space');
+      return;
     }
-    const scale = Math.min(1, available / actual);
-    el.style.transform = scale < 1 ? `scale(${scale})` : 'none';
+    el.style.whiteSpace = 'nowrap';
+    // Leave room for the current letter's slightly enlarged highlight.
+    const padding = (parseFloat(style.paddingLeft) || 0) + (parseFloat(style.paddingRight) || 0);
+    const available = el.clientWidth - padding - 4;
+    const children = Array.from(el.children);
+    if (available <= 0 || !children.length) return;
+    let gap = parseFloat(style.columnGap) || 0;
+    const widths = children.reduce((total, child) => total + child.offsetWidth, 0);
+    let actual = widths + gap * (children.length - 1);
+    if (children.length > 1 && actual > available && gap > 0) {
+      gap = Math.max(Math.min(2, gap), gap - (actual - available) / (children.length - 1));
+      el.style.setProperty('--letter-fit-gap', `${gap}px`);
+      el.style.gap = `${gap}px`;
+      actual = widths + gap * (children.length - 1);
+    }
+    if (actual > available) {
+      const size = Math.max(24, (available - gap * (children.length - 1)) / children.length);
+      const glyph = children[0].querySelector('.candle-letter') || children[0];
+      const font = Math.min(parseFloat(getComputedStyle(glyph).fontSize), Math.max(16, size * 0.72));
+      el.style.setProperty('--word-fit-size', `${size}px`);
+      el.style.setProperty('--word-fit-font', `${font}px`);
+      el.setAttribute('data-word-fit', '');
+      // Exceptionally long custom words stay readable in a single scrollable row.
+      if (size * children.length + gap * (children.length - 1) > available + 1) {
+        el.setAttribute('data-word-scroll', '');
+        const current = el.querySelector('.current, .ghost');
+        if (current) {
+          const rowBounds = el.getBoundingClientRect();
+          const bounds = current.getBoundingClientRect();
+          if (bounds.left < rowBounds.left + 4) el.scrollLeft += bounds.left - rowBounds.left - 4;
+          else if (bounds.right > rowBounds.right - 4) el.scrollLeft += bounds.right - rowBounds.right + 4;
+        }
+      } else {
+        el.scrollLeft = 0;
+      }
+    } else {
+      el.scrollLeft = 0;
+    }
   }
 
   function fitLettersFor(el) {
     if (!el) return;
-    measureAndScale(el);
+    fitWord(el);
     if (typeof requestAnimationFrame === 'function') {
-      requestAnimationFrame(() => measureAndScale(el));
+      requestAnimationFrame(() => fitWord(el));
     }
   }
 
@@ -53,6 +80,15 @@
   }
 
   window.GameUI = window.GameUI || {};
+  window.GameUI.shouldHandleGameKey = (event, { allowRepeat = false } = {}) => {
+    if (event.defaultPrevented || event.isComposing || event.ctrlKey || event.metaKey || event.altKey) return false;
+    if (event.repeat && !allowRepeat) return false;
+    if (window.GameCelebration?.isOpen()) return false;
+    const target = event.target;
+    if (target?.closest?.('input, textarea, select, [contenteditable]:not([contenteditable="false"])')) return false;
+    if ((event.key === ' ' || event.key === 'Enter') && target?.closest?.('button, a[href], summary')) return false;
+    return true;
+  };
   window.GameUI.fitLettersFor = fitLettersFor;
   window.GameUI.fitAllLetterRows = fitAllLetterRows;
   window.GameUI.prefersReducedMotion = prefersReducedMotion;

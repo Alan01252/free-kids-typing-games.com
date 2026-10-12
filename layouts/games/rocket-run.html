@@ -15,6 +15,8 @@
       --status-border: rgba(148,163,184,0.35);
       --status-bg: rgba(15,23,42,0.6);
       --status-color: #e2e8f0;
+      --status-ok-color: #bbf7d0;
+      --status-bad-color: #fecaca;
       --status-ok-bg: rgba(16,185,129,0.2);
       --status-ok-border: rgba(34,197,94,0.4);
       --status-bad-bg: rgba(248,113,113,0.2);
@@ -589,6 +591,7 @@
     resetBtn.addEventListener('click', resetShow);
 
     document.addEventListener('keydown', (e)=>{
+      if (!window.GameUI.shouldHandleGameKey(e)) return;
       if(!active) return;
       const target = e.target;
       if(target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;

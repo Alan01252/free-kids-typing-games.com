@@ -667,7 +667,7 @@
           audio.onended = null;
           playNext();
         };
-        audio.play().catch(() => {});
+        window.GameSound.play(audio);
       };
       playNext();
     }
@@ -854,6 +854,7 @@
     resetBtn.addEventListener('click', resetGame);
 
     document.addEventListener('keydown', (event) => {
+      if (!window.GameUI.shouldHandleGameKey(event)) return;
       if(!gameActive) return;
       if(event.metaKey || event.ctrlKey || event.altKey) return;
       const target = event.target;

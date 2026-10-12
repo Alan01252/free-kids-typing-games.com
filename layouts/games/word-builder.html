@@ -114,6 +114,15 @@
     .box.ghost {
       opacity: .4;
     }
+    @media (max-width: 639px), (max-height: 500px) and (max-width: 960px) {
+      .game-word-builder .boxes .box {
+        flex: 0 0 36px;
+        width: 36px;
+        height: 52px;
+        border-radius: 12px;
+        font-size: 26px;
+      }
+    }
     @keyframes pop { from { transform: scale(.92);} to { transform: scale(1);} }
     .shake { animation: shake .35s ease; }
     @keyframes shake {
@@ -262,7 +271,7 @@
           <span class="inline-block h-2 w-2 rounded-full bg-indigo-400"></span>
           <span>Uppercase</span>
         </div>
-        <div id="rowUpper" class="boxes" role="list" aria-label="Uppercase letter boxes"></div>
+        <div id="rowUpper" class="boxes letter-row" role="list" aria-label="Uppercase letter boxes"></div>
       </div>
 
       <div class="space-y-3">
@@ -270,7 +279,7 @@
           <span class="inline-block h-2 w-2 rounded-full bg-amber-400"></span>
           <span>Lowercase</span>
         </div>
-        <div id="rowLower" class="boxes" role="list" aria-label="Lowercase letter boxes"></div>
+        <div id="rowLower" class="boxes letter-row" role="list" aria-label="Lowercase letter boxes"></div>
       </div>
 
       <div id="celebrate" class="celebrate min-h-[52px]" aria-live="polite"></div>
@@ -507,6 +516,7 @@
     }
 
     document.addEventListener('keydown', (e)=>{
+      if (!window.GameUI.shouldHandleGameKey(e)) return;
       if(!active) return;
       if(e.target === wordInput) return;
       processKey(e.key);

@@ -12,7 +12,7 @@
   {{ partial "game-shared-styles.html" . }}
   {{ block "styles" . }}{{ end }}
 </head>
-<body class="min-h-screen {{ block "body_class" . }}{{ end }}">
+<body data-game-theme="{{ default "light" .Params.theme }}" class="min-h-screen {{ block "body_class" . }}{{ end }}">
   <a class="skip-link" href="#mainContent">Skip to content</a>
   {{ partial "site-utility.html" . }}
   {{ block "main" . }}{{ end }}

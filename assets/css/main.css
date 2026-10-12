@@ -104,6 +104,15 @@
     outline: none;
   }
 
+  :focus-visible {
+    outline: 3px solid #6366f1;
+    outline-offset: 4px;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
   .site-utility {
     position: fixed;
     top: 0.75rem;
@@ -154,6 +163,7 @@
     position: relative;
     margin: 0 auto;
     width: min(100%, 64rem);
+    min-width: 0;
     padding: 1.5rem 1.25rem;
     display: grid;
     gap: 1.75rem;
@@ -186,7 +196,8 @@
     --card-bg-current: var(--card-bg);
     --card-border-current: var(--card-border);
     --card-shadow-current: var(--card-shadow);
-    border-radius: 32px;
+    min-width: 0;
+    border-radius: 28px;
     border: 1px solid var(--card-border-current);
     background: var(--card-bg-current);
     box-shadow: var(--card-shadow-current);
@@ -273,17 +284,20 @@
   }
 
   .touch-controls-panel {
-    --panel-pad: clamp(14px, 4vw, 26px);
+    --panel-pad: clamp(8px, 2vw, 16px);
+    --touch-key-gap: clamp(4px, 1vw, 6px);
+    --touch-key-height: clamp(44px, 12vw, 56px);
+    display: grid;
+    gap: 8px;
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
-    width: 100vw;
-    max-width: 100vw;
+    width: 100%;
     transform: translateY(100%);
     border: none;
     border-radius: 0;
-    padding: var(--panel-pad) clamp(6px, 3vw, 18px) calc(var(--panel-pad) + env(safe-area-inset-bottom, 0px));
+    padding: var(--panel-pad) max(6px, 2vw, env(safe-area-inset-left, 0px)) calc(var(--panel-pad) + env(safe-area-inset-bottom, 0px)) max(6px, 2vw, env(safe-area-inset-right, 0px));
     background: var(--touch-panel-bg);
     color: var(--touch-panel-color);
     z-index: 120;
@@ -302,70 +316,71 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: clamp(8px, 3vw, 18px);
-    padding-inline: clamp(6px, 3vw, 18px);
-    margin-bottom: clamp(6px, 2vw, 12px);
+    gap: 12px;
+    width: min(100%, 52rem);
+    margin: 0 auto;
   }
 
   .keyboard-label {
     flex: 1 1 auto;
     text-align: left;
-    letter-spacing: 0.35em;
+    letter-spacing: 0.12em;
+    line-height: 1.35;
     color: var(--touch-label-color);
     font-size: clamp(11px, 2.8vw, 12px);
     text-transform: uppercase;
-    white-space: nowrap;
+    overflow-wrap: anywhere;
   }
 
   .virtual-keyboard {
     display: grid;
-    gap: clamp(6px, 2.2vw, 12px);
     width: 100%;
     margin: 0;
   }
 
   .virtual-keyboard .simple-keyboard {
-    width: 100%;
+    display: grid;
+    justify-items: center;
+    gap: var(--touch-key-gap);
+    width: min(100%, 52rem);
+    margin: 0 auto;
     background: transparent;
-    padding: 0 clamp(1px, 1vw, 10px) clamp(1px, 1.4vw, 10px);
+    padding: 0;
     box-shadow: none;
   }
 
-  .virtual-keyboard .simple-keyboard.hg-theme-default .hg-row {
+  .virtual-keyboard .simple-keyboard .hg-row {
     --cols: 10;
     display: grid;
     grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
-    gap: clamp(2px, 1.1vw, 10px);
-    margin: clamp(4px, 1.4vw, 12px) 0;
+    gap: var(--touch-key-gap);
+    /* Every row uses the widest row's key width, then centers as a group. */
+    width: calc((100% + var(--touch-key-gap)) / var(--keyboard-cols) * var(--cols) - var(--touch-key-gap));
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
   }
 
-  .virtual-keyboard .simple-keyboard .hg-row:nth-of-type(1) {
-    --cols: 10;
-  }
-
-  .virtual-keyboard .simple-keyboard .hg-row:nth-of-type(2) {
-    --cols: 9;
-    padding-inline: clamp(2px, 2.5vw, 32px);
-  }
-
-  .virtual-keyboard .simple-keyboard .hg-row:nth-of-type(3) {
-    --cols: 7;
-    padding-inline: clamp(2px, 2vw, 12px);
+  .virtual-keyboard .simple-keyboard .hg-row[data-keyboard-row="space"] {
+    width: 100%;
   }
 
   .virtual-keyboard .simple-keyboard .hg-button {
     width: 100% !important;
+    display: grid;
+    place-items: center;
+    line-height: 1;
     min-width: 0;
-    height: clamp(52px, 12vw, 104px);
-    border-radius: clamp(10px, 3vw, 20px);
-    font-size: clamp(20px, 4.2vw, 30px);
+    height: var(--touch-key-height);
+    border-radius: clamp(8px, 2.5vw, 14px);
+    font-size: clamp(18px, 5vw, 24px);
     font-weight: 700;
     margin: 0;
-    background: var(--touch-key-bg);
-    border: 2px solid var(--touch-key-border);
-    color: var(--touch-key-color);
+    background: #f8fafc;
+    border: 1px solid rgba(15, 23, 42, 0.18);
+    color: #17223b;
     transition: transform 0.1s ease, background 0.1s ease, box-shadow 0.1s ease;
-    box-shadow: var(--touch-key-shadow);
+    box-shadow: 0 2px 0 rgba(2, 6, 23, 0.22);
     padding: 0;
   }
 
@@ -376,33 +391,20 @@
 
   .virtual-keyboard .simple-keyboard .hg-button:active,
   .virtual-keyboard .simple-keyboard .hg-button.hg-active {
-    background: var(--touch-key-active-bg);
-    color: var(--touch-key-active-color, var(--touch-key-color));
-    transform: translateY(1px) scale(0.98);
-    box-shadow: 0 10px 28px rgba(30, 64, 175, 0.45);
+    background: #e2e8f0;
+    color: #17223b;
+    box-shadow: inset 0 1px 2px rgba(2, 6, 23, 0.2);
   }
 
   .virtual-keyboard .simple-keyboard .hg-button.is-flashing {
-    background: var(--touch-key-highlight-bg);
-    border-color: var(--touch-key-highlight-border);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35), 0 12px 30px rgba(59, 130, 246, 0.45);
-    transform: translateY(0) scale(1.01);
-  }
-
-  .virtual-keyboard .simple-keyboard .hg-row .hg-button[data-skbtn="Space"] {
-    grid-column: 1 / -1;
-    max-width: none;
-    justify-content: center;
-  }
-
-  .virtual-keyboard .simple-keyboard .hg-row .hg-button[data-skbtn="Space"] span {
-    letter-spacing: 0.35em;
+    border-color: var(--touch-key-highlight-bg);
+    box-shadow: inset 0 0 0 2px var(--touch-key-highlight-bg), 0 2px 0 rgba(2, 6, 23, 0.22);
   }
 
   .touch-controls-close {
     flex: 0 0 auto;
-    width: clamp(28px, 7vw, 34px);
-    height: clamp(28px, 7vw, 34px);
+    width: 44px;
+    height: 44px;
     border-radius: 999px;
     border: 1px solid rgba(255, 255, 255, 0.25);
     background: rgba(15, 23, 42, 0.2);
@@ -504,6 +506,7 @@
     inset: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     display: none;
     -webkit-box-align: center;
     -ms-flex-align: center;
@@ -537,6 +540,7 @@
     position: relative;
     width: min(32rem, 100%);
     max-height: calc(100vh - 4rem);
+    max-height: calc(100dvh - 4rem);
     overflow: auto;
     border-radius: 30px;
     border: 1px solid var(--card-border, rgba(148, 163, 184, 0.35));
@@ -684,4 +688,141 @@
   .game-win-overlay.is-active {
     animation: none;
   }
+}
+
+/* Keep nested game grids inside their cards; page overflow can hide these bugs. */
+.game-shell > *,
+.game-card > *,
+.game-card .grid > * {
+  min-width: 0;
+}
+
+.status-badge {
+  flex-shrink: 0;
+}
+
+.status-banner > :last-child {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+/* Fit complete words by narrowing tiles, while preserving their height and shape. */
+.game-page .letter-row > * {
+  flex-shrink: 0;
+}
+
+.game-page .game-shell .letter-row[data-word-fit] > * {
+  flex: 0 0 var(--word-fit-size);
+  width: var(--word-fit-size);
+  min-width: var(--word-fit-size);
+  font-size: var(--word-fit-font);
+  padding-inline: 0;
+}
+
+.game-page .letter-row[data-word-fit] .candle-letter,
+.game-page .letter-row[data-word-fit] .candle-icon {
+  font-size: var(--word-fit-font);
+}
+
+.game-page .game-shell .letter-row[data-word-scroll] {
+  justify-content: flex-start;
+  overflow-x: auto;
+  padding-block: 12px;
+  scrollbar-width: thin;
+}
+
+.game-page .letter-row[data-word-scroll]::-webkit-scrollbar {
+  display: block;
+  height: 4px;
+}
+
+@media (max-width: 639px), (max-height: 500px) and (max-width: 960px) {
+  .game-page .game-shell {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .game-page .game-shell .game-card,
+  .game-page .game-shell .mansion {
+    padding: 1rem;
+    gap: 0;
+    border-radius: 22px;
+  }
+
+  .game-page .game-shell .game-card > :not([hidden]) ~ :not([hidden]),
+  .game-page .game-shell .mansion > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 1rem;
+    margin-bottom: 0;
+  }
+
+  .game-page .game-shell .game-card > [aria-live]:empty {
+    margin-top: 0;
+    min-height: 0;
+  }
+
+  .game-page .game-shell .letter-row {
+    --letter-size: clamp(36px, 9.5vw, 46px);
+    --letter-min-size: var(--letter-size);
+    --letter-height: 56px;
+    --letter-font-size: clamp(22px, 6vw, 30px);
+    --letter-radius: 12px;
+    --letter-gap: 6px;
+    --letter-padding-inline: 0px;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 6px;
+    padding: 8px 0;
+    max-width: 100%;
+    justify-content: center;
+  }
+
+  .game-page .game-shell .game-section-title {
+    letter-spacing: 0.18em;
+  }
+
+  .game-page .game-shell .game-hero h1 {
+    max-width: 100%;
+    font-size: clamp(1.7rem, 7vw, 2.3rem);
+    overflow-wrap: break-word;
+  }
+}
+
+@media (max-height: 500px) and (max-width: 960px) {
+  .touch-controls-panel {
+    --panel-pad: 4px;
+    --touch-key-height: 36px;
+  }
+
+  .touch-controls-panel .virtual-keyboard .simple-keyboard .hg-button {
+    font-size: 18px;
+    border-radius: 8px;
+  }
+}
+
+/* Upcoming letters need to remain readable on both light and dark game boards. */
+body[data-game-theme="light"] .letter-box:not(.current):not(.filled):not(.wiggle) {
+  color: #526383;
+}
+
+body[data-game-theme="dark"] .letter-box:not(.current):not(.filled):not(.wiggle) {
+  color: #cbd5e1;
+}
+
+.game-word-builder .box.ghost {
+  opacity: 1;
+  color: #6474a2;
+}
+
+@media (max-height: 500px) and (max-width: 960px) {
+  .game-page .game-shell .letter-display {
+    font-size: clamp(64px, 20vh, 90px);
+  }
+
+  .game-page .game-shell .target-letter-row .letter-box {
+    min-width: 64px;
+    min-height: 64px;
+    height: 64px;
+    font-size: 32px;
+  }
+
 }

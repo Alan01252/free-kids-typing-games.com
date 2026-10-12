@@ -224,7 +224,7 @@
       <div class="grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-start">
         <div id="scene" class="castle-scene" aria-label="Sandcastle building scene" role="img">
           <img id="sceneImage" src="/images/sandcastle-builder/step-0-empty.png" alt="Sandcastle builder scene: empty beach spot" decoding="async" />
-          <div class="castle-scene__shine"></div>
+          <div class="castle-scene__shine" aria-hidden="true"></div>
           <div class="castle-scene__progress" aria-hidden="true"><span></span></div>
         </div>
         <div class="space-y-4">
@@ -530,6 +530,7 @@
     resetBtn.addEventListener('click', resetGame);
 
     document.addEventListener('keydown', (e) => {
+      if (!window.GameUI.shouldHandleGameKey(e)) return;
       if(!active) return;
       const target = e.target;
       if(target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;

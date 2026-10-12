@@ -756,6 +756,7 @@
     resetBtn.addEventListener('click', resetJourney);
 
     document.addEventListener('keydown', (event) => {
+      if (!window.GameUI.shouldHandleGameKey(event)) return;
       if (!active) return;
       const target = event.target;
       if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;
