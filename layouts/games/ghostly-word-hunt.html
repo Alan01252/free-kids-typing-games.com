@@ -234,11 +234,7 @@
 
 {{ define "scripts" }}
   <script>
-    const ROOMS = [
-      { name: 'Haunted Foyer', words: ['cobweb','lantern','mystic'] },
-      { name: 'Wailing Library', words: ['whisper','potion','quiver'] },
-      { name: 'Ghoul Ballroom', words: ['specter','midnight','glimmer'] },
-    ];
+    const ROOMS = {{ (index site.Data.game_words "ghostly-word-hunt").rooms | jsonify | safeJS }};
 
     const startBtn = document.getElementById('startBtn');
     const resetBtn = document.getElementById('resetBtn');

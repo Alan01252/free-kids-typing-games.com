@@ -325,7 +325,7 @@
     });
     const isTouchDevice = touchKeyboard?.isTouchDevice?.() ?? false;
 
-    const WORDS = ['cat','dog','sun','star','moon','bus','train','car','ball','cup','duck','frog','teddy','book','apple','bee','fish','milk','jam','cake','bed','sock','kite','leaf','ship'];
+    const WORDS = {{ (index site.Data.game_words "word-builder").words | jsonify | safeJS }};
 
     if(wordList){
       WORDS.forEach(word=>{

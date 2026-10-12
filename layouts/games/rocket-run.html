@@ -319,12 +319,7 @@
 
 {{ define "scripts" }}
   <script>
-  const WORD_BANK = [
-    'zoom', 'blast', 'spark', 'twink', 'glow', 'whoosh', 'zappy',
-    'blink', 'rocket', 'comet', 'orbit', 'astro', 'cosmo',
-    'nova', 'flare', 'puff', 'flash', 'swoosh', 'zing', 'sparkle',
-    'shiny', 'lunar', 'solar', 'beam', 'shine'
-  ];
+  const WORD_BANK = {{ (index site.Data.game_words "rocket-run").words | jsonify | safeJS }};
     const TOTAL_ROCKETS = 7;
 
     const startBtn = document.getElementById('startBtn');

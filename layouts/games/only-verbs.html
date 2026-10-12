@@ -124,11 +124,7 @@
 
 {{ define "scripts" }}
   <script>
-    const VERB_LIST = [
-      'jump','clap','sing','write','draw','dance','laugh','smile','learn','build',
-      'climb','swim','solve','focus','whisper','shout','sprint','gather','listen','create',
-      'imagine','wonder','share','explore','balance','travel','guide','answer','juggle','bounce'
-    ];
+    const VERB_LIST = {{ (index site.Data.game_words "only-verbs").words | jsonify | safeJS }};
     const TOTAL_VERBS = 7;
 
     const startBtn = document.getElementById('startBtn');

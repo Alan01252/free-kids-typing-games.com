@@ -270,7 +270,7 @@
     const soundWrong = document.getElementById('soundWrong');
     const soundWin = document.getElementById('soundWin');
 
-    const SENTENCE = 'The quick brown fox jumped over the lazy dog';
+    const SENTENCE = 'The quick brown fox jumps over the lazy dog';
     const characters = SENTENCE.split('');
     let index = 0;
     let active = false;
@@ -418,7 +418,7 @@
         <div class="celebration">
           <div class="win-emoji-line">${burstLine}</div>
           <div class="text-lg font-extrabold uppercase tracking-[0.25em] text-amber-700">pangram mastered!</div>
-          <div class="text-sm font-semibold text-amber-900">“The quick brown fox jumped over the lazy dog”</div>
+          <div class="text-sm font-semibold text-amber-900">“${SENTENCE}”</div>
         </div>
       `;
       celebrate.innerHTML = winMarkup;

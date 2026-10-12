@@ -81,12 +81,7 @@
 {{ define "scripts" }}
   <script>
     const TOTAL_WORDS = 7;
-    const WORD_BANK = [
-      'engine','rocket','puzzle','guitar','safari','planet','coding','jungle','nugget','winter',
-      'flash','marble','sunset','pepper','violin','pirate','galaxy','garden','pencil','dragon',
-      'breeze','puzzle','racing','thunder','sprout','bubble','magnet','ladder','ocean','meteor',
-      'button','pebble','wizard','banana','silver','pickle','scooter','tunnel','pillow','puzzle'
-    ];
+    const WORD_BANK = {{ (index site.Data.game_words "speed-racer").words | jsonify | safeJS }};
 
     const startBtn = document.getElementById('startBtn');
     const resetBtn = document.getElementById('resetBtn');

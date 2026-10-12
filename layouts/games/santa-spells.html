@@ -301,9 +301,7 @@
 
 {{ define "scripts" }}
   <script>
-    const WORD_BANK = [
-      'santa','sleigh','gift','holly','jolly','frost','cocoa','cookie','reindeer','north','bells','candy','snowy','elf','magic','winter'
-    ];
+    const WORD_BANK = {{ (index site.Data.game_words "santa-spells").words | jsonify | safeJS }};
     const TOTAL_STOPS = 6;
 
     const startBtn = document.getElementById('startBtn');
