@@ -1,0 +1,74 @@
+{{ define "styles" }}
+  {{ $styles := resources.Get "css/games/witch-word-brew.css" | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}" crossorigin="anonymous">
+{{ end }}
+{{ define "body_class" }}game-page game-witch-word-brew{{ end }}
+{{ define "main" }}
+<main id="mainContent" class="game-shell">
+  <header class="game-hero brew-hero">
+    <p class="brew-eyebrow">The moonlight kitchen</p>
+    <h1>Witch’s <span>Word Brew</span></h1>
+    <p>A pinch of letters. A little magic. Help Juniper brew a potion, one word at a time.</p>
+  </header>
+
+  <section id="gameArea" class="game-card brew-workshop" aria-label="Juniper’s potion kitchen">
+    <div class="brew-stage">
+      <span class="brew-stage__label">A little spell goes a long way</span>
+      <div class="brew-stage__window" aria-hidden="true"></div>
+      <div class="brew-illustration">
+        <img class="brew-scene" src="{{ "images/witch-word-brew/kitchen.webp" | relURL }}" width="960" height="640" alt="Juniper, a friendly witch in a purple hat, stirring a glowing cauldron." decoding="async" fetchpriority="high">
+        <div class="brew-bubbles" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <span id="flyingIngredient" class="brew-sprite brew-flying" aria-hidden="true" hidden></span>
+      </div>
+      <p id="witchMessage" class="brew-message">“Come in, little spell-maker!”</p>
+    </div>
+
+    <div class="brew-workspace">
+      <div class="brew-workspace__top"><span class="brew-eyebrow">Juniper’s recipe book</span><button id="resetBtn" class="brew-text-button" type="button" hidden>New brew</button></div>
+      <div id="brewSetup" class="brew-setup">
+        <h2>Let’s make moonlight.</h2>
+        <p>Find the letters. Spell the ingredient. Watch your potion sparkle.</p>
+        <label for="brewDifficulty">Choose your words</label>
+        <select id="brewDifficulty">
+          <option value="little">Little spells · 3–4 letters</option>
+          <option value="big">Bigger spells · 5–7 letters</option>
+        </select>
+        <button id="startBtn" type="button" class="brew-button">Let’s brew <span aria-hidden="true">→</span></button>
+        <p class="brew-setup__note">Six ingredients. No timer. Lots of magic.</p>
+      </div>
+
+      <div id="brewPlay" class="brew-play" hidden>
+        <div class="brew-ingredient">
+          <span id="ingredientArt" class="brew-sprite" aria-hidden="true"></span>
+          <div><p id="ingredientNumber" class="brew-small">Ingredient 1 of 6</p><h2 id="ingredientName"></h2><p id="ingredientHint"></p></div>
+        </div>
+        <div id="status" class="status-banner" role="status" aria-live="polite" aria-atomic="true">
+          <span id="statusBadge" class="status-badge" aria-hidden="true">✦</span><span id="statusText"></span>
+        </div>
+        <p class="brew-small brew-type-label">Type the ingredient</p>
+        <div id="letterRow" class="letter-row" role="list" aria-label="Ingredient letters"></div>
+        <div class="brew-recipe">
+          <div class="brew-recipe__heading"><span>In your cauldron</span><strong id="progressCounter">0 / 6</strong></div>
+          <ol id="recipeShelf" class="brew-shelf" aria-label="Recipe ingredients"></ol>
+          <progress id="brewProgress" max="6" value="0" aria-label="Ingredients added">0 of 6 ingredients</progress>
+        </div>
+      </div>
+      <div id="brewFinished" class="brew-finished" hidden>
+        <p class="brew-eyebrow">A spell well spelled</p><h2>Moonlight, bottled!</h2>
+        <p>You added all six ingredients. Your potion is ready to make the night sparkle.</p>
+        <button id="brewAgainBtn" type="button" class="brew-button">Brew another potion <span aria-hidden="true">→</span></button>
+      </div>
+    </div>
+  </section>
+  <p class="brew-bottom-note">Made for little witches and wizards. Play with letter keys or tap the on-screen keyboard.</p>
+</main>
+<audio id="soundCorrect" preload="none" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+<audio id="soundIngredient" preload="none" src="https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg"></audio>
+<audio id="soundWin" preload="none" src="https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg"></audio>
+{{ end }}
+{{ define "footer" }}
+  {{ partial "game-footer.html" (dict "context" . "tip" .Params.tip "theme" (default "dark" .Params.theme)) }}
+{{ end }}
+{{ define "scripts" }}
+  <script src="{{ "js/game/witch-word-brew.js" | relURL }}" defer></script>
+{{ end }}

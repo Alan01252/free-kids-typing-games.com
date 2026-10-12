@@ -1,0 +1,136 @@
+.game-witch-word-brew {
+  background: radial-gradient(ellipse at 15% 10%, #493254 0, transparent 50%), radial-gradient(ellipse at 100% 65%, #193d40 0, transparent 45%), #211e32;
+  color: #fff5e2;
+  --card-bg: #302b40;
+  --card-border: #76637c;
+  --card-shadow: 0 24px 70px #0c091a55;
+  --card-blur: none;
+  --status-bg: #efe6d5;
+  --status-border: #d7c8ad;
+  --status-color: #40354c;
+  --status-ok-bg: #e0eee0;
+  --status-ok-border: #a5c6af;
+  --status-ok-color: #24543b;
+  --status-bad-bg: #fff0dc;
+  --status-bad-border: #e2ba85;
+  --status-bad-color: #73491c;
+  --status-badge-bg: #d9c6ed;
+  --status-badge-color: #593876;
+  --status-ok-badge-bg: #2d674b;
+  --status-bad-badge-bg: #8a5925;
+  --status-badge-size: 28px;
+  --letter-size: 48px;
+  --letter-min-size: 48px;
+  --letter-height: 64px;
+  --letter-font-size: 30px;
+  --letter-radius: 13px;
+  --letter-gap: 8px;
+  --letter-padding-inline: 0px;
+  --letter-bg: #fffaf0;
+  --letter-color: #554767;
+  --letter-border-color: #cbb9d7;
+  --letter-current-bg: #ffe4a8;
+  --letter-current-color: #623b15;
+  --letter-current-border-color: #be8b36;
+  --letter-current-shadow: 0 6px 16px #b1822822;
+  --letter-filled-bg: #dcecd8;
+  --letter-filled-color: #285137;
+  --letter-filled-border-color: #94ba94;
+  --overlay-panel-bg: #fff7e9;
+  --overlay-panel-color: #40354c;
+  --overlay-action-primary: #70509b;
+  --touch-panel-bg: linear-gradient(140deg, #62477a, #39354f);
+  --touch-panel-color: #fff7e9;
+  --touch-label-color: #efe3fa;
+}
+.game-witch-word-brew .game-shell { max-width: 1152px; }
+.game-witch-word-brew .brew-hero { gap: 0.6rem; }
+.game-witch-word-brew .brew-eyebrow { text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.7rem; font-weight: 800; color: #e5bd7b; }
+.game-witch-word-brew .brew-hero h1 { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2.5rem, 6vw, 4.6rem); line-height: 1.1; font-weight: 700; letter-spacing: -0.04em; }
+.game-witch-word-brew .brew-hero h1 span { color: #efca8d; }
+.game-witch-word-brew .brew-hero > p:last-child { color: #d6c9df; font-size: 1rem; max-width: 34rem; }
+.game-witch-word-brew .brew-workshop { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 1.5rem; padding: 1.25rem; overflow: visible; }
+.game-witch-word-brew .brew-stage { position: relative; min-width: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; isolation: isolate; border-radius: 20px; background: radial-gradient(ellipse at 70% 60%, #6f968240, transparent 65%), linear-gradient(150deg, #41374d, #262639); overflow: hidden; min-height: 410px; }
+.game-witch-word-brew .brew-stage__label { position: relative; width: 100%; text-align: center; padding: 1rem 0.5rem 0.25rem; color: #e8cfab; font: italic 0.95rem Georgia, serif; z-index: 2; }
+.game-witch-word-brew .brew-stage__window { position: absolute; top: 12%; right: 14%; width: 110px; height: 130px; border-radius: 70px 70px 16px 16px; border: 5px solid #726078; background: radial-gradient(circle at 66% 30%, #ffe3a7 0 11%, transparent 12%), linear-gradient(160deg, #53517b, #282d4e); z-index: -1; opacity: 0.8; }
+.game-witch-word-brew .brew-illustration { position: relative; width: 100%; }
+.game-witch-word-brew .brew-scene { position: relative; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: contain; display: block; z-index: 1; }
+.game-witch-word-brew .brew-message { position: relative; padding: 0.7rem 1rem; margin: 0 1rem 1rem; font: italic 1rem Georgia, serif; text-align: center; color: #e9dded; }
+.game-witch-word-brew .brew-workspace { border-radius: 18px; background: #faf1df; color: #40354c; padding: 1.4rem; align-self: stretch; }
+.game-witch-word-brew .brew-workspace__top { display: flex; justify-content: space-between; gap: 0.5rem; align-items: center; margin-bottom: 1.3rem; }
+.game-witch-word-brew .brew-workspace .brew-eyebrow { color: #796044; font-size: 0.65rem; letter-spacing: 0.1em; }
+.game-witch-word-brew .brew-text-button { font-size: 0.75rem; font-weight: 800; color: #624185; padding: 0.4rem 0.5rem; min-height: 44px; border: 1px solid #d9c9e3; border-radius: 10px; flex-shrink: 0; }
+.game-witch-word-brew .brew-workspace h2 { font: 700 clamp(1.6rem, 3vw, 2rem)/1.15 Georgia, serif; letter-spacing: -0.03em; }
+.game-witch-word-brew .brew-setup > p { color: #716275; font-size: 0.9rem; margin-top: 0.9rem; }
+.game-witch-word-brew .brew-setup label { display: block; font-size: 0.8rem; font-weight: 800; margin: 1.8rem 0 0.5rem; }
+.game-witch-word-brew .brew-setup select { width: 100%; min-width: 0; padding: 0.75rem; border: 1px solid #d5c4b1; border-radius: 10px; background: #fffaf0; font: inherit; font-size: 0.9rem; min-height: 48px; }
+.game-witch-word-brew .brew-button { display: flex; align-items: center; justify-content: center; gap: 1rem; width: 100%; min-height: 50px; border-radius: 12px; padding: 0.8rem 1rem; margin-top: 1.1rem; font-size: 0.95rem; font-weight: 800; background: #725099; color: #fffaf0; box-shadow: 0 4px 0 #50366e; transition: background 150ms; }
+.game-witch-word-brew .brew-button:hover { background: #604180; }
+.game-witch-word-brew .brew-setup .brew-setup__note { font-size: 0.7rem; text-align: center; margin-top: 1rem; }
+.game-witch-word-brew .brew-ingredient { display: flex; gap: 0.75rem; align-items: center; margin-bottom: 1.5rem; }
+.game-witch-word-brew .brew-ingredient > div { min-width: 0; }
+.game-witch-word-brew .brew-ingredient h2 { margin: 0.2rem 0 0.35rem; }
+.game-witch-word-brew #ingredientHint { font-size: 0.8rem; line-height: 1.4; color: #716275; }
+.game-witch-word-brew .brew-small { font-size: 0.65rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #796044; }
+.game-witch-word-brew .brew-type-label { text-align: center; margin-bottom: 0.8rem; }
+.game-witch-word-brew .letter-row { padding-block: 10px; }
+.game-witch-word-brew .brew-workspace .letter-box:not(.current):not(.filled):not(.wiggle) { color: var(--letter-color); }
+.game-witch-word-brew .status-banner { display: flex; margin-bottom: 1rem; padding: 0.65rem; gap: 0.6rem; font-size: 0.8rem; min-height: 58px; }
+.game-witch-word-brew .brew-recipe { margin-top: 1.4rem; }
+.game-witch-word-brew .brew-recipe__heading { display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; font-weight: 800; color: #796044; }
+.game-witch-word-brew .brew-shelf { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; list-style: none; padding: 0; margin: 0.6rem 0; }
+.game-witch-word-brew .brew-shelf li { aspect-ratio: 1; border: 1px dashed #ccbdab; border-radius: 10px; display: grid; place-items: center; position: relative; opacity: 0.45; }
+.game-witch-word-brew .brew-shelf li.is-added { opacity: 1; background: #e4eccc; border-style: solid; border-color: #b1c39b; }
+.game-witch-word-brew .brew-shelf li.is-current { opacity: 1; border-color: #9c7bb7; background: #eee0f2; }
+.game-witch-word-brew .brew-shelf li.is-added::after { content: '✓'; position: absolute; right: 1px; bottom: -2px; font-size: 12px; color: #24543b; font-weight: 900; }
+.game-witch-word-brew .brew-sprite { display: inline-block; width: 80px; height: 80px; flex-shrink: 0; background-image: url('/images/witch-word-brew/ingredients.webp'); background-size: 600% 200%; background-position: var(--sprite-x, 0%) var(--sprite-y, 0%); background-repeat: no-repeat; }
+.game-witch-word-brew .brew-shelf .brew-sprite { width: 100%; height: 100%; }
+.game-witch-word-brew #brewProgress { display: block; width: 100%; height: 6px; border: 0; border-radius: 20px; overflow: hidden; background: #dfd0bd; accent-color: #749565; }
+.game-witch-word-brew #brewProgress::-webkit-progress-bar { background: #dfd0bd; }
+.game-witch-word-brew #brewProgress::-webkit-progress-value { background: #749565; border-radius: 20px; }
+.game-witch-word-brew #brewProgress::-moz-progress-bar { background: #749565; border-radius: 20px; }
+.game-witch-word-brew .brew-finished > p:not(.brew-eyebrow) { font-size: 0.95rem; margin-top: 1rem; }
+.game-witch-word-brew .brew-finished h2 { margin-top: 0.7rem; }
+.game-witch-word-brew .brew-bottom-note { text-align: center; color: #c6b9d1; font-size: 0.8rem; }
+.game-witch-word-brew .brew-bubbles { position: absolute; top: 30%; left: 60%; width: 18%; height: 20%; pointer-events: none; z-index: 2; }
+.game-witch-word-brew .brew-bubbles i { position: absolute; bottom: 0; left: 20%; width: 10px; height: 10px; border: 1px solid #c9ffde; border-radius: 50%; background: #9cebb53a; animation: brew-bubble 3s ease-in infinite; }
+.game-witch-word-brew .brew-bubbles i:nth-child(2) { left: 65%; width: 7px; height: 7px; animation-delay: 0.8s; }
+.game-witch-word-brew .brew-bubbles i:nth-child(3) { left: 45%; width: 13px; height: 13px; animation-delay: 1.5s; }
+.game-witch-word-brew .brew-bubbles i:nth-child(4) { left: 5%; animation-delay: 2.2s; }
+.game-witch-word-brew .brew-flying { position: absolute; top: 20%; left: 65%; z-index: 3; width: 56px; height: 56px; pointer-events: none; animation: brew-toss 750ms ease-in both; }
+.game-witch-word-brew .is-sparkling .brew-scene { animation: brew-glow 650ms ease-out; }
+.game-witch-word-brew .is-brewed .brew-stage { background: radial-gradient(ellipse at 65% 60%, #83dba666, transparent 65%), #302f41; }
+.game-witch-word-brew .brew-win { text-align: center; }
+.game-witch-word-brew .brew-win .brew-sprite { width: 120px; height: 120px; margin: auto; }
+.game-witch-word-brew .brew-win h2 { font: 700 2rem/1.15 Georgia, serif; margin: 0.5rem 0 1rem; }
+.game-witch-word-brew .brew-win p { max-width: 25rem; margin: auto; }
+@keyframes brew-bubble { 0% { transform: translateY(0) scale(0.6); opacity: 0; } 25% { opacity: 0.9; } 100% { transform: translateY(-70px) scale(1.2); opacity: 0; } }
+@keyframes brew-toss { 0% { transform: translate(-60px, -40px) rotate(-20deg); opacity: 0; } 25% { opacity: 1; } 100% { transform: translate(0, var(--brew-drop, 90px)) rotate(15deg) scale(0.3); opacity: 0; } }
+@keyframes brew-glow { 50% { filter: drop-shadow(0 0 14px #c6ffd9aa); } }
+@media (max-width: 800px) {
+  .game-witch-word-brew .brew-workshop { grid-template-columns: minmax(0, 1fr); }
+  .game-witch-word-brew .brew-stage { min-height: 0; }
+  .game-witch-word-brew .brew-illustration { width: min(100%, 450px); }
+}
+@media (max-width: 639px), (max-height: 500px) and (max-width: 960px) {
+  .game-witch-word-brew .game-shell .brew-workshop { gap: 0; padding: 0.75rem; }
+  .game-witch-word-brew .brew-workspace { padding: 1rem; }
+  .game-witch-word-brew .brew-stage__label { padding-top: 0.7rem; font-size: 0.8rem; }
+  .game-witch-word-brew .brew-illustration { max-width: 260px; --brew-drop: 45px; }
+  .game-witch-word-brew .is-playing .brew-illustration { max-width: 220px; }
+  .game-witch-word-brew .is-playing .brew-message { display: none; }
+  .game-witch-word-brew .brew-message { margin-bottom: 0.5rem; font-size: 0.9rem; }
+  .game-witch-word-brew .brew-stage__window { width: 70px; height: 90px; }
+  .game-witch-word-brew .brew-workspace__top { margin-bottom: 0.8rem; }
+  .game-witch-word-brew .brew-ingredient { margin-bottom: 1rem; gap: 0.5rem; }
+  .game-witch-word-brew .brew-ingredient .brew-sprite { width: 60px; height: 60px; }
+  .game-witch-word-brew .brew-workspace h2 { font-size: 1.6rem; }
+  .game-witch-word-brew .brew-small { letter-spacing: 0.06em; }
+  .game-witch-word-brew .brew-setup label { margin-top: 1.1rem; }
+  .game-witch-word-brew .brew-shelf li { border-radius: 7px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .game-witch-word-brew .brew-bubbles i,
+  .game-witch-word-brew .brew-flying,
+  .game-witch-word-brew .is-sparkling .brew-scene { animation: none; }
+}

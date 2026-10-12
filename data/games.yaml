@@ -145,6 +145,14 @@
   badge_label: "Vowels"
   badge_emoji: "🧛"
   description: "Practise typing the vowels (A, E, I, O, U) in different orders."
+- slug: witch-word-brew
+  skill: words
+  title: "Witch’s Word Brew"
+  emoji: "🧙"
+  badge_label: "Halloween"
+  badge_emoji: "🌙"
+  image: "images/witch-word-brew/kitchen.webp"
+  description: "Help Juniper brew a moonlight potion by spelling illustrated magical ingredients."
 - slug: word-builder
   skill: words
   title: "Word Builder"
