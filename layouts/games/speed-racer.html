@@ -1,134 +1,6 @@
 {{ define "styles" }}
-  <style>
-    .game-speed-racer {
-      color: #0f172a;
-      background:
-        radial-gradient(950px circle at 80% -240px, rgba(96,165,250,0.55), transparent 62%),
-        radial-gradient(850px circle at 20% 125%, rgba(251,191,36,0.35), transparent 58%),
-        linear-gradient(180deg, #f5f3ff, #fef3c7 55%, #f8fafc);
-      --card-bg: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(237,248,255,0.56));
-      --card-border: rgba(59,130,246,0.18);
-      --card-shadow: 0 32px 95px rgba(96,165,250,0.2);
-      --status-border: rgba(59,130,246,0.2);
-      --status-bg: rgba(59,130,246,0.08);
-      --status-color: #0f172a;
-      --status-ok-bg: rgba(34,197,94,0.15);
-      --status-ok-border: rgba(34,197,94,0.35);
-      --status-ok-color: #047857;
-      --status-bad-bg: rgba(248,113,113,0.15);
-      --status-bad-border: rgba(248,113,113,0.35);
-      --status-bad-color: #b91c1c;
-      --status-badge-bg: rgba(59,130,246,0.22);
-      --status-badge-color: #1d4ed8;
-      --status-ok-badge-bg: rgba(34,197,94,0.85);
-      --status-ok-badge-color: #fff;
-      --status-bad-badge-bg: rgba(248,113,113,0.85);
-      --status-bad-badge-color: #fff;
-      --overlay-panel-bg: rgba(255,255,255,0.96);
-      --overlay-panel-color: #0f172a;
-      --overlay-action-primary: #6366f1;
-      --letter-gap: 12px;
-      --letter-size: clamp(52px, 8vw, 72px);
-      --letter-min-size: clamp(52px, 8vw, 72px);
-      --letter-height: clamp(64px, 9vw, 84px);
-      --letter-radius: 20px;
-      --letter-border-color: rgba(99,102,241,0.25);
-      --letter-color: rgba(99,102,241,0.6);
-      --letter-filled-border-color: rgba(99,102,241,0.45);
-      --letter-filled-bg: rgba(224,231,255,0.95);
-      --letter-filled-color: #312e81;
-      --letter-current-border-color: rgba(99,102,241,0.85);
-      --letter-current-bg: linear-gradient(145deg, rgba(224,231,255,0.95), rgba(199,210,254,0.95));
-      --letter-current-color: #1e1b4b;
-      --letter-current-shadow: 0 16px 36px rgba(99,102,241,0.25);
-      --letter-error-border-color: rgba(248,113,113,0.6);
-      --letter-error-bg: rgba(254,226,226,0.92);
-      --letter-error-color: #b91c1c;
-      --touch-panel-bg: linear-gradient(145deg, rgba(59,130,246,0.92), rgba(37,99,235,0.72));
-      --touch-panel-color: #e0f2fe;
-      --touch-label-color: #bfdbfe;
-      --touch-key-bg: rgba(59,130,246,0.28);
-      --touch-key-border: rgba(147,197,253,0.55);
-      --touch-key-color: #e0f2fe;
-      --touch-key-shadow: 0 16px 34px rgba(29,78,216,0.28);
-      --touch-key-active-bg: rgba(37,99,235,0.9);
-      --touch-key-active-color: #e0f2fe;
-      --touch-key-highlight-bg: rgba(59,130,246,0.95);
-      --touch-key-highlight-border: rgba(191,219,254,0.55);
-    }
-    .game-speed-racer .status-badge {
-      background: var(--status-badge-bg);
-      color: var(--status-badge-color);
-    }
-    .race-track {
-      position: relative;
-      height: clamp(160px, 24vw, 220px);
-      border-radius: 999px;
-      background: linear-gradient(90deg, rgba(226,232,240,0.95), rgba(226,232,240,0.75));
-      border: 6px solid rgba(148,163,184,0.35);
-      overflow: hidden;
-    }
-    .race-track::before,
-    .race-track::after {
-      content: '';
-      position: absolute;
-      inset: 18px;
-      border-radius: 999px;
-      border: 4px dashed rgba(99,102,241,0.25);
-    }
-    .race-track::after {
-      inset: 36px;
-      border-style: dotted;
-    }
-    .track-progress {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      pointer-events: none;
-    }
-    .track-progress span {
-      border-right: 2px dashed rgba(99,102,241,0.25);
-    }
-    .track-progress span:last-child {
-      border-right: none;
-    }
-    .car {
-      position: absolute;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: clamp(64px, 10vw, 86px);
-      height: clamp(64px, 10vw, 86px);
-      border-radius: 50%;
-      background: linear-gradient(145deg, rgba(99,102,241,0.95), rgba(59,130,246,0.9));
-      box-shadow: 0 18px 40px rgba(79,70,229,0.35);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: clamp(32px, 6vw, 42px);
-      transition: left 0.35s ease;
-    }
-    .car span {
-      display: inline-block;
-      transform: scaleX(-1);
-    }
-    .box-row {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: nowrap;
-    }
-    .celebration {
-      padding: 24px 20px;
-      border-radius: 32px;
-      border: 3px solid rgba(245,158,11,0.4);
-      background: linear-gradient(145deg, rgba(254,240,138,0.95), rgba(254,215,170,0.92));
-      box-shadow: 0 30px 80px rgba(245,158,11,0.35);
-      text-align: center;
-      animation: bannerPop 0.6s ease;
-    }
-  </style>
+  {{ $styles := resources.Get "css/games/speed-racer.css" | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}" crossorigin="anonymous">
 {{ end }}
 
 {{ define "body_class" }}game-page game-speed-racer text-slate-800{{ end }}
@@ -136,16 +8,17 @@
 {{ define "main" }}
   <main id="mainContent" class="game-shell text-slate-800">
     <header class="game-hero">
+      <p class="race-eyebrow">Little keys. Big race day.</p>
       <h1 class="flex items-center justify-center gap-2 text-3xl font-extrabold tracking-tight sm:text-5xl">
-        <span aria-hidden="true">🏁</span>
+        <img class="race-title-car" src="{{ "images/speed-racer/car.webp" | relURL }}" width="480" height="320" alt="" decoding="async">
         <span>Speed Racer</span>
       </h1>
       <p class="mx-auto max-w-2xl text-sm text-slate-500 sm:text-base">
-        Type seven surprise words to push your race car across the finish line. Beat your best time for bragging rights!
+        Every letter moves your car. Spell seven racing words and race to the chequered flag!
       </p>
     </header>
 
-    <section class="game-card" style="--card-shadow-current: 0 32px 110px rgba(79,70,229,0.16); --card-border-current: rgba(99,102,241,0.2);">
+    <section class="game-card">
       <div class="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
         <button id="startBtn" class="inline-flex w-full items-center justify-center rounded-2xl bg-indigo-500 px-4 py-3 text-base font-semibold text-white shadow-lg shadow-indigo-200 transition hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-200">
           Start race
@@ -160,23 +33,25 @@
       </div>
     </section>
 
-    <section id="gameArea" class="game-card" style="display:none; --card-shadow-current: 0 36px 120px rgba(79,70,229,0.18); --card-border-current: rgba(99,102,241,0.18);" aria-live="polite">
-      <div class="grid gap-4 sm:grid-cols-2">
-        <div class="rounded-3xl bg-indigo-50/60 px-5 py-4 text-center text-sm font-semibold text-indigo-600 shadow-inner">
-          <div class="uppercase tracking-[0.3em] text-xs text-indigo-400">Stopwatch</div>
-          <div id="timer" class="mt-1 text-3xl font-extrabold text-indigo-700">00:00.00</div>
+    <section id="gameArea" class="game-card" style="display:none;">
+      <div class="race-dashboard">
+        <div class="race-stat">
+          <span class="race-stat__label">Stopwatch</span>
+          <div id="timer" class="race-stat__value" role="timer" aria-live="off">00:00.00</div>
         </div>
-        <div class="rounded-3xl bg-slate-50 px-5 py-4 text-center text-sm font-semibold text-slate-600 shadow-inner">
-          <div class="uppercase tracking-[0.3em] text-xs text-slate-400">Words</div>
-          <div id="wordCounter" class="mt-1 text-3xl font-extrabold text-slate-700">1 / 7</div>
+        <div class="race-stat">
+          <span class="race-stat__label">Word</span>
+          <div id="wordCounter" class="race-stat__value">1 / 7</div>
         </div>
       </div>
 
-      <div class="race-track">
-        <div class="track-progress">
+      <div class="race-track" role="img" aria-label="A sunny countryside straight with a red racing car heading toward the chequered finish line.">
+        <span class="race-scene-label" aria-hidden="true">Sunny circuit</span>
+        <span class="race-finish-label" aria-hidden="true">FINISH</span>
+        <div class="track-progress" aria-hidden="true">
           <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
         </div>
-        <div id="car" class="car" style="left:0%;"><span aria-hidden="true">🏎️</span></div>
+        <div id="car" class="car" aria-hidden="true"><img src="{{ "images/speed-racer/car.webp" | relURL }}" width="480" height="320" alt="" decoding="async"></div>
       </div>
 
       <div class="space-y-4 text-center">
@@ -269,6 +144,7 @@
     }
 
     function startTimer(){
+      stopTimer();
       startTime = performance.now();
       timerDisplay.textContent = '00:00.00';
       timerInterval = setInterval(()=>{
@@ -330,8 +206,11 @@
       const word = raceWords[currentWordIndex] || '';
       const wordProgress = word.length ? currentLetterIndex / word.length : 0;
       const overall = (currentWordIndex + wordProgress) / TOTAL_WORDS;
-      const percent = Math.min(100, Math.max(0, overall * 100));
-      car.style.left = `${percent}%`;
+      const progress = Math.min(1, Math.max(0, overall));
+      car.style.setProperty('--race-progress', String(progress));
+      document.querySelectorAll('.track-progress span').forEach((marker, index) => {
+        marker.classList.toggle('is-passed', index < currentWordIndex);
+      });
     }
 
     function handleCorrect(){
@@ -395,14 +274,15 @@
       stopTimer();
       const elapsed = performance.now() - startTime;
       const timeStr = formatTime(elapsed);
-      car.style.left = '100%';
+      updateCar();
+      timerDisplay.textContent = timeStr;
       setStatus('ok', `Finish line crossed in <strong>${timeStr}</strong>!`);
       touchKeyboard?.hide();
       const winMarkup = `
         <div class="celebration">
-          <div class="text-2xl font-extrabold text-amber-700 uppercase tracking-[0.25em]">Finish!</div>
-          <div class="mt-2 text-lg font-semibold text-slate-700">You raced through all seven words in <strong>${timeStr}</strong>.</div>
-          <div class="mt-3 text-3xl">🏁 🎉 🏎️</div>
+          <img class="race-win-car" src="{{ "images/speed-racer/car.webp" | relURL }}" width="480" height="320" alt="Your red racing car at the finish line.">
+          <div class="race-win-title">What a race!</div>
+          <div class="race-win-copy">Seven words, one brilliant finish.<br>Your time: <strong>${timeStr}</strong>.</div>
         </div>
       `;
       celebrate.innerHTML = winMarkup;
@@ -432,7 +312,7 @@
       celebrate.innerHTML = '';
       startBtn.style.display = 'none';
       resetBtn.style.display = 'inline-flex';
-      gameArea.style.display = 'block';
+      gameArea.style.display = 'grid';
       setStatus('ok', `Go! First word: <strong>${raceWords[0].toUpperCase()}</strong>`);
       wordCounter.textContent = `1 / ${TOTAL_WORDS}`;
       renderQueue();
@@ -449,7 +329,8 @@
       active = false;
       stopTimer();
       timerDisplay.textContent = '00:00.00';
-      car.style.left = '0%';
+      car.style.setProperty('--race-progress', '0');
+      document.querySelectorAll('.track-progress span').forEach(marker => marker.classList.remove('is-passed'));
       raceWords = [];
       wordBoxes.innerHTML = '';
       wordBoxes.style.transform = 'none';

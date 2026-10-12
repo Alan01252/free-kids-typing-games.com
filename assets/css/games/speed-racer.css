@@ -1,0 +1,160 @@
+.game-speed-racer {
+  color: #243a3b;
+  background: radial-gradient(ellipse at 15% 10%, #ddeee8, transparent 50%), linear-gradient(180deg, #f5f8f0, #fff4da);
+  --card-bg: #fffef9;
+  --card-border: #d7e3dc;
+  --card-shadow: 0 20px 65px #264f4512;
+  --card-blur: none;
+  --status-bg: #eaf1ec;
+  --status-border: #c4dbd0;
+  --status-color: #243a3b;
+  --status-ok-bg: #e4f0e6;
+  --status-ok-border: #b7d4be;
+  --status-ok-color: #26563e;
+  --status-bad-bg: #fff0e4;
+  --status-bad-border: #e8c49d;
+  --status-bad-color: #79451f;
+  --status-badge-bg: #1f695f;
+  --status-badge-color: #fff;
+  --status-ok-badge-bg: #2f7554;
+  --status-bad-badge-bg: #97602d;
+  --overlay-panel-bg: #fffaf0;
+  --overlay-panel-color: #243a3b;
+  --overlay-action-primary: #1f695f;
+  --letter-gap: 10px;
+  --letter-size: clamp(48px, 8vw, 68px);
+  --letter-min-size: var(--letter-size);
+  --letter-height: clamp(64px, 9vw, 82px);
+  --letter-radius: 15px;
+  --letter-border-color: #c7d7ce;
+  --letter-bg: #fbfcf7;
+  --letter-color: #486360;
+  --letter-filled-border-color: #86bda3;
+  --letter-filled-bg: #e1f1e5;
+  --letter-filled-color: #26563e;
+  --letter-current-border-color: #d7a43e;
+  --letter-current-bg: #fff0c4;
+  --letter-current-color: #6e4d16;
+  --letter-current-shadow: 0 8px 24px #c9962a26;
+  --letter-error-border-color: #dbab7c;
+  --letter-error-bg: #fff0e4;
+  --letter-error-color: #79451f;
+  --touch-panel-bg: linear-gradient(140deg, #35766b, #20584f);
+  --touch-label-color: #e7f3e9;
+}
+.game-speed-racer .race-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #50776c;
+}
+.game-speed-racer .game-hero h1 { color: #243a3b; }
+.game-speed-racer .race-title-car { width: 100px; height: auto; flex-shrink: 0; }
+.game-speed-racer .game-hero > p:last-child { color: #607471; max-width: 34rem; }
+.game-speed-racer #startBtn, .game-speed-racer #resetBtn {
+  background: #1f695f;
+  color: #fffef9;
+  box-shadow: 0 4px 0 #134940;
+}
+.game-speed-racer #startBtn:hover, .game-speed-racer #resetBtn:hover { background: #18584f; }
+.game-speed-racer .race-dashboard { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.game-speed-racer .race-stat { padding: 0.8rem 1rem; border-radius: 16px; border: 1px solid #dce7df; background: #f0f6ed; text-align: center; }
+.game-speed-racer .race-stat:last-child { background: #fff5dc; border-color: #ecdfbd; }
+.game-speed-racer .race-stat__label { display: block; font-size: 0.65rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: #5b766d; }
+.game-speed-racer .race-stat__value { font-size: clamp(1.4rem, 4vw, 2rem); line-height: 1.3; font-weight: 850; font-variant-numeric: tabular-nums; color: #245d52; }
+.game-speed-racer .race-stat:last-child .race-stat__value { color: #826022; }
+.game-speed-racer .race-track {
+  --car-size: clamp(110px, 16vw, 160px);
+  --car-inset: calc(var(--car-size) / 2 + 12px);
+  --road-height: clamp(94px, 12vw, 120px);
+  position: relative;
+  height: clamp(210px, 30vw, 310px);
+  border-radius: 22px;
+  border: 1px solid #c9ddd2;
+  background: #c9e4d4 url('/images/speed-racer/circuit.webp') center 45% / cover;
+  overflow: hidden;
+  isolation: isolate;
+}
+.game-speed-racer .race-track::before {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: var(--road-height);
+  border-top: 9px solid #f3dcc3;
+  background: repeating-linear-gradient(90deg, #fff3d866 0 22px, transparent 22px 48px) center 52% / 100% 3px no-repeat, linear-gradient(#536865, #405651);
+  box-shadow: 0 -3px 0 #b4cbbb, inset 0 3px 0 #243c3b33;
+}
+.game-speed-racer .race-track::after {
+  content: '';
+  position: absolute;
+  bottom: 9px;
+  right: 22px;
+  width: 18px;
+  height: calc(var(--road-height) - 20px);
+  background: conic-gradient(#fffaf0 25%, #2f4543 0 50%, #fffaf0 0 75%, #2f4543 0) 0 0 / 18px 18px;
+  transform: skewY(-5deg);
+  z-index: 1;
+}
+.game-speed-racer .race-scene-label {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 7px 10px;
+  border-radius: 9px;
+  background: #fffef3e8;
+  color: #3f665b;
+  font-size: 0.6rem;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.game-speed-racer .race-finish-label {
+  position: absolute;
+  right: 10px;
+  bottom: calc(var(--road-height) + 8px);
+  border-radius: 5px;
+  padding: 3px 7px;
+  background: #fff7dd;
+  color: #5d6040;
+  font-size: 0.55rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+.game-speed-racer .track-progress {
+  position: absolute;
+  inset: auto 20px 8px;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  pointer-events: none;
+}
+.game-speed-racer .track-progress span { width: 12px; height: 4px; justify-self: center; border-radius: 3px; background: #e7efe84d; }
+.game-speed-racer .track-progress .is-passed { background: #ffe49b; }
+.game-speed-racer .car {
+  position: absolute;
+  top: calc(100% - var(--road-height) / 2);
+  left: calc(var(--car-inset) + (100% - var(--car-inset) * 2) * var(--race-progress, 0));
+  width: var(--car-size);
+  aspect-ratio: 3 / 2;
+  transform: translate(-50%, -50%);
+  transition: left 350ms ease-out;
+  z-index: 2;
+}
+.game-speed-racer .car img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.game-speed-racer .box-row { display: flex; gap: 10px; justify-content: center; flex-wrap: nowrap; }
+.game-speed-racer .game-section-title { color: #50776c; }
+.game-speed-racer #queue span { color: #3f665b; background: #eef4ea; }
+.game-speed-racer .celebration { padding: 1.5rem; border-radius: 22px; background: #fff1cf; border: 1px solid #e6cf99; text-align: center; }
+.game-speed-racer .race-win-car { display: block; width: min(100%, 220px); height: auto; margin: 0 auto 1rem; }
+.game-speed-racer .race-win-title { font-size: 2rem; font-weight: 850; color: #245d52; margin-bottom: 0.6rem; }
+.game-speed-racer .race-win-copy { color: #526864; font-size: 1rem; }
+@media (max-width: 639px), (max-height: 500px) and (max-width: 960px) {
+  .game-speed-racer .race-title-car { width: 70px; }
+  .game-speed-racer .race-stat { padding: 0.65rem 0.5rem; border-radius: 12px; }
+  .game-speed-racer .race-stat__value { font-size: clamp(1.15rem, 5.5vw, 1.45rem); }
+  .game-speed-racer .race-stat__label { letter-spacing: 0.12em; }
+  .game-speed-racer .race-track { border-radius: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .game-speed-racer .car { transition: none; }
+}

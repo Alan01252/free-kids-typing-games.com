@@ -130,7 +130,8 @@
   emoji: "🏎️"
   badge_label: "Speed"
   badge_emoji: "🏎️"
-  description: "Type a series of surprise words while a stopwatch runs."
+  image: "images/speed-racer/car.webp"
+  description: "Spell racing words to drive your car to the chequered finish while a stopwatch runs."
 - slug: supermarket-spelling
   skill: words
   title: "Supermarket Spelling"
