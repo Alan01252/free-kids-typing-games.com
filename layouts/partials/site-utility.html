@@ -1,4 +1,5 @@
-<div class="site-utility" role="group" aria-label="Site controls">
-  <button type="button" class="site-utility__button" data-sound-toggle aria-pressed="true">Sound: On</button>
-</div>
-
+<header class="site-utility">
+  {{ $brandIcon := (resources.Get "icon-512.png").Resize "144x144 webp" }}
+  <a class="site-brand" href="{{ "" | relURL }}" aria-label="Kids Typing Games home"><img class="site-brand__icon" src="{{ $brandIcon.RelPermalink }}" width="48" height="48" alt="" decoding="async"><span>{{ site.Title }}<span class="site-brand__sub">Play. Learn. Grow.</span></span></a>
+  <nav aria-label="Site controls"><a class="site-utility__link" href="{{ "games/" | relURL }}">All games</a><button type="button" class="site-utility__button" data-sound-toggle aria-pressed="true">Sound: On</button></nav>
+</header>

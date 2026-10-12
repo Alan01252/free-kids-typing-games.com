@@ -4,35 +4,44 @@
 {{ $isDark := eq $theme "dark" }}
 {{ $wrapperClass := cond $isDark "space-y-3 text-center text-sm text-slate-100/90" "space-y-3 text-center text-sm text-slate-500" }}
 {{ $navClass := cond $isDark "flex flex-wrap items-center justify-center gap-3 text-slate-100" "flex flex-wrap items-center justify-center gap-3 text-indigo-500" }}
-{{ $labelClass := cond $isDark "text-xs uppercase tracking-[0.3em] text-slate-200/70" "text-xs uppercase tracking-[0.3em] text-slate-400" }}
+{{ $labelClass := cond $isDark "text-xs uppercase tracking-[0.3em] text-slate-200/70" "text-xs uppercase tracking-[0.3em] text-slate-500" }}
 {{ $linkClass := cond $isDark "inline-flex items-center gap-1 rounded-full bg-white/10 px-3 py-1.5 text-sm font-semibold text-white shadow-sm transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/30" "inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3 py-1.5 text-sm font-semibold text-indigo-600 shadow-sm transition hover:bg-indigo-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-200" }}
-{{ $metaClass := cond $isDark "flex flex-wrap items-center justify-center gap-2 text-xs text-slate-200/70" "flex flex-wrap items-center justify-center gap-2 text-xs text-slate-400" }}
+{{ $metaClass := cond $isDark "flex flex-wrap items-center justify-center gap-2 text-xs text-slate-200/70" "flex flex-wrap items-center justify-center gap-2 text-xs text-slate-500" }}
 {{ $metaLinkClass := cond $isDark "underline underline-offset-4 text-slate-100/90 hover:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/30 rounded" "underline underline-offset-4 text-slate-500 hover:text-slate-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-200 rounded" }}
 {{ $games := site.Data.games }}
 {{ $current := $ctx.RelPermalink }}
-<footer class="{{ $wrapperClass }}">
+<footer class="site-footer {{ $wrapperClass }}">
   {{ with $tip }}
-  <div>{{ . }}</div>
+  <div class="site-footer__tip">{{ . }}</div>
   {{ end }}
   <nav aria-label="More games" class="{{ $navClass }}">
     <span class="{{ $labelClass }}">Play more</span>
-    <a href="/" class="{{ $linkClass }}"{{ if $ctx.IsHome }} aria-current="page"{{ end }}>
-      <span>🏠</span> <span>Menu</span>
+    <a href="{{ "" | relURL }}" class="{{ $linkClass }}"{{ if $ctx.IsHome }} aria-current="page"{{ end }}>
+      <span aria-hidden="true">🏠</span> <span>Menu</span>
     </a>
-    <a href="/games/" class="{{ $linkClass }}"{{ if eq $current "/games/" }} aria-current="page"{{ end }}>
-      <span>🎮</span> <span>All games</span>
+    <a href="{{ "games/" | relURL }}" class="{{ $linkClass }}"{{ if eq $current ("games/" | relURL) }} aria-current="page"{{ end }}>
+      <span aria-hidden="true">🎮</span> <span>All games</span>
     </a>
-    {{ range $games }}
-      {{ $permalink := printf "/games/%s/" .slug }}
-      <a href="{{ $permalink }}" class="{{ $linkClass }}"{{ if eq $current $permalink }} aria-current="page"{{ end }}>
-        <span>{{ .emoji }}</span> <span>{{ .title }}</span>
-      </a>
-    {{ end }}
+
   </nav>
+
+  {{ if and (eq $ctx.Section "games") (not $ctx.IsSection) }}
+  <details class="site-footer__more">
+    <summary>Choose another adventure</summary>
+    <nav aria-label="Choose another game" class="{{ $navClass }}">
+      {{ range $games }}
+        {{ $permalink := printf "games/%s/" .slug | relURL }}
+        {{ if ne $current $permalink }}
+        <a href="{{ $permalink }}" class="{{ $linkClass }}"><span aria-hidden="true">{{ .emoji }}</span> <span>{{ .title }}</span></a>
+        {{ end }}
+      {{ end }}
+    </nav>
+  </details>
+  {{ end }}
 
   <div class="{{ $metaClass }}">
     <span>© {{ now.Year }} {{ site.Title }}</span>
     <span aria-hidden="true">·</span>
-    <a href="/about/" class="{{ $metaLinkClass }}"{{ if eq $current "/about/" }} aria-current="page"{{ end }}>About</a>
+    <a href="{{ "about/" | relURL }}" class="{{ $metaLinkClass }}"{{ if eq $current ("about/" | relURL) }} aria-current="page"{{ end }}>About</a>
   </div>
 </footer>

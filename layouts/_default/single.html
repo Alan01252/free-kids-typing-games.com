@@ -1,9 +1,8 @@
+{{ define "body_class" }}game-library{{ end }}
 {{ define "main" }}
-<main id="mainContent" class="max-w-4xl mx-auto px-5 py-10 space-y-6 sm:px-6 sm:py-12">
-  {{ .Content }}
+<main id="mainContent" class="library-shell" tabindex="-1">
+  <header class="library-heading"><p class="library-eyebrow">Kids Typing Games</p><h1>{{ .Title }}</h1></header>
+  <article class="game-card info-content">{{ .Content }}</article>
 </main>
 {{ end }}
-
-{{ define "footer" }}
-  {{ partial "game-footer.html" (dict "context" . "theme" "light") }}
-{{ end }}
+{{ define "footer" }}{{ partial "game-footer.html" (dict "context" . "theme" "light") }}{{ end }}

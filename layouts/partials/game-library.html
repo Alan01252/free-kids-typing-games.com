@@ -1,0 +1,22 @@
+<section class="library" aria-labelledby="libraryTitle" data-game-library>
+  <div class="library-toolbar">
+    <div><p class="library-eyebrow">Pick your play</p><h2 id="libraryTitle">A world of little adventures</h2></div>
+    <p class="library-count" data-game-count role="status" aria-live="polite" aria-atomic="true">{{ len site.Data.games }} games to explore</p>
+  </div>
+  <div class="library-filters" role="group" aria-label="Choose a typing skill" hidden data-game-filters>
+    <button type="button" data-game-filter="all" aria-pressed="true" aria-controls="gameGrid">All games</button>
+    <button type="button" data-game-filter="letters" aria-pressed="false" aria-controls="gameGrid">First letters</button>
+    <button type="button" data-game-filter="words" aria-pressed="false" aria-controls="gameGrid">Word adventures</button>
+    <button type="button" data-game-filter="challenge" aria-pressed="false" aria-controls="gameGrid">Extra challenge</button>
+  </div>
+  <div class="library-grid" id="gameGrid">
+    {{ range site.Data.games }}
+    {{ $skill := .skill | default "words" }}
+    <a class="library-card" data-game-skill="{{ $skill }}" href="{{ printf "games/%s/" .slug | relURL }}">
+      <div class="library-card__top"><span class="library-card__icon" aria-hidden="true">{{ with .image }}<img src="{{ . | relURL }}" width="72" height="48" alt="" loading="lazy" decoding="async">{{ else }}{{ .emoji }}{{ end }}</span><span class="library-card__skill">{{ if eq $skill "letters" }}First letters{{ else if eq $skill "challenge" }}Extra challenge{{ else }}Word adventure{{ end }}</span></div>
+      <h3>{{ .title }}</h3><p>{{ .description }}</p>
+      <span class="library-card__play">Let’s play <span aria-hidden="true">↗</span></span>
+    </a>
+    {{ end }}
+  </div>
+</section>

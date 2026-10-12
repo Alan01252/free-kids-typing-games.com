@@ -1,130 +1,152 @@
 - slug: az
+  skill: letters
   title: "A–Z"
   emoji: "🔤"
   badge_label: "Alphabet"
   badge_emoji: "🔤"
   description: "Type the alphabet in order from A to Z. A simple warm-up for learning letter keys."
 - slug: airport-adventure
+  skill: words
   title: "Airport Adventure"
   emoji: "✈️"
   badge_label: "Airport"
   badge_emoji: "🛫"
   description: "Spell airport words to move from ticket desk to gate, runway, and takeoff."
 - slug: directions
+  skill: challenge
   title: "Directions"
   emoji: "🧭"
   badge_label: "Directions"
   badge_emoji: "🧭"
   description: "Type direction words to guide the explorer through a tiny maze."
 - slug: easter-egg-hunt
+  skill: words
   title: "Easter Egg Hunt"
   emoji: "🐣"
   badge_label: "Easter"
   badge_emoji: "🥚"
   description: "Spell Easter and spring words to find eggs, meet garden friends, and fill a basket."
 - slug: emotion-journey
+  skill: words
   title: "Emotion Journey"
   emoji: "🙂"
   badge_label: "Feelings"
   badge_emoji: "🙂"
   description: "Type emotion words to practise spelling and keyboarding while exploring different feelings."
 - slug: farm-animals
+  skill: words
   title: "Farm Animals"
   emoji: "🐮"
   badge_label: "Farm"
   badge_emoji: "🐷"
   description: "Type farm animal names to match the emoji and practise spelling."
 - slug: firefly-flicker
+  skill: letters
   title: "Firefly Flicker"
   emoji: "✨"
   badge_label: "Letters"
   badge_emoji: "🔤"
   description: "Type the target letter to catch glowing fireflies and fill your jar."
 - slug: ghostly-word-hunt
+  skill: words
   title: "Ghostly Word Hunt"
   emoji: "👻"
   badge_label: "Spooky"
   badge_emoji: "👻"
   description: "Type spooky-themed words letter by letter to complete each round."
 - slug: maze-escape
+  skill: challenge
   title: "Maze Escape"
   emoji: "🧩"
   badge_label: "Maze"
   badge_emoji: "🧭"
   description: "Navigate the maze using the arrow keys to reach the flag."
 - slug: new-years-countdown
+  skill: challenge
   title: "New Year’s Countdown"
   emoji: "🎆"
   badge_label: "New Year"
   badge_emoji: "🎉"
   description: "Type the countdown words, then type HAPPY NEW YEAR to launch the fireworks."
 - slug: numbers-nemesis
+  skill: words
   title: "Numbers Nemesis"
   emoji: "🔢"
   badge_label: "Numbers"
   badge_emoji: "🔢"
   description: "See a number in digits and words, then type the word to practise number names."
 - slug: only-verbs
+  skill: words
   title: "Only Verbs"
   emoji: "💬"
   badge_label: "Verbs"
   badge_emoji: "💬"
   description: "Practise typing common action words (verbs), one word at a time."
 - slug: phoneme-sound-lab
+  skill: words
   title: "Phoneme Sound Lab"
   emoji: "🔊"
   badge_label: "Phonemes"
   badge_emoji: "🔊"
   description: "Type short words and hear their phoneme chunks as you go. Helps connect letter patterns to sounds."
 - slug: quick-fox
+  skill: challenge
   title: "Quick Fox Quest"
   emoji: "🦊"
   badge_label: "Pangram"
   badge_emoji: "🦊"
   description: "Type the classic pangram sentence (including spaces) for a full-keyboard practice run."
 - slug: rocket-run
+  skill: words
   title: "Rocket Run"
   emoji: "🚀"
   badge_label: "Rocket launch"
   badge_emoji: "🚀"
   description: "Type each word to launch a rocket. A short space-themed word-typing game."
 - slug: sandcastle-builder
+  skill: words
   title: "Sandcastle Builder"
   emoji: "🏖️"
   badge_label: "Beach"
   badge_emoji: "🏖️"
   description: "Type sunny beach words to build a sandcastle one piece at a time."
 - slug: santa-spells
+  skill: words
   title: "Santa Spells"
   emoji: "🎅"
   badge_label: "Holidays"
   badge_emoji: "🎄"
   description: "Type winter-themed words to build a stack of presents."
 - slug: snowman-builder
+  skill: words
   title: "Snowman Builder"
   emoji: "⛄"
   badge_label: "Winter"
   badge_emoji: "⛄"
   description: "Type winter words to build a snowman step by step."
 - slug: speed-racer
+  skill: challenge
   title: "Speed Racer"
   emoji: "🏎️"
   badge_label: "Speed"
   badge_emoji: "🏎️"
   description: "Type a series of surprise words while a stopwatch runs."
 - slug: supermarket-spelling
+  skill: words
   title: "Supermarket Spelling"
   emoji: "🛒"
   badge_label: "Groceries"
   badge_emoji: "🛒"
   description: "Spell common grocery words to shop through supermarket aisles and finish at checkout."
 - slug: vampire-vowels
+  skill: letters
   title: "Vampire Vowels"
   emoji: "🧛"
   badge_label: "Vowels"
   badge_emoji: "🧛"
   description: "Practise typing the vowels (A, E, I, O, U) in different orders."
 - slug: word-builder
+  skill: words
   title: "Word Builder"
   emoji: "🧩"
   badge_label: "Words"
